@@ -1,28 +1,30 @@
-const yelp = require('yelp-fusion');
-const fs = require('fs');
+const { createClient } = require('@supabase/supabase-js');
 require('dotenv').config();
 
-// Replace 'YOUR_API_KEY' with your actual Yelp API key
-const apiKey = process.env.NEXT_YELP_API_KEY;
-const client = yelp.client(apiKey);
+// Ensure you have your environment variables set correctly
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
+const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
-client.search({
-  term: 'restaurants',
-  latitude: '42.279594', // Replace with your location, e.g., 'San Francisco, CA',
-  longitude: '-83.732124',
-  sort_by: 'best_match',
-  limit: 20
-})
-  .then(response => {
-    const jsonData = JSON.stringify(response.jsonBody.businesses, null, 2);
-    fs.writeFile('yelp_results.json', jsonData, 'utf8', (err) => {
-      if (err) {
-        console.error('An error occurred while writing JSON Object to File.');
-        return console.error(err);
-      }
-      console.log('JSON file has been saved.');
+const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+
+async function main() {
+    const channel = supabase.channel('realtime-notes', {
+        config: {
+            presence: {
+                key: 'user-1234' // Unique identifier for the user
+            }
+        }
     });
-  })
-  .catch(e => {
-    console.error(e);
-  });
+
+    channel
+        .on('presence', { event: 'sync' }, () => {
+            const newState = channel.presenceState();
+            console.log('Presence Sync:', newState);
+        })
+        .subscribe()
+
+    // Keep the process running to allow real-time updates
+    process.stdin.resume();
+}
+
+main().catch(console.error);
