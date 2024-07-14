@@ -1,14 +1,15 @@
 {
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "node server.js",
     "build": "next build",
-    "start": "next start"
+    "start": "NODE_ENV=production node server.js"
   },
   "dependencies": {
     "@api/yelp-developers": "file:.api/apis/yelp-developers",
-    "@supabase/ssr": "latest",
-    "@supabase/supabase-js": "latest",
+    "@supabase/realtime-js": "^2.10.4",
+    "@supabase/ssr": "^0.4.0",
+    "@supabase/supabase-js": "^2.44.3",
     "autoprefixer": "10.4.17",
     "dotenv": "^16.4.5",
     "geist": "^1.2.1",
@@ -16,14 +17,18 @@
     "postcss": "8.4.33",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "tailwindcss": "3.4.1",
-    "typescript": "5.3.3",
     "yelp-fusion": "^3.0.0"
   },
   "devDependencies": {
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",
-    "encoding": "^0.1.13"
+    "@types/socket.io": "^3.0.2",
+    "@types/socket.io-client": "^3.0.0",
+    "encoding": "^0.1.13",
+    "typescript": "^5.5.3"
   }
 }
