@@ -9,5 +9,4 @@ export default function PlayerCard({name}: PlayerCardProps) {
     <Avatar style={{ width: '8rem', height: '8rem' }} {...config} />
     <h1 className="text-center flex-1 m-2 font-bold text-lg">{name}</h1>
 </div>
-
 }
