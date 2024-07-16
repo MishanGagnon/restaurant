@@ -27,6 +27,9 @@
     "yelp-fusion": "^3.0.0"
   },
   "devDependencies": {
+    "@types/cookie": "^0.6.0",
+    "@types/har-format": "^1.2.15",
+    "@types/json-schema": "^7.0.15",
     "@types/node": "20.11.5",
     "@types/react": "18.2.48",
     "@types/react-dom": "18.2.18",

@@ -35,8 +35,8 @@ const Filters = () => {
               console.log(position.coords.latitude, position.coords.longitude)
               setFormData(prevFormData => ({
                 ...prevFormData,
-                'longitude': position.coords.latitude,
-                'latitude' : position.coords.longitude
+                'longitude': position.coords.longitude,
+                'latitude' : position.coords.latitude
             }))
             });
           } else {
@@ -47,22 +47,6 @@ const Filters = () => {
   const radius = 500; // Radius in meters
     return (
         <form className="flex space-x-4 p-4">
-            <div className="flex flex-col">
-                <label 
-                    htmlFor={id + "-longitude"} 
-                    className="font-bold mb-1"> 
-                    Longitude 
-                </label>
-                <input
-                    type="text"
-                    onChange={handleChange}
-                    name="longitude"
-                    value={formData.longitude}
-                    placeholder="Longitude"
-                    className="p-2 border border-gray-300 rounded-md text-black"
-                    id={id + "-longitude"}
-                />
-            </div>
 
             <div className="flex flex-col">
                 <label 
@@ -78,6 +62,23 @@ const Filters = () => {
                     placeholder="Latitude"
                     className="p-2 border border-gray-300 rounded-md text-black"
                     id={id + "-latitude"}
+                />
+            </div>
+
+            <div className="flex flex-col">
+                <label 
+                    htmlFor={id + "-longitude"} 
+                    className="font-bold mb-1"> 
+                    Longitude 
+                </label>
+                <input
+                    type="text"
+                    onChange={handleChange}
+                    name="longitude"
+                    value={formData.longitude}
+                    placeholder="Longitude"
+                    className="p-2 border border-gray-300 rounded-md text-black"
+                    id={id + "-longitude"}
                 />
             </div>
 
@@ -104,7 +105,7 @@ const Filters = () => {
                 />
                 <div>{value}</div>
             </div>
-            <MapContainer center={[formData.latitude,formData.longitude]} zoom={1} style={{ height: '100vh', width: '100%' }}>
+            <MapContainer center={[formData.latitude,formData.longitude]} zoom={10} style={{ height: '100vh', width: '100%' }}>
             <TileLayer
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
