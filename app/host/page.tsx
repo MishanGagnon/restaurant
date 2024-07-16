@@ -1,12 +1,17 @@
 'use client'
 import React from 'react'
 import { MapContainer, TileLayer, Circle, Popup } from 'react-leaflet';
+import { useMap } from 'react-leaflet'
+import { useEffect } from 'react';
+
 import 'leaflet/dist/leaflet.css';
+import { MapController } from './MapController';
 
 const Filters = () => {
+   
     const [formData, setFormData] = React.useState({
-        longitude: 0,
-        latitude: 0,
+        longitude: -83.7430,
+        latitude: 42.2808,
         max_price: 0,
         radius: 0,
         num_restaurants: 0
@@ -27,6 +32,7 @@ const Filters = () => {
         }));
     }
 
+  
     // Uses geolocation API to get coordinates of host 
     function handleLocationClick() {
         // Add your geolocation logic here
@@ -43,8 +49,10 @@ const Filters = () => {
             console.log("Geolocation is not available in your browser.");
           }
     }
-    const center: [number, number] = [51.505, -0.09]; // Latitude and Longitude of the map center
-  const radius = 500; // Radius in meters
+    function getMeters(miles : number) {
+        return miles*1609.344;
+   }
+
     return (
         <form className="flex space-x-4 p-4">
 
@@ -98,7 +106,8 @@ const Filters = () => {
                 <input
                     type="range"
                     min="0"
-                    max="50"
+                    max="10"
+                    step="0.1"
                     value={value}
                     onChange={handleSlider}
                     id={id + "-slider"}
@@ -110,9 +119,10 @@ const Filters = () => {
                 url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
             />
-            <Circle center={[formData.latitude,formData.longitude]} radius={radius} color="blue">
+            <MapController formData = {formData} setFormData = {setFormData}/>
+            <Circle center={[formData.latitude,formData.longitude]} radius={getMeters(value)} color="blue">
                 <Popup>
-                A circle of radius {radius} meters.
+                A circle of radius {getMeters(value)} meters.
                 </Popup>
             </Circle>
             </MapContainer>
