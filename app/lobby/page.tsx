@@ -1,0 +1,46 @@
+'use client';
+
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+
+const Home = () => {
+  const router = useRouter();
+  const [lobbyCode, setLobbyCode] = useState('');
+  const [name, setName] = useState('');
+
+  const enterLobby = () => {
+    if (lobbyCode && name) {
+      router.push(`/lobby/${lobbyCode}?name=${encodeURIComponent(name)}`);
+    } else {
+      alert('Please enter both a lobby code and your name.');
+    }
+  };
+
+  return (
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <h1 className="text-2xl font-bold mb-4">Enter Lobby</h1>
+      <input
+        type="text"
+        value={lobbyCode}
+        className="m-5 p-2 text-black border border-gray-300 rounded"
+        onChange={(e) => setLobbyCode(e.target.value)}
+        placeholder="Lobby Code"
+      />
+      <input
+        type="text"
+        value={name}
+        className="m-5 p-2 text-black border border-gray-300 rounded"
+        onChange={(e) => setName(e.target.value)}
+        placeholder="Name"
+      />
+      <button
+        onClick={enterLobby}
+        className="m-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Enter
+      </button>
+    </div>
+  );
+};
+
+export default Home;
