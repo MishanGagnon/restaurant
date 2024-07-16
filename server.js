@@ -1,0 +1,103 @@
+const { createServer } = require('http');
+const { parse } = require('url');
+const next = require('next');
+const socketIo = require('socket.io');
+
+const dev = process.env.NODE_ENV !== 'production';
+const app = next({ dev });
+const handle = app.getRequestHandler();
+
+const activeRooms = new Map();
+const socketToLobbyMap = new Map();
+
+function addLobby(lobbyId) {
+  if (!activeRooms.has(lobbyId)) {
+    activeRooms.set(lobbyId, { players: [] });
+  }
+}
+
+function removeLobby(lobbyId) {
+  if (activeRooms.has(lobbyId)) {
+    activeRooms.delete(lobbyId);
+  }
+}
+
+function addPlayerToLobby(lobbyId, player) {
+  if (!activeRooms.has(lobbyId)) {
+    addLobby(lobbyId);
+  }
+  const lobby = activeRooms.get(lobbyId);
+  lobby.players.push(player);
+  socketToLobbyMap.set(player.id, lobbyId);
+}
+
+function removePlayerFromLobby(lobbyId, playerId) {
+  if (activeRooms.has(lobbyId)) {
+    const lobby = activeRooms.get(lobbyId);
+    const index = lobby.players.findIndex(player => player.id === playerId);
+    if (index !== -1) {
+      const [removedPlayer] = lobby.players.splice(index, 1);
+      socketToLobbyMap.delete(playerId);
+      if (lobby.players.length === 0) {
+        removeLobby(lobbyId);
+      }
+      return removedPlayer;
+    }
+  }
+  return null;
+}
+
+function getPlayersInLobby(lobbyId) {
+  if (activeRooms.has(lobbyId)) {
+    return activeRooms.get(lobbyId).players;
+  }
+  return [];
+}
+
+function getActiveLobbies() {
+  return Array.from(activeRooms.keys());
+}
+
+app.prepare().then(() => {
+  const server = createServer((req, res) => {
+    const parsedUrl = parse(req.url, true);
+    handle(req, res, parsedUrl);
+  });
+
+  const io = socketIo(server);
+
+  io.on('connection', (socket) => {
+    console.log('A user connected:', socket.id);
+
+    socket.on('joinLobby', ({ lobbyId, name }) => {
+      socket.join(lobbyId);
+      console.log(`User ${name} joined lobby: ${lobbyId}`);
+
+      addPlayerToLobby(lobbyId, { id: socket.id, name });
+
+      io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
+    });
+
+
+    socket.on('disconnect', () => {
+      console.log('User disconnected:', socket.id);
+
+      const lobbyId = socketToLobbyMap.get(socket.id);
+      if (lobbyId) {
+        const removedPlayer = removePlayerFromLobby(lobbyId, socket.id);
+
+        if (removedPlayer) {
+          // Notify the lobby that a player has left
+          io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
+
+        }
+      }
+    });
+  });
+
+  const PORT = process.env.PORT || 3000;
+  server.listen(PORT, (err) => {
+    if (err) throw err;
+    console.log(`> Ready on http://localhost:${PORT}`);
+  });
+});
