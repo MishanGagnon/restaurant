@@ -7,6 +7,11 @@
   },
   "dependencies": {
     "@api/yelp-developers": "file:.api/apis/yelp-developers",
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-fontawesome": "^0.2.2",
     "@supabase/realtime-js": "^2.10.4",
     "@supabase/ssr": "^0.4.0",
     "@supabase/supabase-js": "^2.44.3",
