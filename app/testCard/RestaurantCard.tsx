@@ -1,8 +1,6 @@
 import React from 'react'
 import { RestaurantInfo } from './RestaurantInfo';
 import Image from 'next/image'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar } from '@fortawesome/free-solid-svg-icons';
 
 
 interface CardProps {
@@ -30,7 +28,16 @@ function RestaurantCard({ props }: CardProps) {
     return (
         <div className='bg-gray-100 min-h-screen flex items-center justify-center'>
             <div id="card-container" className='bg-white rounded-lg shadow-lg max-w-md w-full '>
-                <Image src={image_url} alt={`Image of ${name}`} width={400} height={300} className="w-full h-50 object-cover" />
+                <div className="pt-5 w-92 mx-auto items-center pb-2 ">
+                    <Image
+                        src={image_url}
+                        alt={`Image of ${name}`}
+                        width={400}
+                        height={300}
+                        className="w-90 h-50 mx-auto object-cover rounded-lg"
+                    />
+                </div>
+                {/* <div className="w-90 mx-5 border-t-2 border-gray-400"></div> */}
                 <div id="restaurant-content" className="p-6">
                     <div className="flex justify-between items-center mb-2">
                         <h1 id="restaurant-name" className='text-3xl font-bold text-gray-800'>
