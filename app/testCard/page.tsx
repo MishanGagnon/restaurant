@@ -8,7 +8,7 @@ const page = () => {
         name: "Peridot",
         address: "118 W Liberty St, Ann Arbor, MI 48104",
         reviewCount: 48,
-        // image_url: "https://s3-media2.fl.yelpcdn.com/bphoto/iA1PwGvQDUDqA6aLG4npsg/o.jpg",
+        image_url: "https://s3-media2.fl.yelpcdn.com/bphoto/iA1PwGvQDUDqA6aLG4npsg/o.jpg",
         rating: 4.3,
         categories: ["Vietnamese", "Cocktail Bars", "Wine Bars"],
         price: 2,
