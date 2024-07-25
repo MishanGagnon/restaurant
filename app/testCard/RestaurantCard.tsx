@@ -26,7 +26,7 @@ function RestaurantCard({ props }: CardProps) {
     }
 
     return (
-        <div className='bg-gray-100 min-h-screen flex items-center justify-center'>
+        <div className='bg-gray-100 min-h-[80vh] flex items-center justify-center'>
             <div id="card-container" className='bg-white rounded-lg shadow-lg max-w-md w-full '>
                 <div className="pt-5 w-92 mx-auto items-center pb-2 ">
                     <Image
