@@ -106,24 +106,19 @@ function Page() {
     };
 
     return (
-        <div className="flex flex-col items-center min-h-screen bg-gray-100 p-4">
-            <h1 className="text-4xl font-bold mb-6 text-gray-800">Swipe through Restaurants</h1>
-            <div className="relative w-full max-w-md flex-grow mb-6">
-                <div className="absolute inset-0 flex items-center justify-center">
-                    <div className="w-full h-full overflow-hidden">
-                        {restaurants.map((restaurant, index) => (
-                            <TinderCard
-                                ref={childRefs[index]}
-                                className='swipe absolute'
-                                key={restaurant.restaurant_id}
-                                onSwipe={(dir) => swiped(dir, restaurant.name, index)}
-                                onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
-                            >
-                                <RestaurantCard props={restaurant} />
-                            </TinderCard>
-                        ))}
-                    </div>
-                </div>
+        <div className="flex flex-col justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
+            <div className="w-full h-full flex justify-center items-center overflow-hidden text-sm mb-8">
+                {restaurants.map((restaurant, index) => (
+                    <TinderCard
+                        ref={childRefs[index]}
+                        className='swipe absolute'
+                        key={restaurant.restaurant_id}
+                        onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+                        onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
+                    >
+                        <RestaurantCard props={restaurant} />
+                    </TinderCard>
+                ))}
             </div>
             <div className='flex gap-4 mb-4'>
                 <button
@@ -148,9 +143,9 @@ function Page() {
                     Swipe Right
                 </button>
             </div>
-            <h2 className='text-xl font-semibold text-gray-700'>
+            {/* <h2 className='text-xl font-semibold text-gray-700'>
                 {lastDirection ? `You swiped ${lastDirection}` : 'Swipe a card or press a button to see the swipe direction!'}
-            </h2>
+            </h2> */}
         </div>
     );
 }
