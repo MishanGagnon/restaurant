@@ -48,18 +48,26 @@ const Lobby = () => {
   };
 
   useEffect(() => {
-    const validateLobbyAndJoin = async () => {
+  
 
-      const isValid = await checkValidLobby();
+      const validateLobbyAndJoin = async () => {
+        console.log('re-render')
+        const isValid = await checkValidLobby();
+  
+        if (!isValid) {
+          router.push('/lobby');
+          return;
+        }
+        setLoading(false);
+  
+        
+      } 
 
-      if (!isValid) {
-        router.push('/lobby');
-        return;
-      }
-
+      validateLobbyAndJoin();
+      if(name){
       socket = io();
-
       if (lobbyId) {
+        console.log('joining as new player')
         socket.emit('joinLobby', { lobbyId, name });
 
         socket.on('lobbyPlayerList', (players: Player[]) => {
@@ -67,15 +75,14 @@ const Lobby = () => {
           console.log('players updated');
         });
       }
-
-      setLoading(false);
+      
 
       return () => {
         socket.disconnect();
       };
-    };
+    
+    }
 
-    validateLobbyAndJoin();
   }, [lobbyId, name]);
 
   if (loading) {
