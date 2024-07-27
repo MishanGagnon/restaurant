@@ -59,21 +59,19 @@ const Lobby = () => {
           return;
         }
         setLoading(false);
-  
-        
       } 
 
       validateLobbyAndJoin();
       if(name){
-      socket = io();
-      if (lobbyId) {
-        console.log('joining as new player')
-        socket.emit('joinLobby', { lobbyId, name });
+        socket = io();
+        if (lobbyId) {
+          console.log('joining as new player')
+          socket.emit('joinLobby', { lobbyId, name });
 
-        socket.on('lobbyPlayerList', (players: Player[]) => {
-          setPlayers(players);
-          console.log('players updated');
-        });
+          socket.on('lobbyPlayerList', (players: Player[]) => {
+            setPlayers(players);
+            console.log('players updated');
+          });
       }
       
 
