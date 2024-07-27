@@ -26,15 +26,17 @@ function RestaurantCard({ props }: CardProps) {
     }
 
     return (
-        <div className='bg-gray-100 min-h-screen flex items-center justify-center'>
+        <div className='h-full flex items-center justify-center'>
             <div id="card-container" className='bg-white rounded-lg shadow-lg max-w-md w-full '>
-                <div className="pt-5 w-92 mx-auto items-center pb-2 ">
+                <div className="pt-2 w-92 mx-auto flex justify-center items-center pb-2 ">
                     <Image
                         src={image_url}
                         alt={`Image of ${name}`}
-                        width={400}
-                        height={300}
-                        className="w-90 h-50 mx-auto object-cover rounded-lg"
+                        sizes='100vw'
+                        style={{height:'auto', width:'95%'}}
+                        height={1}
+                        width={2}
+                        className="object-cover rounded-lg"
                     />
                 </div>
                 {/* <div className="w-90 mx-5 border-t-2 border-gray-400"></div> */}
