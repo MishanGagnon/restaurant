@@ -35,6 +35,7 @@ app.prepare().then(() => {
       addPlayerToLobby(lobbyId, { id: socket.id, name });
 
       io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
+      console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
     });
 
     socket.on('disconnect', () => {
