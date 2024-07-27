@@ -81,7 +81,7 @@ const Lobby = () => {
       <h3 className="text-lg font-semibold mb-2 text-black">Active Players:</h3>
       <div className='flex flex-col'>
           {players.map(player => (
-            <PlayerCard name = {player.name ?? 'nameError'}/>
+            <PlayerCard key = {player.id} name = {player.name ?? 'nameError'}/>
           ))}
       </div>
     </div>

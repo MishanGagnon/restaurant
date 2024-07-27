@@ -10,7 +10,6 @@ const {
   addPlayerToLobby,
   removePlayerFromLobby,
   getPlayersInLobby,
-  getActiveLobbies,
   socketToLobbyMap,
 } = require('./lib/rooms.js');
 
@@ -41,7 +40,7 @@ app.prepare().then(() => {
     socket.on('disconnect', () => {
       console.log('User disconnected:', socket.id);
 
-      const lobbyId = socketToLobbyMap.get(socket.id);
+      const lobbyId = socketToLobbyMap[socket.id];
       if (lobbyId) {
         const removedPlayer = removePlayerFromLobby(lobbyId, socket.id);
 

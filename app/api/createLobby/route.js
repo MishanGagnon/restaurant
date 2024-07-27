@@ -20,10 +20,9 @@ import {
     const body = await req.json();
     console.log('Received:', body);
   
-    const activeLobbies = activeRooms;
     let newLobbyCode = generateRandomCapitalLetters();
   
-    while (activeLobbies.has(newLobbyCode)) {
+    while (newLobbyCode in activeRooms) {
       newLobbyCode = generateRandomCapitalLetters();
     }
   
