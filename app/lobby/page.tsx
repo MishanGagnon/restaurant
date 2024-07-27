@@ -1,5 +1,6 @@
 'use client';
 
+import { createPostponedAbortSignal } from 'next/dist/server/app-render/dynamic-rendering';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
@@ -8,13 +9,33 @@ const Home = () => {
   const [lobbyCode, setLobbyCode] = useState('');
   const [name, setName] = useState('');
 
-  const enterLobby = () => {
+  const enterLobby = async () => {
     if (lobbyCode && name) {
-      router.push(`/lobby/${lobbyCode}?name=${encodeURIComponent(name)}`);
+      try {
+        const response = await fetch(`http://localhost:3000/api/lobbyCheck/${lobbyCode}`);
+        
+        // Check if the response is ok (status in the range 200-299)
+        if (response.ok) {
+          const data = await response.json();
+          
+          // Assuming the response contains a field `isValid`
+          if (data.isActiveLobby) {
+            router.push(`/lobby/${lobbyCode}?name=${encodeURIComponent(name)}`);
+          } else {
+            alert('Lobby code invalid');
+          }
+        } else {
+          alert('Failed to validate lobby code. Please try again.');
+        }
+      } catch (error) {
+        console.error('Error fetching lobby validation:', error);
+        alert('An error occurred while validating the lobby code. Please try again.');
+      }
     } else {
       alert('Please enter both a lobby code and your name.');
     }
   };
+  
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
