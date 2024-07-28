@@ -107,7 +107,7 @@ function Page() {
 
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
-            <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8">
+            <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
                 {restaurants.map((restaurant, index) => (
                     <TinderCard
                         ref={childRefs[index]}

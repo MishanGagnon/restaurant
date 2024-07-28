@@ -41,7 +41,7 @@ function RestaurantCard({ props }: CardProps) {
                             // maxHeight: '1000px', // Adjust as needed
                             aspectRatio:  3/4
                         }}
-                        className="object-cover rounded-lg"
+                        className="object-cover rounded-lg pointer-events-none"
                     />
                 </div>
                 {/* <div className="w-90 mx-5 border-t-2 border-gray-400"></div> */}
