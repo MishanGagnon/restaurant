@@ -4,6 +4,7 @@ import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import io, { Socket } from 'socket.io-client';
 import PlayerCard from '../PlayerCard';
+import { start } from 'repl';
 
 // types.ts
 export interface Player {
@@ -34,6 +35,10 @@ const Lobby = () => {
     router.replace(url.toString(), undefined);
   };
 
+  const startGame = () => {
+    socket.emit('startGame', lobbyId);
+  }
+
   const checkValidLobby = async () => {
     try {
       const response = await fetch(`http://localhost:3000/api/lobbyCheck/${lobbyId}`);
@@ -48,6 +53,7 @@ const Lobby = () => {
     }
     return false;
   };
+
 
   useEffect(() => {
     const validateLobbyAndJoin = async () => {
@@ -142,11 +148,11 @@ const Lobby = () => {
       <h2 className="text-xl mb-4 text-black">Name: {name}</h2>
       <h3 className="text-lg font-semibold mb-2 text-black">Active Players:</h3>
       {isHost && <button
-            // onClick={}
-            className="m-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Start Game
-          </button>}
+        onClick={startGame}
+        className="m-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+      >
+        Start Game
+      </button>}
       <div className="flex flex-col">
         {players.map(player => (
           <PlayerCard key={player.id} isHost={player.id === hostPlayer?.id} name={player.name ?? 'nameError'} />
