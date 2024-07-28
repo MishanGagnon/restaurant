@@ -55,9 +55,9 @@ app.prepare().then(() => {
     //when the host clicks 'start game' on the lobby 
     socket.on('startGame', (lobbyId) => {
       console.log(`Starting game with lobby id: ${lobbyId}`)
-
+      
     })
-    
+
   });
 
   const PORT = process.env.PORT || 3000;
