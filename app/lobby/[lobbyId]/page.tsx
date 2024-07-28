@@ -9,6 +9,7 @@ import PlayerCard from '../PlayerCard';
 export interface Player {
   id: string;
   name: string;
+  host: boolean;
 }
 
 let socket: Socket;
@@ -22,6 +23,9 @@ const Lobby = () => {
   const [name, setName] = useState(paramName ?? '');
   const [nameInput, setNameInput] = useState<string>('');
   const [loading, setLoading] = useState(true);
+  const [socketId, setSocketId] = useState<string>('');
+  const [isHost, setHost] = useState<boolean>(false)
+  const [hostPlayer, setHostPlayer] =  useState<Player>();
   
   const submitName = () => {
     setName(nameInput);
@@ -48,39 +52,45 @@ const Lobby = () => {
   };
 
   useEffect(() => {
-  
+    const validateLobbyAndJoin = async () => {
+      console.log('re-render');
+      const isValid = await checkValidLobby();
 
-      const validateLobbyAndJoin = async () => {
-        console.log('re-render')
-        const isValid = await checkValidLobby();
-  
-        if (!isValid) {
-          router.push('/lobby');
-          return;
-        }
-        setLoading(false);
-      } 
-
-      validateLobbyAndJoin();
-      if(name){
-        socket = io();
-        if (lobbyId) {
-          console.log('joining as new player')
-          socket.emit('joinLobby', { lobbyId, name });
-
-          socket.on('lobbyPlayerList', (players: Player[]) => {
-            setPlayers(players);
-            console.log('players updated');
-          });
+      if (!isValid) {
+        router.push('/lobby');
+        return;
       }
-      
+      setLoading(false);
+    } 
+
+    validateLobbyAndJoin();
+    if (name) {
+      socket = io();
+
+      socket.on('connect', () => {
+        
+        setSocketId(socket.id as string);
+        if (lobbyId) {
+          console.log('joining as new player');
+          socket.emit('joinLobby', { lobbyId, name });
+        }
+      });
+
+      socket.on('lobbyPlayerList', (players: Player[]) => {
+        setPlayers(() => players);
+        console.log(players)
+        let hostPlayer = players.find((player) => player.host == true)
+        setHostPlayer(hostPlayer)
+        if(hostPlayer && hostPlayer.id == socket.id ){
+          setHost(()=> true);
+        }
+        console.log('players updated');
+      });
 
       return () => {
         socket.disconnect();
       };
-    
     }
-
   }, [lobbyId, name]);
 
   if (loading) {
@@ -136,7 +146,7 @@ const Lobby = () => {
       <h3 className="text-lg font-semibold mb-2 text-black">Active Players:</h3>
       <div className='flex flex-col'>
         {players.map(player => (
-          <PlayerCard key={player.id} name={player.name ?? 'nameError'} />
+          <PlayerCard key={player.id} isHost={player.id == hostPlayer.id} name={player.name ?? 'nameError'} />
         ))}
       </div>
     </div>
