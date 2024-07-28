@@ -2,6 +2,7 @@ import {
     addLobby,
     removeLobby,
     activeRooms,
+    getActiveRooms
 
   } from '../../../lib/rooms';
   
@@ -27,6 +28,7 @@ import {
     }
   
     addLobby(newLobbyCode);
+    console.log(getActiveRooms(),'createLobby route')
   
     return new Response(JSON.stringify({ message: 'Lobby added', lobbyCode: newLobbyCode }), {
       status: 200,

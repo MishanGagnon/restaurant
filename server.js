@@ -32,9 +32,10 @@ app.prepare().then(() => {
       socket.join(lobbyId);
       console.log(`User ${name} joined lobby: ${lobbyId}`);
 
-      addPlayerToLobby(lobbyId, { id: socket.id, name });
+      addPlayerToLobby(lobbyId, { id: socket.id, host : false, name });
 
       io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
+      console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
     });
 
     socket.on('disconnect', () => {
