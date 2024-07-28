@@ -152,6 +152,7 @@ function Page() {
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
             <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
+            <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
                 {restaurants.map((restaurant, index) => (
                     <TinderCard
                         ref={childRefs[index]}
@@ -165,28 +166,39 @@ function Page() {
                 ))}
             </div>
             <div className='flex gap-4 mb-4'>
+
                 <button
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     onClick={() => swipe('left')}
                     disabled={!canSwipe}
                     aria-label='Close'
                 >
                     <span className="text-2xl text-white">&#10006;</span>
+                    <span className="text-2xl text-white">&#10006;</span>
                 </button>
+
                 <button
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     onClick={() => goBack()}
                     disabled={!canGoBack}
                     aria-label="Retry"
+                    aria-label="Retry"
                 >
                     <span className="text-2xl">&#8635;</span>
+                    <span className="text-2xl">&#8635;</span>
                 </button>
+
                 <button
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     onClick={() => swipe('right')}
                     disabled={!canSwipe}
                     aria-label="Like"
+                    aria-label="Like"
                 >
+                    <span className="text-2xl">&#9825;</span>
                     <span className="text-2xl">&#9825;</span>
                 </button>
                 {/* <button onClick={submit}>Done Voting</button> */}
