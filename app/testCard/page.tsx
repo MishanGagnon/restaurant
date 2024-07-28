@@ -4,6 +4,7 @@ import TinderCard from 'react-tinder-card';
 import RestaurantCard from './RestaurantCard';
 import { RestaurantInfo } from './RestaurantInfo';
 
+
 const restaurants: RestaurantInfo[] = [
     {
         "restaurant_id": "qh8SGt-7jd-JTXCxe7Amlg",
@@ -121,27 +122,34 @@ function Page() {
                 ))}
             </div>
             <div className='flex gap-4 mb-4'>
+
                 <button
-                    className={`px-4 py-2 rounded-lg text-white font-bold ${canSwipe ? 'bg-red-500 hover:bg-red-600' : 'bg-gray-300 cursor-not-allowed'}`}
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     onClick={() => swipe('left')}
                     disabled={!canSwipe}
+                    aria-label="Close"
                 >
-                    Swipe Left
+                    <span className="text-2xl text-white">&#10006;</span>
                 </button>
+
                 <button
-                    className={`px-4 py-2 rounded-lg text-white font-bold ${canGoBack ? 'bg-gray-500 hover:bg-gray-600' : 'bg-gray-300 cursor-not-allowed'}`}
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     onClick={() => goBack()}
                     disabled={!canGoBack}
+                    aria-label="Retry"
                 >
-                    Undo Swipe
+                    <span className="text-2xl">&#8635;</span>
                 </button>
+
                 <button
-                    className={`px-4 py-2 rounded-lg text-white font-bold ${canSwipe ? 'bg-green-500 hover:bg-green-600' : 'bg-gray-300 cursor-not-allowed'}`}
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
                     onClick={() => swipe('right')}
                     disabled={!canSwipe}
+                    aria-label="Like"
                 >
-                    Swipe Right
+                    <span className="text-2xl">&#9825;</span>
                 </button>
+
             </div>
             {/* <h2 className='text-xl font-semibold text-gray-700'>
                 {lastDirection ? `You swiped ${lastDirection}` : 'Swipe a card or press a button to see the swipe direction!'}

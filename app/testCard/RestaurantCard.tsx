@@ -35,7 +35,7 @@ function RestaurantCard({ props }: CardProps) {
                         width={500}
                         height={666}
                         style={{
-                            width: '300px',
+                            width: '350px',
                             height: '400px',
                             // maxWidth: '90%',  // Ensure it doesn't exceed the container's width
                             // maxHeight: '1000px', // Adjust as needed
