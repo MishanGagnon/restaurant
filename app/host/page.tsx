@@ -90,11 +90,28 @@ const Filters = () => {
         setIsMounted(true);
     }, []);
 
+    // useEffect(() => {
+    //     console.log('Latitude:', formData.latitude);
+    //     console.log('Longitude:', formData.longitude);
+    // }, [formData.latitude, formData.longitude]);
+
+    // useEffect(() => {
+    //     console.log('Radius:', radiusValue);
+    // }, [radiusValue]);
+
+    // useEffect(() => {
+    //     console.log('Minimum Rating:', ratingValue);
+    // }, [ratingValue]);
+
+    // useEffect(() => {
+    //     console.log('Number of Restaurants:', formData.num_restaurants);
+    // }, [formData.num_restaurants]);
+
     if (!isMounted) return null; // Prevent rendering on the server
 
     return (
-        <div className="bg-gray-100 min-h-screen flex flex-row items-center">
-            <div className="w-full max-w-md space-y-4 p-4 bg-white rounded-md shadow-md p-10 m-10">
+        <div className="bg-gray-100 min-h-screen flex flex-col md:flex-row items-center">
+            <div className="w-full md:w-1/2 max-w-md space-y-4 p-4 bg-white rounded-md shadow-md p-10 m-10">
                 <h1 className='text-black self-center font-bold text-2xl flex flex-col text-center'> Session Settings </h1>
 
                 <div className="flex flex-col space-y-4">
