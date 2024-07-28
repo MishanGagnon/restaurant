@@ -221,7 +221,7 @@ const Filters = () => {
                 </div>
             </div>
 
-            <MapContainer className="py-10 mb-10 flex flex-col" center={[formData.latitude, formData.longitude]} zoom={10} style={{ height: '70vh', width: '70vw', borderRadius: "25px" }}>
+            <MapContainer className="py-10 mr-10 mb-10 flex flex-col" center={[formData.latitude, formData.longitude]} zoom={10} style={{ height: '70vh', width: '70vw', borderRadius: "25px" }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
