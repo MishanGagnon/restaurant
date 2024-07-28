@@ -13,6 +13,8 @@ const {
   socketToLobbyMap,
 } = require('./lib/rooms.js');
 
+
+
 const dev = process.env.NODE_ENV !== 'production';
 const app = next({ dev });
 const handle = app.getRequestHandler();
@@ -32,7 +34,7 @@ app.prepare().then(() => {
       socket.join(lobbyId);
       console.log(`User ${name} joined lobby: ${lobbyId}`);
 
-      addPlayerToLobby(lobbyId, { id: socket.id, host : false, name });
+      addPlayerToLobby(lobbyId, { id: socket.id, host: false, name });
 
       io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
       console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
@@ -55,8 +57,14 @@ app.prepare().then(() => {
     //when the host clicks 'start game' on the lobby 
     socket.on('startGame', (lobbyId) => {
       console.log(`Starting game with lobby id: ${lobbyId}`)
-      
+
     })
+
+    socket.on('finishedVoting', () => {
+      //check if everyone is finished, if not, send a boolean or something to indicate to go to a waiting page
+      console.log('this is a sample submit button');
+    })
+
 
   });
 
