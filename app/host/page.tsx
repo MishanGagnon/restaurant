@@ -157,7 +157,7 @@ const Filters = () => {
                     Create Lobby
                 </button>
             </div>
-            <MapContainer center={[formData.latitude, formData.longitude]} zoom={10} style={{ height: '70vh', width: '100%', borderRadius: "25px" }}>
+            <MapContainer center={[formData.latitude, formData.longitude]} zoom={10} style={{ height: '70vh', width: '70vw', borderRadius: "25px" }}>
                 <TileLayer
                     url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                     attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
