@@ -26,26 +26,26 @@ function RestaurantCard({ props }: CardProps) {
     }
 
     return (
-        <div className='h-96 w-full flex items-center justify-center '>
-            <div id="card-container" className='bg-white rounded-lg shadow-lg max-w-md w-full'>
-                <div className="pt-10 mx-auto flex justify-center items-center pb-2">
+            <div id="card-container" className='bg-white rounded-lg shadow-lg max-w-md w-96	h-[650px]'>
+                <div className="pt-2 mx-auto flex justify-center items-center pb-2">
                     <Image
                         src={image_url}
                         alt={`Image of ${name}`}
-                        sizes='100vw'
-                        width={100}
-                        height={200}
+                        // sizes='100vw'
+                        width={500}
+                        height={666}
                         style={{
-                            width: '95%',
-                            height: 'auto',
-                            maxWidth: '500px',  // Ensure it doesn't exceed the container's width
-                            maxHeight: '1000px' // Adjust as needed
+                            width: '300px',
+                            height: '400px',
+                            // maxWidth: '90%',  // Ensure it doesn't exceed the container's width
+                            // maxHeight: '1000px', // Adjust as needed
+                            aspectRatio:  3/4
                         }}
                         className="object-cover rounded-lg"
                     />
                 </div>
                 {/* <div className="w-90 mx-5 border-t-2 border-gray-400"></div> */}
-                <div id="restaurant-content" className="p-6">
+                <div id="restaurant-content w-3/5" className="p-6">
                     <div className="flex justify-between items-center mb-2">
                         <h1 id="restaurant-name" className='text-3xl font-bold text-gray-800'>
                             {name} <span id='restaurant-price' className="text-sky-500">{priceSigns}</span>
@@ -74,7 +74,7 @@ function RestaurantCard({ props }: CardProps) {
                     </div>
                 </div>
             </div>
-        </div>
+        
     )
 }
 
