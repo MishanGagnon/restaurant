@@ -62,6 +62,9 @@ const restaurants: RestaurantInfo[] = [
     },
 ];
 
+
+
+
 function Page() {
     const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1);
     const [lastDirection, setLastDirection] = useState<string | undefined>();
@@ -73,8 +76,8 @@ function Page() {
     }, []);
 
     useEffect(() => {
-        console.log('Votes have been updated', votes)
-    })
+        console.log('Votes have been updated', votes);
+    }, [votes]);
 
     const childRefs = useMemo(
         () => Array(restaurants.length).fill(0).map(() => React.createRef<typeof TinderCard>()),
@@ -96,30 +99,28 @@ function Page() {
             updateCurrentIndex(index - 1);
         }
 
-        const restaurantId = restaurants[index].restaurant_id; //take the restaurant that has been swiped
+        const restaurantId = restaurants[index].restaurant_id; // take the restaurant that has been swiped
         setVotes((previousVotes) => ({
-            ...previousVotes, //the other restaurants' data
-            //setting the particular restaurant's id's vote score to 1 depending on direction, +1 for right, 0 for left
+            ...previousVotes, // the other restaurants' data
+            // setting the particular restaurant's id's vote score to 1 depending on direction, +1 for right, 0 for left
             [restaurantId]: direction === 'right' ? 1 : 0
-        }))
-
+        }));
     };
 
-    //button swipe
+    // button swipe
     const swipe = async (dir: string) => {
         if (canSwipe && currentIndex < restaurants.length) {
             await childRefs[currentIndex].current?.swipe(dir);
         }
 
-
-        const restaurantId = restaurants[currentIndex].restaurant_id; //take the restaurant that has been swiped
+        const restaurantId = restaurants[currentIndex].restaurant_id; // take the restaurant that has been swiped
         setVotes((previousVotes) => ({
-            ...previousVotes, //the other restaurants' data
-            //setting the particular restaurant's id's vote score to 1 depending on direction, +1 for right, 0 for left
+            ...previousVotes, // the other restaurants' data
+            // setting the particular restaurant's id's vote score to 1 depending on direction, +1 for right, 0 for left
             [restaurantId]: dir === 'right' ? 1 : 0
-        }))
-
+        }));
     };
+
     const outOfFrame = (name: string, idx: number) => {
         console.log(`${name} (${idx}) has been swiped off the screen!`, currentIndexRef.current);
         if (currentIndexRef.current >= idx) {
@@ -127,86 +128,74 @@ function Page() {
         }
     };
 
-
     const goBack = async () => {
         if (!canGoBack) return;
         const newIndex = currentIndex + 1;
         updateCurrentIndex(newIndex);
         await childRefs[newIndex].current?.restoreCard();
 
-        //if user goes back on a score,delete the old vote for that restaurant
+        // if user goes back on a score, delete the old vote for that restaurant
         const restaurantId = restaurants[newIndex].restaurant_id; // get the restaurant
         setVotes(prevVotes => ({
             ...prevVotes,
             [restaurantId]: 0
         }));
-
     };
 
     const submit = () => {
         socket = io();
-
-        socket.emit('finishedVoting')
-    }
+        socket.emit('finishedVoting');
+    };
 
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
-            <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
-            <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
-                {restaurants.map((restaurant, index) => (
-                    <TinderCard
-                        ref={childRefs[index]}
-                        className='swipe absolute'
-                        key={restaurant.restaurant_id}
-                        onSwipe={(dir) => swiped(dir, restaurant.name, index)}
-                        onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
+                <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
+                    {restaurants.map((restaurant, index) => (
+                        <TinderCard
+                            ref={childRefs[index]}
+                            className='swipe absolute'
+                            key={restaurant.restaurant_id}
+                            onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+                            onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
+                        >
+                            <RestaurantCard props={restaurant} />
+                        </TinderCard>
+                    ))}
+                </div>
+                <div className='flex gap-4 mb-4'>
+                    <button
+                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
+                        onClick={() => swipe('left')}
+                        disabled={!canSwipe}
+                        aria-label='Close'
                     >
-                        <RestaurantCard props={restaurant} />
-                    </TinderCard>
-                ))}
+                        <span className="text-2xl text-white">&#10006;</span>
+                    </button>
+
+                    <button
+                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed'}`}
+                        onClick={() => goBack()}
+                        disabled={!canGoBack}
+                        aria-label="Retry"
+                    >
+                        <span className="text-2xl">&#8635;</span>
+                    </button>
+
+                    <button
+                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
+                        onClick={() => swipe('right')}
+                        disabled={!canSwipe}
+                        aria-label="Like"
+                    >
+                        <span className="text-2xl">&#9825;</span>
+                    </button>
+
+                    {/* <button onClick={submit}>Done Voting</button> */}
+                </div>
+                {/* <h2 className='text-xl font-semibold text-gray-700'>
+                    {lastDirection ? `You swiped ${lastDirection}` : 'Swipe a card or press a button to see the swipe direction!'}
+                </h2> */}
             </div>
-            <div className='flex gap-4 mb-4'>
-
-                <button
-                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                    onClick={() => swipe('left')}
-                    disabled={!canSwipe}
-                    aria-label='Close'
-                >
-                    <span className="text-2xl text-white">&#10006;</span>
-                    <span className="text-2xl text-white">&#10006;</span>
-                </button>
-
-                <button
-                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                    onClick={() => goBack()}
-                    disabled={!canGoBack}
-                    aria-label="Retry"
-                    aria-label="Retry"
-                >
-                    <span className="text-2xl">&#8635;</span>
-                    <span className="text-2xl">&#8635;</span>
-                </button>
-
-                <button
-                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                    onClick={() => swipe('right')}
-                    disabled={!canSwipe}
-                    aria-label="Like"
-                    aria-label="Like"
-                >
-                    <span className="text-2xl">&#9825;</span>
-                    <span className="text-2xl">&#9825;</span>
-                </button>
-                {/* <button onClick={submit}>Done Voting</button> */}
-            </div>
-            {/* <h2 className='text-xl font-semibold text-gray-700'>
-                {lastDirection ? `You swiped ${lastDirection}` : 'Swipe a card or press a button to see the swipe direction!'}
-            </h2> */}
-        </div>
     );
 }
 
