@@ -26,6 +26,7 @@ const Filters = () => {
     const [radiusValue, setRadiusValue] = useState<string>("5.0");
     const [ratingValue, setRatingValue] = useState<string>("3.5");
     const [loading, setLoading] = useState<boolean>(false);
+    const [createLobbyLoading,setCreateLobbyLoading] = useState(false);
     const [isMounted, setIsMounted] = useState<boolean>(false);
 
     const handleRadiusSlider = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,7 +81,7 @@ const Filters = () => {
 
     const handleCreateLobby = () => {
         if (validateInputs()) {
-            setLoading(true);
+            setCreateLobbyLoading(true);
             fetch('http://localhost:3000/api/createLobby', {
                 method: 'POST',
                 headers: {
@@ -246,7 +247,7 @@ const Filters = () => {
                         className="px-2 py-1 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700 flex justify-center items-center text-sm"
                         disabled={loading}
                     >
-                        {loading ? (
+                        {createLobbyLoading ? (
                             <div className="loader mr-2"></div>
                         ) : null}
                         Create Lobby
