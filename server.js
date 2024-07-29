@@ -52,21 +52,21 @@ app.prepare().then(() => {
           io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
         }
       }
+
+      //when the host clicks 'start game' on the lobby 
+      socket.on('startGame', (lobbyId) => {
+        console.log(`Starting game with lobby id: ${lobbyId}`)
+
+      })
+
     });
 
-    //when the host clicks 'start game' on the lobby 
-    socket.on('startGame', (lobbyId) => {
-      console.log(`Starting game with lobby id: ${lobbyId}`)
-
-    })
-
-    socket.on('finishedVoting', () => {
-      //check if everyone is finished, if not, send a boolean or something to indicate to go to a waiting page
-      console.log('this is a sample submit button');
-    })
-
-
   });
+
+  socket.on('finishedVoting', () => {
+    //check if everyone is finished, if not, send a boolean or something to indicate to go to a waiting page
+    console.log('this is a sample submit button');
+  })
 
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, (err) => {

@@ -62,9 +62,6 @@ const restaurants: RestaurantInfo[] = [
     },
 ];
 
-
-
-
 function Page() {
     const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1);
     const [lastDirection, setLastDirection] = useState<string | undefined>();
@@ -136,66 +133,81 @@ function Page() {
 
         // if user goes back on a score, delete the old vote for that restaurant
         const restaurantId = restaurants[newIndex].restaurant_id; // get the restaurant
-        setVotes(prevVotes => ({
-            ...prevVotes,
-            [restaurantId]: 0
-        }));
+        setVotes(prevVotes => {
+            const currentVotes = { ...prevVotes };
+            delete currentVotes[restaurantId];
+            return currentVotes;
+        });
     };
 
     const submit = () => {
-        socket = io();
-        socket.emit('finishedVoting');
+        socket = io()
+        socket.emit('finishedVoting', votes);
     };
 
     return (
         <div className="flex flex-col justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
-                <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
-                    {restaurants.map((restaurant, index) => (
-                        <TinderCard
-                            ref={childRefs[index]}
-                            className='swipe absolute'
-                            key={restaurant.restaurant_id}
-                            onSwipe={(dir) => swiped(dir, restaurant.name, index)}
-                            onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
-                        >
-                            <RestaurantCard props={restaurant} />
-                        </TinderCard>
-                    ))}
-                </div>
-                <div className='flex gap-4 mb-4'>
-                    <button
-                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                        onClick={() => swipe('left')}
-                        disabled={!canSwipe}
-                        aria-label='Close'
+            <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
+                {restaurants.map((restaurant, index) => (
+                    <TinderCard
+                        ref={childRefs[index]}
+                        className='swipe absolute'
+                        key={restaurant.restaurant_id}
+                        onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+                        onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
                     >
-                        <span className="text-2xl text-white">&#10006;</span>
-                    </button>
-
+                        <RestaurantCard props={restaurant} />
+                    </TinderCard>
+                ))}
+                {(Object.keys(votes).length === restaurants.length) && (
                     <button
-                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                        onClick={() => goBack()}
-                        disabled={!canGoBack}
-                        aria-label="Retry"
+                        onClick={submit}
+                        className='items-center justify-center w-64 h-16 bg-blue-500 text-3xl text-white font-bold rounded-full hover:bg-blue-700 transition duration-400 ease-in-out shadow-lg hover:shadow-xl'
                     >
-                        <span className="text-2xl">&#8635;</span>
+                        Submit
                     </button>
+                )}
+            </div>
+            <div className='flex gap-4 mb-4'>
+                <button
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
+                    onClick={() => swipe('left')}
+                    disabled={!canSwipe}
+                    aria-label='Close'
+                >
+                    <span className="text-2xl text-white">&#10006;</span>
+                </button>
 
-                    <button
-                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                        onClick={() => swipe('right')}
-                        disabled={!canSwipe}
-                        aria-label="Like"
-                    >
-                        <span className="text-2xl">&#9825;</span>
-                    </button>
+                <button
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out  ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 hover:animate-spin focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed '}`}
+                    onClick={() => goBack()}
+                    disabled={!canGoBack}
+                    aria-label="Retry"
+                >
+                    <span className="text-2xl hover:scale-125">&#8635;</span>
+                </button>
 
-                    {/* <button onClick={submit}>Done Voting</button> */}
-                </div>
-                {/* <h2 className='text-xl font-semibold text-gray-700'>
+                <button
+                    className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
+                    onClick={() => swipe('right')}
+                    disabled={!canSwipe}
+                    aria-label="Like"
+                >
+                    <span className="text-2xl scale-125">&#9825;</span>
+                </button>
+
+                {/* <button
+                    onClick={submit}
+                    className=''
+                >
+                    Done Voting
+                </button> */}
+
+            </div>
+            {/* <h2 className='text-xl font-semibold text-gray-700'>
                     {lastDirection ? `You swiped ${lastDirection}` : 'Swipe a card or press a button to see the swipe direction!'}
                 </h2> */}
-            </div>
+        </div>
     );
 }
 
