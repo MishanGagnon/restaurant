@@ -1,7 +1,7 @@
 import React, { FC, useEffect } from "react";
 import { useMap } from "react-leaflet";
 
-const MapController: FC<any> = ({formData, setFormData}) => {
+const MapController: FC<any> = ({lonLat}) => {
     const map: any = useMap();
     const flyToDuration: any = 1.5;
 
@@ -13,7 +13,7 @@ const MapController: FC<any> = ({formData, setFormData}) => {
     };
 
     const flyToCenter = () => {
-        map.flyTo([formData.latitude, formData.longitude], 13, {
+        map.flyTo([lonLat.latitude || 0, lonLat.longitude || 0], 13, {
             animate: true,
             duration: flyToDuration,
         });
@@ -22,7 +22,7 @@ const MapController: FC<any> = ({formData, setFormData}) => {
     useEffect(()=>{
         // some code that runs when component mounts / state changes
         flyToCenter()
-    }, [formData]);
+    }, [lonLat]);
 
     return null;
 };
