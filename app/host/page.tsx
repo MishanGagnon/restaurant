@@ -4,7 +4,6 @@ import { MapContainer, TileLayer, Circle, Popup } from 'react-leaflet';
 import { useRouter } from 'next/navigation';
 import 'leaflet/dist/leaflet.css';
 import { MapController } from './MapController';
-import NumericInput from 'react-numeric-input';
 
 const Filters = () => {
     const router = useRouter();
@@ -23,7 +22,7 @@ const Filters = () => {
         numRestaurants: false,
     });
     const [lonLat, setLonLat] = useState<LonLat>({ longitude: -83.7430, latitude: 42.2808});
-    const [numRestaurants, setNumRestaurants] = useState<number |null>(5);
+    const [numRestaurants, setNumRestaurants] = useState<number | null>(5);
     const [radiusValue, setRadiusValue] = useState<string>("5.0");
     const [ratingValue, setRatingValue] = useState<string>("3.5");
     const [loading, setLoading] = useState<boolean>(false);
@@ -37,6 +36,37 @@ const Filters = () => {
         setRatingValue((event.target.value));
     };
 
+    const validateInputs = (): boolean => {
+        let isValid = true;
+        const newErrors = { ...errors };
+
+        // Validate longitude
+        if (lonLat.longitude === null || lonLat.longitude < -180 || lonLat.longitude > 180) {
+            newErrors.longitude = true;
+            isValid = false;
+        } else {
+            newErrors.longitude = false;
+        }
+
+        // Validate latitude
+        if (lonLat.latitude === null || lonLat.latitude < -90 || lonLat.latitude > 90) {
+            newErrors.latitude = true;
+            isValid = false;
+        } else {
+            newErrors.latitude = false;
+        }
+
+        // Validate number of restaurants
+        if (numRestaurants === null || numRestaurants < 5 || numRestaurants > 20) {
+            newErrors.numRestaurants = true;
+            isValid = false;
+        } else {
+            newErrors.numRestaurants = false;
+        }
+
+        setErrors(newErrors);
+        return isValid;
+    };
     const id = React.useId();
 
     const handleCreateLobbyResponse = (data: any) => {
@@ -49,16 +79,28 @@ const Filters = () => {
     };
 
     const handleCreateLobby = () => {
-        fetch('http://localhost:3000/api/createLobby', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({}),
-        })
-            .then((res) => res.json())
-            .then((data) => handleCreateLobbyResponse(data))
-            .catch((error) => console.error('Error:', error));
+        if (validateInputs()) {
+            setLoading(true);
+            fetch('http://localhost:3000/api/createLobby', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    longitude: lonLat.longitude,
+                    latitude: lonLat.latitude,
+                    numRestaurants: numRestaurants,
+                    radius: parseFloat(radiusValue),
+                    minRating: parseFloat(ratingValue)
+                }),
+            })
+                .then((res) => res.json())
+                .then((data) => handleCreateLobbyResponse(data))
+                .catch((error) => console.error('Error:', error))
+                .finally(() => setLoading(false));
+        } else {
+            console.log("Validation failed");
+        }
     };
 
     const handleLocationClick = () => {
@@ -96,22 +138,23 @@ const Filters = () => {
             <div className="h-1/2 md:h-2/3 w-5/6 md:w-1/2 max-w-md space-y-2 p-2 bg-white rounded-md shadow-md m-4 flex items-center justify-center flex-col">
                 <h1 className='text-black self-center font-bold text-xl flex flex-col text-center'>Session Settings</h1>
 
-                <div className="flex flex-col space-y-2">
-                    <div className="flex flex-col">
+                <div className="flex flex-col space-y-2 w-full">
+                <div className="flex flex-col">
                         <label
                             htmlFor={id + "-latitude"}
                             className="font-bold mb-1 text-black text-sm">
                             Latitude
                         </label>
-                        <NumericInput
-                            // type="text"
-                            onChange={(e) => { setLonLat({ latitude: e, longitude: lonLat.longitude }) }}
+                        <input
+                            type="number"
+                            onChange={(e) => { setLonLat({ ...lonLat, latitude: e.target.value ? parseFloat(e.target.value) : null }) }}
                             name="latitude"
-                            value={lonLat.latitude?.toString()}
+                            value={lonLat.latitude !== null ? lonLat.latitude : ''}
                             placeholder="Latitude"
-                            className="p-1 border border-gray-300 rounded-md text-black text-sm"
+                            className={`p-1 border rounded-md text-black text-sm ${errors.latitude ? 'border-red-500' : 'border-gray-300'}`}
                             id={id + "-latitude"}
                         />
+                        {errors.latitude && <p className="text-red-500 text-xs">Invalid latitude. Must be between -90 and 90.</p>}
                     </div>
 
                     <div className="flex flex-col">
@@ -120,15 +163,16 @@ const Filters = () => {
                             className="font-bold mb-1 text-black text-sm">
                             Longitude
                         </label>
-                        <NumericInput
-                            // type="text"
-                            onChange={(e) => { setLonLat({ latitude: lonLat.latitude, longitude: e }) }}
+                        <input
+                            type="number"
+                            onChange={(e) => { setLonLat({ ...lonLat, longitude: e.target.value ? parseFloat(e.target.value) : null }) }}
                             name="longitude"
-                            value={lonLat.longitude?.toString()}
+                            value={lonLat.longitude !== null ? lonLat.longitude : ''}
                             placeholder="Longitude"
-                            className="p-1 border border-gray-300 rounded-md text-black text-sm"
+                            className={`p-1 border rounded-md text-black text-sm ${errors.longitude ? 'border-red-500' : 'border-gray-300'}`}
                             id={id + "-longitude"}
                         />
+                        {errors.longitude && <p className="text-red-500 text-xs">Invalid longitude. Must be between -180 and 180.</p>}
                     </div>
 
                     <button
@@ -149,16 +193,20 @@ const Filters = () => {
                             className="font-bold mb-1 text-black text-sm">
                             Number of Restaurants for the session
                         </label>
-                        <NumericInput
-                            
-                            onChange={(e) => { setNumRestaurants(e) }}
+                        <input
+                            type="number"
+                            onChange={(e) => { 
+                                const value = e.target.value;
+                                setNumRestaurants(value === '' ? null : parseInt(value));
+                            }}
                             name="num_restaurants"
-                            value={numRestaurants?.toString()}
-                            className="p-1 border border-gray-300 rounded-md text-black text-sm"
+                            value={numRestaurants !== null ? numRestaurants : ''}
+                            placeholder="Number of restaurants (5-20)"
+                            className={`p-1 border rounded-md text-black text-sm ${errors.numRestaurants ? 'border-red-500' : 'border-gray-300'}`}
                             id={id + "-num_restaurants"}
                         />
+                        {errors.numRestaurants && <p className="text-red-500 text-xs">Invalid number of restaurants. Must be between 5 and 20.</p>}
                     </div>
-
                     <div className="flex flex-col">
                         <label
                             htmlFor={id + "-slider"}
@@ -193,13 +241,16 @@ const Filters = () => {
                         />
                         <div className='text-black text-sm'>{ratingValue}</div>
                         <button
-                            type="button"
-                            onClick={handleCreateLobby}
-                            className="px-2 py-1 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700 flex justify-center items-center text-sm"
-                            disabled={loading}
-                        >
-                            Create Lobby
-                        </button>
+                        type="button"
+                        onClick={handleCreateLobby}
+                        className="px-2 py-1 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700 flex justify-center items-center text-sm"
+                        disabled={loading}
+                    >
+                        {loading ? (
+                            <div className="loader mr-2"></div>
+                        ) : null}
+                        Create Lobby
+                    </button>
                     </div>
                 </div>
             </div>
