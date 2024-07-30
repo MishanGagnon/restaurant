@@ -60,13 +60,13 @@ app.prepare().then(() => {
       })
 
     });
+    socket.on('finishedVoting', () => {
+      //check if everyone is finished, if not, send a boolean or something to indicate to go to a waiting page
+      console.log('this is a sample submit button');
+    })
 
   });
 
-  socket.on('finishedVoting', () => {
-    //check if everyone is finished, if not, send a boolean or something to indicate to go to a waiting page
-    console.log('this is a sample submit button');
-  })
 
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, (err) => {
