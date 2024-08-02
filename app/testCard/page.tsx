@@ -1,8 +1,8 @@
 'use client'
 
 import React from 'react'
-import data from '../testCard/restaurantTestData'
-import TestPage from '../testCard/RenderPage'
+import data from '../../components/restaurantTestData'
+import TestPage from '../../components/RenderPage'
 import io, { Socket } from 'socket.io-client';
 
 let socket : Socket;

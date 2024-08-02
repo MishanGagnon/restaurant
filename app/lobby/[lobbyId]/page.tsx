@@ -4,7 +4,8 @@ import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import io, { Socket } from 'socket.io-client';
 import PlayerCard from '../PlayerCard';
-import { start } from 'repl';
+import TestPage from '../../../components/RenderPage'
+import data from '../../../components/restaurantTestData'
 
 // types.ts
 export interface Player {
@@ -177,9 +178,8 @@ const Lobby = () => {
         </div>
       );
      case 'voting':
-      return ( <h1>voting</h1>)
+      return (<TestPage socket={socket} restaurants={data} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>)
   }}
-
 };
 
 export default Lobby;
