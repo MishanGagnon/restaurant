@@ -80,9 +80,11 @@ const Filters = () => {
     };
 
     const handleCreateLobby = () => {
+        const baseUrl = window.location.origin;
+        // const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyCode}`);
         if (validateInputs()) {
             setCreateLobbyLoading(true);
-            fetch('http://localhost:3000/api/createLobby', {
+            fetch(`${baseUrl}/api/createLobby`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

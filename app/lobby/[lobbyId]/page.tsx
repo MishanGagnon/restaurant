@@ -51,8 +51,9 @@ const Lobby = () => {
   }
 
   const checkValidLobby = async () => {
+    const baseUrl = window.location.origin;
     try {
-      const response = await fetch(`http://localhost:3000/api/lobbyCheck/${lobbyId}`);
+      const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyId}`);
       if (response.ok) {
         const data = await response.json();
         if (data.isActiveLobby) {
