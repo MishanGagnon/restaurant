@@ -16,6 +16,7 @@ export interface Player {
 let socket: Socket;
 
 const Lobby = () => {
+  
   const router = useRouter();
   const { lobbyId } = useParams();
   const searchParams = useSearchParams();
@@ -36,6 +37,7 @@ const Lobby = () => {
   };
 
   const startGame = () => {
+    console.log('started game')
     socket.emit('startGame', lobbyId);
   }
 
