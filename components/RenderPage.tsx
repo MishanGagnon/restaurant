@@ -20,10 +20,7 @@ function Page({socket, restaurants, lobbyId, playerId }: PageProps) {
     const currentIndexRef = useRef(currentIndex);
     const [votes, setVotes] = useState<Record<string, number>>({});
 
-    useEffect(() => {
-        console.log('These are the initial votes:', votes);
-        socket = io();
-    }, []);
+
 
     useEffect(() => {
         console.log('Votes have been updated', votes);
