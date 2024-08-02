@@ -3,7 +3,7 @@
 
 export interface RestaurantInfo {
 
-    restaurant_id: number;
+    restaurant_id: string;
     name: string;
     address: string;
     reviewCount: number;
@@ -13,5 +13,5 @@ export interface RestaurantInfo {
     price: number;
     distance: number;
     location: string;
-
+    closing_times: string[];
 }
