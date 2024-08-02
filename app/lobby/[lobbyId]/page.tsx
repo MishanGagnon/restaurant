@@ -33,6 +33,7 @@ const Lobby = () => {
   const [isHost, setIsHost] = useState<boolean>(false);
   const [hostPlayer, setHostPlayer] = useState<Player>();
   const [gameState, setGameState] = useState<GameState>('lobby')
+  const [restaurantData, setRestaurantData] = useState<any>();
 
   const submitName = () => {
     setName(nameInput);
@@ -104,6 +105,7 @@ const Lobby = () => {
 
       socket.on('restauraunt_cards',(json : any)=>{
         console.log('received cards json',json)
+        setRestaurantData(json.restaurants)
         setGameState('voting')
       })
 
@@ -179,7 +181,7 @@ const Lobby = () => {
         </div>
       );
      case 'voting':
-      return (<TestPage socket={socket} restaurants={data} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>)
+      return (<TestPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>)
   }}
 };
 
