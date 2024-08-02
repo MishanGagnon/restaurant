@@ -18,8 +18,8 @@ import {
   
   export async function POST(req) {
     // Assuming you're using body parsing middleware
-    const body = await req.json();
-    console.log('Received:', body);
+    const settings = await req.json();
+    console.log('Received:', settings);
   
     let newLobbyCode = generateRandomCapitalLetters();
   
@@ -27,7 +27,7 @@ import {
       newLobbyCode = generateRandomCapitalLetters();
     }
   
-    addLobby(newLobbyCode);
+    addLobby({lobbyId :newLobbyCode, settings : settings});
     console.log(getActiveRooms(),'createLobby route')
   
     return new Response(JSON.stringify({ message: 'Lobby added', lobbyCode: newLobbyCode }), {
