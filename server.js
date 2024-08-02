@@ -55,13 +55,15 @@ app.prepare().then(() => {
           io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
         }
       }
-
       
     });
+
     //when the host clicks 'start game' on the lobby 
     socket.on('startGame', (lobbyId) => {
       console.log(`Starting game with lobby id: ${lobbyId}`)
 
+      //REQUEST YELP -- TODO
+      io.to(lobbyId).emit('restauraunt_cards',{test: 'dummy card info'})
     })
     
     //listening for submitVotes

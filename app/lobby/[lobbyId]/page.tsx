@@ -13,6 +13,9 @@ export interface Player {
   host: boolean;
 }
 
+// export interface GameState: 'lobby' | 'voting' | 'endscreen'
+export type GameState = 'lobby' | 'voting' | 'endscreen'
+
 let socket: Socket;
 
 const Lobby = () => {
@@ -28,6 +31,7 @@ const Lobby = () => {
   const [socketId, setSocketId] = useState<string>('');
   const [isHost, setIsHost] = useState<boolean>(false);
   const [hostPlayer, setHostPlayer] = useState<Player>();
+  const [gameState, setGameState] = useState<GameState>('lobby')
 
   const submitName = () => {
     setName(nameInput);
@@ -38,7 +42,11 @@ const Lobby = () => {
 
   const startGame = () => {
     console.log('started game')
-    socket.emit('startGame', lobbyId);
+    if(players.length > 1){
+      socket.emit('startGame', lobbyId);
+    }else{
+      alert('Only one player in lobby')
+    }
   }
 
   const checkValidLobby = async () => {
@@ -92,6 +100,11 @@ const Lobby = () => {
         console.log('players updated');
       });
 
+      socket.on('restauraunt_cards',(json : any)=>{
+        console.log('received cards json',json)
+        setGameState('voting')
+      })
+
       return () => {
         socket.disconnect();
       };
@@ -143,25 +156,30 @@ const Lobby = () => {
       </div>
     );
   }
+  {switch (gameState) {
+    case 'lobby':
+      return (
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-black">
+          <h1 className="text-2xl font-bold mb-4 text-black">Lobby: {lobbyId}</h1>
+          <h2 className="text-xl mb-4 text-black">Name: {name}</h2>
+          <h3 className="text-lg font-semibold mb-2 text-black">Active Players:</h3>
+          {isHost && <button
+            onClick={startGame}
+            className="m-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
+          >
+            Start Game
+          </button>}
+          <div className="flex flex-col">
+            {players.map(player => (
+              <PlayerCard key={player.id} isHost={player.id === hostPlayer?.id} name={player.name ?? 'nameError'} />
+            ))}
+          </div>
+        </div>
+      );
+     case 'voting':
+      return ( <h1>voting</h1>)
+  }}
 
-  return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-black">
-      <h1 className="text-2xl font-bold mb-4 text-black">Lobby: {lobbyId}</h1>
-      <h2 className="text-xl mb-4 text-black">Name: {name}</h2>
-      <h3 className="text-lg font-semibold mb-2 text-black">Active Players:</h3>
-      {isHost && <button
-        onClick={startGame}
-        className="m-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-      >
-        Start Game
-      </button>}
-      <div className="flex flex-col">
-        {players.map(player => (
-          <PlayerCard key={player.id} isHost={player.id === hostPlayer?.id} name={player.name ?? 'nameError'} />
-        ))}
-      </div>
-    </div>
-  );
 };
 
 export default Lobby;
