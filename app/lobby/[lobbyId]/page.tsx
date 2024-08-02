@@ -15,6 +15,7 @@ export interface Player {
 let socket: Socket;
 
 const Lobby = () => {
+  
   const router = useRouter();
   const { lobbyId } = useParams();
   const searchParams = useSearchParams();

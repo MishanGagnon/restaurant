@@ -141,8 +141,12 @@ function Page() {
     };
 
     const submit = () => {
-        socket = io()
-        socket.emit('finishedVoting', votes);
+        if (!socket) {
+            socket = io();
+        }
+        
+        
+
     };
 
     return (
