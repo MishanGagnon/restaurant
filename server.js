@@ -11,6 +11,9 @@ const {
   removePlayerFromLobby,
   getPlayersInLobby,
   socketToLobbyMap,
+  setPlayerVotes,
+  getLobbyVotes,
+  checkAllVoted
 } = require('./lib/rooms.js');
 
 
@@ -60,9 +63,32 @@ app.prepare().then(() => {
       })
 
     });
-    socket.on('finishedVoting', () => {
-      //check if everyone is finished, if not, send a boolean or something to indicate to go to a waiting page
-      console.log('this is a sample submit button');
+
+    //listening for submitVotes
+    socket.on('submitVotes', ({ lobbyId, playerId, votes }) => {
+      //if this socket catches something on submitVotes, we'll see which lobby it was for, and the player and the votes
+      console.log(`Recieved votes from the lobby ${lobbyId} and the player ${playerId}:`, votes)
+
+      //this will set the specific player's votes in the lobbyObject
+      //lobbyObject : Player List, Settings, Votes, List of Restaurantants
+      //this setPlayerVotes function takes the specific lobby and the playerId
+      //with these things, in the votes object for the lobby, will make an entry for a player and their votes
+      setPlayerVotes(lobbyId, playerId, votes)
+
+      socket.emit('votesReceived', { status: 'success', message: 'Votes received and stored' });
+
+
+      //if everyone has voted in the lobby
+      if (checkAllVoted(lobbyId)) {
+        //get the votes 
+        const lobbyVotes = getLobbyVotes[lobbyId]
+        console.log(`All players in the lobby ${lobbyId} have voted`, lobbyVotes)
+
+        //redirect everyone in that have joined a specific room: io.join(lobbyId)
+        //will emit a message for the client with the lobbyVotes for this lobby to them
+        io.to(lobbyId).emit('gotAllVotes', lobbyVotes)
+      }
+
     })
 
   });
