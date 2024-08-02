@@ -149,14 +149,6 @@ function Page({socket, restaurants, lobbyId, playerId }: PageProps) {
                 >
                     <span className="text-2xl scale-125">&#9825;</span>
                 </button>
-
-                {/* <button
-                    onClick={submit}
-                    className=''
-                >
-                    Done Voting
-                </button> */}
-
             </div>
             {/* <h2 className='text-xl font-semibold text-gray-700'>
                     {lastDirection ? `You swiped ${lastDirection}` : 'Swipe a card or press a button to see the swipe direction!'}
