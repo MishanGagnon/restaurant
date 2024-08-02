@@ -56,14 +56,14 @@ app.prepare().then(() => {
         }
       }
 
-      //when the host clicks 'start game' on the lobby 
-      socket.on('startGame', (lobbyId) => {
-        console.log(`Starting game with lobby id: ${lobbyId}`)
-
-      })
-
+      
     });
+    //when the host clicks 'start game' on the lobby 
+    socket.on('startGame', (lobbyId) => {
+      console.log(`Starting game with lobby id: ${lobbyId}`)
 
+    })
+    
     //listening for submitVotes
     socket.on('submitVotes', ({ lobbyId, playerId, votes }) => {
       //if this socket catches something on submitVotes, we'll see which lobby it was for, and the player and the votes

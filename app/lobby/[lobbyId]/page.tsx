@@ -37,6 +37,7 @@ const Lobby = () => {
   };
 
   const startGame = () => {
+    console.log('started game')
     socket.emit('startGame', lobbyId);
   }
 

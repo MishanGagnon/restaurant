@@ -255,21 +255,6 @@ const Filters = () => {
                     </div>
                 </div>
             </div>
-<<<<<<< HEAD
-
-            <MapContainer className="py-10 mb-10 flex flex-col mr-10" center={[formData.latitude, formData.longitude]} zoom={10} style={{ height: '70vh', width: '70vw', borderRadius: "25px" }}>
-                <TileLayer
-                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                />
-                <MapController formData={formData} setFormData={setFormData} />
-                <Circle center={[formData.latitude, formData.longitude]} radius={getMeters(radiusValue)} color="blue">
-                    <Popup>
-                        A circle of radius {getMeters(radiusValue)} meters.
-                    </Popup>
-                </Circle>
-            </MapContainer>
-=======
             <div className='w-5/6 m-4 h-1/2 md:h-2/3'>
                 <MapContainer className="py-2 mr-2 mb-2 flex flex-col" center={[lonLat.latitude || 0 , lonLat.longitude || 0]} zoom={10} style={{ height: '100%', width: '100%', borderRadius: "8px" }}>
                     <TileLayer
@@ -284,7 +269,6 @@ const Filters = () => {
                     </Circle>
                 </MapContainer>
             </div>
->>>>>>> main
             <style jsx>{`
                 .loader {
                     border: 2px solid #f3f3f3;
