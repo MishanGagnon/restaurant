@@ -52,7 +52,8 @@ const Lobby = () => {
   }
 
   const checkValidLobby = async () => {
-    const baseUrl = window.location.origin;
+    // const baseUrl = window.location.origin;
+    let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
     try {
       const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyId}`);
       if (response.ok) {
@@ -70,7 +71,6 @@ const Lobby = () => {
 
   useEffect(() => {
     const validateLobbyAndJoin = async () => {
-      console.log('re-render');
       const isValid = await checkValidLobby();
       if (!isValid) {
         router.push('/lobby');

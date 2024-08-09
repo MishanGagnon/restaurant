@@ -81,11 +81,12 @@ const Filters = () => {
 
     const handleCreateLobby = () => {
         if (!isMounted) return; 
-        let baseUrl = 'localhost:3000'
-        if (typeof window !== 'undefined') {
-            // Safe to use window here
-            baseUrl = window.location.origin;
-        }
+        // let baseUrl = 'localhost:3000'
+        let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
+        // if (typeof window !== 'undefined') {
+        //     // Safe to use window here
+        //     baseUrl = window.location.origin;
+        // }
         
         // const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyCode}`);
         if (validateInputs()) {
