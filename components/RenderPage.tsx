@@ -5,31 +5,25 @@ import RestaurantCard from './RestaurantCard';
 import { RestaurantInfo } from './RestaurantInfo';
 import io, { Socket } from 'socket.io-client';
 
-
-
 interface PageProps {
     socket: Socket;
     restaurants: RestaurantInfo[];
     lobbyId: string;
-    playerId : string;
+    playerId: string;
 }
 
-function Page({socket, restaurants, lobbyId, playerId }: PageProps) {
+function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
     const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1);
     const [lastDirection, setLastDirection] = useState<string | undefined>();
     const currentIndexRef = useRef(currentIndex);
     const [votes, setVotes] = useState<Record<string, number>>({});
 
-
-
     useEffect(() => {
         console.log('Votes have been updated', votes);
     }, [votes]);
 
-    
-
     const childRefs = useMemo(
-        () => Array(restaurants.length).fill(0).map(() => React.createRef<typeof TinderCard>()),
+        () => Array(restaurants.length).fill(0).map(() => React.createRef<any>()),
         []
     );
 
@@ -42,29 +36,27 @@ function Page({socket, restaurants, lobbyId, playerId }: PageProps) {
     const canSwipe = currentIndex >= 0;
 
     const swiped = (direction: string, nameToDelete: string, index: number) => {
-        // Only handle left or right swipes
         if (direction === 'left' || direction === 'right') {
             setLastDirection(direction);
             updateCurrentIndex(index - 1);
         }
 
-        const restaurantId = restaurants[index].restaurant_id; // take the restaurant that has been swiped
+        const restaurantId = restaurants[index].restaurant_id;
         setVotes((previousVotes) => ({
-            ...previousVotes, // the other restaurants' data
-            [restaurantId]: direction === 'right' ? 1 : 0 // setting the particular restaurant's id's vote score to 1 depending on direction, +1 for right, 0 for left
+            ...previousVotes,
+            [restaurantId]: direction === 'right' ? 1 : 0
         }));
     };
 
-    // button swipe
     const swipe = async (dir: string) => {
         if (canSwipe && currentIndex < restaurants.length) {
-            await childRefs[currentIndex].current?.swipe(dir);
+            await (childRefs[currentIndex].current as any)?.swipe(dir);
         }
 
-        const restaurantId = restaurants[currentIndex].restaurant_id; // take the restaurant that has been swiped
+        const restaurantId = restaurants[currentIndex].restaurant_id;
         setVotes((previousVotes) => ({
-            ...previousVotes, // the other restaurants' data
-            [restaurantId]: dir === 'right' ? 1 : 0 // setting the particular restaurant's id's vote score to 1 depending on direction, +1 for right, 0 for left
+            ...previousVotes,
+            [restaurantId]: dir === 'right' ? 1 : 0
         }));
     };
 
@@ -79,10 +71,9 @@ function Page({socket, restaurants, lobbyId, playerId }: PageProps) {
         if (!canGoBack) return;
         const newIndex = currentIndex + 1;
         updateCurrentIndex(newIndex);
-        await childRefs[newIndex].current?.restoreCard();
+        await (childRefs[newIndex].current as any)?.restoreCard();
 
-        // if user goes back on a score, delete the old vote for that restaurant
-        const restaurantId = restaurants[newIndex].restaurant_id; 
+        const restaurantId = restaurants[newIndex].restaurant_id;
         setVotes(prevVotes => {
             const currentVotes = { ...prevVotes };
             delete currentVotes[restaurantId];
@@ -90,13 +81,10 @@ function Page({socket, restaurants, lobbyId, playerId }: PageProps) {
         });
     };
 
-
     const submit = () => {
-        
-        console.log('submitted button')
-        console.log(`These are the votes ${votes} for the player ${playerId}, in the lobby ${lobbyId}`)
-        socket.emit('submitVotes', {lobbyId, playerId, votes})
-
+        console.log('submitted button');
+        console.log(`These are the votes ${votes} for the player ${playerId}, in the lobby ${lobbyId}`);
+        socket.emit('submitVotes', { lobbyId, playerId, votes });
     };
 
     return (
@@ -149,18 +137,7 @@ function Page({socket, restaurants, lobbyId, playerId }: PageProps) {
                 >
                     <span className="text-2xl scale-125">&#9825;</span>
                 </button>
-
-                {/* <button
-                    onClick={submit}
-                    className=''
-                >
-                    Done Voting
-                </button> */}
-
             </div>
-            {/* <h2 className='text-xl font-semibold text-gray-700'>
-                    {lastDirection ? `You swiped ${lastDirection}` : 'Swipe a card or press a button to see the swipe direction!'}
-                </h2> */}
         </div>
     );
 }
