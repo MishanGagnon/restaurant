@@ -83,10 +83,11 @@ const Lobby = () => {
     if (name) {
       socket = io();
 
+
       socket.on('connect', () => {
+        
         setSocketId(socket.id as string);
         if (lobbyId) {
-          console.log('joining as new player');
           socket.emit('joinLobby', { lobbyId, name });
         }
       });
@@ -97,10 +98,8 @@ const Lobby = () => {
         const hostPlayer = players.find((player) => player.host === true);
         setHostPlayer(hostPlayer);
         if (hostPlayer && hostPlayer.id === socket.id) {
-          console.log('am host');
           setIsHost(true);
         }
-        console.log('players updated');
       });
 
       socket.on('restauraunt_cards',(json : any)=>{
