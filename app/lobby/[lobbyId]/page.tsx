@@ -81,7 +81,11 @@ const Lobby = () => {
 
     validateLobbyAndJoin();
     if (name) {
-      socket = io();
+      if(process.env.NEXT_PUBLIC_NEXT_DOMAIN){
+        socket = io(process.env.NEXT_PUBLIC_NEXT_DOMAIN);
+      }else{
+        socket = io();
+      }
 
 
       socket.on('connect', () => {
