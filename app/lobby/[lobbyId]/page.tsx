@@ -33,6 +33,7 @@ const Lobby = () => {
   const [isHost, setIsHost] = useState<boolean>(false);
   const [hostPlayer, setHostPlayer] = useState<Player>();
   const [gameState, setGameState] = useState<GameState>('lobby')
+  const [restaurantData, setRestaurantData] = useState<any>();
 
   const submitName = () => {
     setName(nameInput);
@@ -51,8 +52,10 @@ const Lobby = () => {
   }
 
   const checkValidLobby = async () => {
+    // const baseUrl = window.location.origin;
+    let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
     try {
-      const response = await fetch(`http://localhost:3000/api/lobbyCheck/${lobbyId}`);
+      const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyId}`);
       if (response.ok) {
         const data = await response.json();
         if (data.isActiveLobby) {
@@ -68,7 +71,6 @@ const Lobby = () => {
 
   useEffect(() => {
     const validateLobbyAndJoin = async () => {
-      console.log('re-render');
       const isValid = await checkValidLobby();
       if (!isValid) {
         router.push('/lobby');
@@ -79,12 +81,17 @@ const Lobby = () => {
 
     validateLobbyAndJoin();
     if (name) {
-      socket = io();
+      if(process.env.NEXT_PUBLIC_NEXT_DOMAIN){
+        socket = io(process.env.NEXT_PUBLIC_NEXT_DOMAIN);
+      }else{
+        socket = io();
+      }
+
 
       socket.on('connect', () => {
+        
         setSocketId(socket.id as string);
         if (lobbyId) {
-          console.log('joining as new player');
           socket.emit('joinLobby', { lobbyId, name });
         }
       });
@@ -95,14 +102,13 @@ const Lobby = () => {
         const hostPlayer = players.find((player) => player.host === true);
         setHostPlayer(hostPlayer);
         if (hostPlayer && hostPlayer.id === socket.id) {
-          console.log('am host');
           setIsHost(true);
         }
-        console.log('players updated');
       });
 
       socket.on('restauraunt_cards',(json : any)=>{
         console.log('received cards json',json)
+        setRestaurantData(json.restaurants)
         setGameState('voting')
       })
 
@@ -178,7 +184,7 @@ const Lobby = () => {
         </div>
       );
      case 'voting':
-      return (<TestPage socket={socket} restaurants={data} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>)
+      return (<TestPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>)
   }}
 };
 

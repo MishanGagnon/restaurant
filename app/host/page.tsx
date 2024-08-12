@@ -80,9 +80,18 @@ const Filters = () => {
     };
 
     const handleCreateLobby = () => {
+        if (!isMounted) return; 
+        // let baseUrl = 'localhost:3000'
+        let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
+        // if (typeof window !== 'undefined') {
+        //     // Safe to use window here
+        //     baseUrl = window.location.origin;
+        // }
+        
+        // const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyCode}`);
         if (validateInputs()) {
             setCreateLobbyLoading(true);
-            fetch('http://localhost:3000/api/createLobby', {
+            fetch(`${baseUrl}/api/createLobby`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
@@ -146,7 +155,7 @@ const Filters = () => {
                             className="font-bold mb-1 text-black text-sm">
                             Latitude
                         </label>
-                        <input
+                        <input  
                             type="number"
                             onChange={(e) => { setLonLat({ ...lonLat, latitude: e.target.value ? parseFloat(e.target.value) : null }) }}
                             name="latitude"
@@ -256,6 +265,7 @@ const Filters = () => {
                 </div>
             </div>
             <div className='w-5/6 m-4 h-1/2 md:h-2/3'>
+                {(typeof window !== 'undefined') ?
                 <MapContainer className="py-2 mr-2 mb-2 flex flex-col" center={[lonLat.latitude || 0 , lonLat.longitude || 0]} zoom={10} style={{ height: '100%', width: '100%', borderRadius: "8px" }}>
                     <TileLayer
                         url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
@@ -268,6 +278,8 @@ const Filters = () => {
                         </Popup>
                     </Circle>
                 </MapContainer>
+                : ''
+                }
             </div>
             <style jsx>{`
                 .loader {

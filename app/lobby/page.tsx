@@ -12,7 +12,9 @@ const Home = () => {
   const enterLobby = async () => {
     if (lobbyCode && name) {
       try {
-        const response = await fetch(`http://localhost:3000/api/lobbyCheck/${lobbyCode}`);
+        let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
+        // const baseUrl = window.location.origin;
+        const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyCode}`);
         
         // Check if the response is ok (status in the range 200-299)
         if (response.ok) {
