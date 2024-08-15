@@ -11,19 +11,22 @@ function RestaurantCard({ props }: CardProps) {
     const { name, address, reviewCount, image_url, rating, categories, price, distance, location, closing_times } = props;
 
     const priceSigns = '$'.repeat(price)
+    console.log(closing_times)
+    // const getClosing = () => {
+    //     const now = new Date;
+    //     const closingTime = closing_times[now.getDay()]
+    //     const ampm = parseInt(closingTime, 4) >= 1200 ? "PM" : "AM"
+    //     const hours = parseInt(closingTime.substring(0, 2));
+    //     const minutes = parseInt(closingTime.substring(2, 4));
 
-    const getClosing = () => {
-        const now = new Date;
-        const closingTime = closing_times[now.getDay()]
-        const ampm = parseInt(closingTime, 4) >= 1200 ? "PM" : "AM"
-        const hours = parseInt(closingTime.substring(0, 2));
-        const minutes = parseInt(closingTime.substring(2, 4));
+    //     return (
+    //         <h2 className="bg-red-100 text-red-700 px-2 py-1 rounded-lg text-xs"> Closes {hours}:{minutes}0 {ampm}</h2>
+    //     )
 
-        return (
-            <h2 className="bg-red-100 text-red-700 px-2 py-1 rounded-lg text-xs"> Closes {hours}:{minutes}0 {ampm}</h2>
-        )
+    // }
 
-    }
+    
+    
 
     return (
         <div id="card-container" className='bg-white rounded-lg shadow-lg max-w-md w-96	h-[650px]'>
@@ -45,13 +48,13 @@ function RestaurantCard({ props }: CardProps) {
                 />
             </div>
             {/* <div className="w-90 mx-5 border-t-2 border-gray-400"></div> */}
-            <div id="restaurant-content w-3/5" className="p-6">
+            <div id="restaurant-content" className="p-3">
                 <div className="flex justify-between items-center mb-2">
                     <h1 id="restaurant-name" className='text-3xl font-bold text-gray-800'>
                         {name} <span id='restaurant-price' className="text-sky-500">{priceSigns}</span>
                     </h1>
                     {/* <h2 id="restaurant-location" className="text-lg text-md  text-gray-600">{location}</h2> */}
-                    {getClosing()}
+                    {/* {getClosing()} */}
                 </div>
                 <h3 id='restaurant-rating' className="text-sky-500 font-bold mb-2 flex items-center text-xl">
                     {rating} <span id="star" className='ml-1' style={{ color: '#FFD700' }}>★</span>
