@@ -17,6 +17,7 @@ const {
   convertToRestaurantInfo
 } = require('./lib/rooms.js');
 // const { default: restaurants } = require('./components/restaurantTestData.jsx');
+const {make_request} = require('./lib/yelp_request.js')
 
 
 
@@ -40,7 +41,7 @@ app.prepare().then(() => {
       console.log(`User ${name} joined lobby: ${lobbyId}`);
 
       addPlayerToLobby(lobbyId, { id: socket.id, host: false, name });
-
+      console.log('stopped')
       io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
       console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
     });
@@ -64,103 +65,39 @@ app.prepare().then(() => {
     socket.on('startGame', (lobbyId) => {
       console.log(`Starting game with lobby id: ${lobbyId}`)
 
-      //REQUEST YELP -- TODO
-      testYelpData = {
-        "id": "qh8SGt-7jd-JTXCxe7Amlg",
-        "alias": "peridot-ann-arbor",
-        "name": "Peridot",
-        "image_url": "https://s3-media2.fl.yelpcdn.com/bphoto/iA1PwGvQDUDqA6aLG4npsg/o.jpg",
-        "is_closed": false,
-        "url": "https://www.yelp.com/biz/peridot-ann-arbor?adjust_creative=cdiqpTSshvT5qy3mi2VlcQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=cdiqpTSshvT5qy3mi2VlcQ",
-        "review_count": 48,
-        "categories": [
-          {
-            "alias": "vietnamese",
-            "title": "Vietnamese"
-          },
-          {
-            "alias": "cocktailbars",
-            "title": "Cocktail Bars"
-          },
-          {
-            "alias": "wine_bars",
-            "title": "Wine Bars"
-          }
-        ],
-        "rating": 4.3,
-        "coordinates": {
-          "latitude": 42.27982,
-          "longitude": -83.74951
-        },
-        "transactions": [],
-        "location": {
-          "address1": "118 W Liberty St",
-          "address2": "",
-          "address3": null,
-          "city": "Ann Arbor",
-          "zip_code": "48104",
-          "country": "US",
-          "state": "MI",
-          "display_address": [
-            "118 W Liberty St",
-            "Ann Arbor, MI 48104"
-          ]
-        },
-        "phone": "+17347733097",
-        "display_phone": "(734) 773-3097",
-        "distance": 1432.8391549187136,
-        "business_hours": [
-          {
-            "open": [
-              {
-                "is_overnight": false,
-                "start": "1700",
-                "end": "0000",
-                "day": 0
-              },
-              {
-                "is_overnight": false,
-                "start": "1700",
-                "end": "0000",
-                "day": 1
-              },
-              {
-                "is_overnight": false,
-                "start": "1700",
-                "end": "0000",
-                "day": 2
-              },
-              {
-                "is_overnight": false,
-                "start": "1700",
-                "end": "0000",
-                "day": 3
-              },
-              {
-                "is_overnight": true,
-                "start": "1700",
-                "end": "0100",
-                "day": 4
-              },
-              {
-                "is_overnight": true,
-                "start": "1700",
-                "end": "0100",
-                "day": 5
-              }
-            ],
-            "hours_type": "REGULAR",
-            "is_open_now": true
-          }
-        ],
-        "attributes": {
-          "business_temp_closed": null,
-          "menu_url": "https://www.peridota2.com/menus",
-          "open24_hours": null,
-          "waitlist_reservation": null
+      const emitRestaurantCards = async (requestObj) => {
+        try {
+            // Make the request to Yelp API
+            const yelpData = await make_request(requestObj);
+    
+            // Check if there was an error
+            if (yelpData.error) {
+                console.error('Error fetching Yelp data:', yelpData.error);
+                return;
+            }
+    
+            // Convert the Yelp data to the required format
+            const restaurantInfo = yelpData.businesses.map(business => convertToRestaurantInfo(business));
+    
+            // Emit the restaurant cards to the lobby
+            io.to(lobbyId).emit('restauraunt_cards', { restaurants: restaurantInfo });
+    
+        } catch (error) {
+            console.error('Unexpected error:', error);
         }
-      }
-      io.to(lobbyId).emit('restauraunt_cards',{restaurants: [convertToRestaurantInfo(testYelpData)]})
+    }
+
+    // {
+    //   longitude: -83.743,
+    //   latitude: 42.2808,
+    //   numRestaurants: 5,
+    //   radius: 5,
+    //   minRating: 3.5
+    // }
+    const settings = activeRooms[lobbyId].settings
+    emitRestaurantCards({ longitude: settings.longitude, latitude : settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: 5000 });
+      console.log(activeRooms[lobbyId].settings)
+      // io.to(lobbyId).emit('restauraunt_cards',{restaurants: [convertToRestaurantInfo(testYelpData)]})
     })
     
     //listening for submitVotes
@@ -196,6 +133,7 @@ app.prepare().then(() => {
   const PORT = process.env.PORT || 3000;
   server.listen(PORT, (err) => {
     if (err) throw err;
-    console.log(`> Ready on http://localhost:${PORT}`);
+    console.log(`> Ready on ${process.env.NEXT_PUBLIC_NEXT_DOMAIN}`);
   });
 });
+

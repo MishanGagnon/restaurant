@@ -52,7 +52,8 @@ const Lobby = () => {
   }
 
   const checkValidLobby = async () => {
-    const baseUrl = window.location.origin;
+    // const baseUrl = window.location.origin;
+    let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
     try {
       const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyId}`);
       if (response.ok) {
@@ -70,7 +71,6 @@ const Lobby = () => {
 
   useEffect(() => {
     const validateLobbyAndJoin = async () => {
-      console.log('re-render');
       const isValid = await checkValidLobby();
       if (!isValid) {
         router.push('/lobby');
@@ -81,12 +81,15 @@ const Lobby = () => {
 
     validateLobbyAndJoin();
     if (name) {
+      console.log(process.env.NEXT_PUBLIC_NEXT_DOMAIN)
       socket = io();
+      
+
 
       socket.on('connect', () => {
+        
         setSocketId(socket.id as string);
         if (lobbyId) {
-          console.log('joining as new player');
           socket.emit('joinLobby', { lobbyId, name });
         }
       });
@@ -97,10 +100,8 @@ const Lobby = () => {
         const hostPlayer = players.find((player) => player.host === true);
         setHostPlayer(hostPlayer);
         if (hostPlayer && hostPlayer.id === socket.id) {
-          console.log('am host');
           setIsHost(true);
         }
-        console.log('players updated');
       });
 
       socket.on('restauraunt_cards',(json : any)=>{
