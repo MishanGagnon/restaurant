@@ -113,18 +113,15 @@ app.prepare().then(() => {
 
       socket.emit('votesReceived', { status: 'success', message: 'Votes received and stored' });
 
-
       //if everyone has voted in the lobby
       if (checkAllVoted(lobbyId)) {
         //get the votes 
-        const lobbyVotes = getLobbyVotes[lobbyId]
-        console.log(`All players in the lobby ${lobbyId} have voted`, lobbyVotes)
-
+        const lobbyVotes = getLobbyVotes(lobbyId)
+        console.log(`All players in the lobby ${lobbyId} have voted. Here are the votes`, lobbyVotes)
         //redirect everyone in that have joined a specific room: io.join(lobbyId)
         //will emit a message for the client with the lobbyVotes for this lobby to them
-        io.to(lobbyId).emit('gotAllVotes', lobbyVotes)
+        io.to(lobbyId).emit('gotAllVotes', lobbyVotes) 
       }
-
     })
 
   });
