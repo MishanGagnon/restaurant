@@ -8,25 +8,25 @@ import { MapController } from './MapController';
 const Filters = () => {
     const router = useRouter();
     type LonLat = {
-        latitude: number | null; 
+        latitude: number | null;
         longitude: number | null;
     };
     type Errors = {
-        longitude : boolean,
-        latitude : boolean, 
-        numRestaurants : boolean
+        longitude: boolean,
+        latitude: boolean,
+        numRestaurants: boolean
     }
     const [errors, setErrors] = useState<Errors>({
         longitude: false,
         latitude: false,
         numRestaurants: false,
     });
-    const [lonLat, setLonLat] = useState<LonLat>({ longitude: -83.7430, latitude: 42.2808});
+    const [lonLat, setLonLat] = useState<LonLat>({ longitude: -83.7430, latitude: 42.2808 });
     const [numRestaurants, setNumRestaurants] = useState<number | null>(5);
     const [radiusValue, setRadiusValue] = useState<string>("5.0");
     const [ratingValue, setRatingValue] = useState<string>("3.5");
     const [loading, setLoading] = useState<boolean>(false);
-    const [createLobbyLoading,setCreateLobbyLoading] = useState(false);
+    const [createLobbyLoading, setCreateLobbyLoading] = useState(false);
     const [isMounted, setIsMounted] = useState<boolean>(false);
 
     const handleRadiusSlider = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -80,14 +80,14 @@ const Filters = () => {
     };
 
     const handleCreateLobby = () => {
-        if (!isMounted) return; 
+        if (!isMounted) return;
         // let baseUrl = 'localhost:3000'
         let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
         // if (typeof window !== 'undefined') {
         //     // Safe to use window here
         //     baseUrl = window.location.origin;
         // }
-        
+
         // const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyCode}`);
         if (validateInputs()) {
             setCreateLobbyLoading(true);
@@ -149,13 +149,13 @@ const Filters = () => {
                 <h1 className='text-black self-center font-bold text-xl flex flex-col text-center'>Session Settings</h1>
 
                 <div className="flex flex-col space-y-2 w-full">
-                <div className="flex flex-col">
+                    <div className="flex flex-col">
                         <label
                             htmlFor={id + "-latitude"}
                             className="font-bold mb-1 text-black text-sm">
                             Latitude
                         </label>
-                        <input  
+                        <input
                             type="number"
                             onChange={(e) => { setLonLat({ ...lonLat, latitude: e.target.value ? parseFloat(e.target.value) : null }) }}
                             name="latitude"
@@ -205,7 +205,7 @@ const Filters = () => {
                         </label>
                         <input
                             type="number"
-                            onChange={(e) => { 
+                            onChange={(e) => {
                                 const value = e.target.value;
                                 setNumRestaurants(value === '' ? null : parseInt(value));
                             }}
@@ -251,34 +251,34 @@ const Filters = () => {
                         />
                         <div className='text-black text-sm'>{ratingValue}</div>
                         <button
-                        type="button"
-                        onClick={handleCreateLobby}
-                        className="px-2 py-1 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700 flex justify-center items-center text-sm"
-                        disabled={loading}
-                    >
-                        {createLobbyLoading ? (
-                            <div className="loader mr-2"></div>
-                        ) : null}
-                        Create Lobby
-                    </button>
+                            type="button"
+                            onClick={handleCreateLobby}
+                            className="px-2 py-1 bg-blue-500 text-white font-bold rounded-md hover:bg-blue-700 flex justify-center items-center text-sm"
+                            disabled={loading}
+                        >
+                            {createLobbyLoading ? (
+                                <div className="loader mr-2"></div>
+                            ) : null}
+                            Create Lobby
+                        </button>
                     </div>
                 </div>
             </div>
             <div className='w-5/6 m-4 h-1/2 md:h-2/3'>
                 {(typeof window !== 'undefined') ?
-                <MapContainer className="py-2 mr-2 mb-2 flex flex-col" center={[lonLat.latitude || 0 , lonLat.longitude || 0]} zoom={10} style={{ height: '100%', width: '100%', borderRadius: "8px" }}>
-                    <TileLayer
-                        url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                        attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-                    />
-                    <MapController lonLat={lonLat} />
-                    <Circle center={[lonLat.latitude || 0, lonLat.longitude || 0]} radius={getMeters(radiusValue ? Number(radiusValue) : 0)} color="blue">
-                        <Popup>
-                            A circle of radius {getMeters(radiusValue ? Number(radiusValue) : 0)} meters.
-                        </Popup>
-                    </Circle>
-                </MapContainer>
-                : ''
+                    <MapContainer className="py-2 mr-2 mb-2 flex flex-col" center={[lonLat.latitude || 0, lonLat.longitude || 0]} zoom={10} style={{ height: '100%', width: '100%', borderRadius: "8px" }}>
+                        <TileLayer
+                            url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                            attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                        />
+                        <MapController lonLat={lonLat} />
+                        <Circle center={[lonLat.latitude || 0, lonLat.longitude || 0]} radius={getMeters(radiusValue ? Number(radiusValue) : 0)} color="blue">
+                            <Popup>
+                                A circle of radius {getMeters(radiusValue ? Number(radiusValue) : 0)} meters.
+                            </Popup>
+                        </Circle>
+                    </MapContainer>
+                    : ''
                 }
             </div>
             <style jsx>{`

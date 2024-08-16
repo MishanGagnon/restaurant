@@ -12,21 +12,7 @@ function RestaurantCard({ props }: CardProps) {
 
     const priceSigns = '$'.repeat(price)
     console.log(closing_times)
-    // const getClosing = () => {
-    //     const now = new Date;
-    //     const closingTime = closing_times[now.getDay()]
-    //     const ampm = parseInt(closingTime, 4) >= 1200 ? "PM" : "AM"
-    //     const hours = parseInt(closingTime.substring(0, 2));
-    //     const minutes = parseInt(closingTime.substring(2, 4));
 
-    //     return (
-    //         <h2 className="bg-red-100 text-red-700 px-2 py-1 rounded-lg text-xs"> Closes {hours}:{minutes}0 {ampm}</h2>
-    //     )
-
-    // }
-
-    
-    
 
     return (
         <div id="card-container" className='bg-white rounded-lg shadow-lg max-w-md w-96	h-[650px]'>
