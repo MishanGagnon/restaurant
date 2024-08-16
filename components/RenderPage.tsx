@@ -124,6 +124,9 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
         setPhrase(submitPhrases[randomIndex]);
     }
 
+
+    
+
     return (
         submitted ?
             (
