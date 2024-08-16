@@ -14,10 +14,11 @@ const {
   setPlayerVotes,
   getLobbyVotes,
   checkAllVoted,
-  convertToRestaurantInfo
+  convertToRestaurantInfo,
+  getLobby,
 } = require('./lib/rooms.js');
 // const { default: restaurants } = require('./components/restaurantTestData.jsx');
-const {make_request} = require('./lib/yelp_request.js')
+const { make_request } = require('./lib/yelp_request.js')
 
 
 
@@ -58,7 +59,7 @@ app.prepare().then(() => {
           io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
         }
       }
-      
+
     });
 
     //when the host clicks 'start game' on the lobby 
@@ -67,39 +68,39 @@ app.prepare().then(() => {
 
       const emitRestaurantCards = async (requestObj) => {
         try {
-            // Make the request to Yelp API
-            const yelpData = await make_request(requestObj);
-    
-            // Check if there was an error
-            if (yelpData.error) {
-                console.error('Error fetching Yelp data:', yelpData.error);
-                return;
-            }
-    
-            // Convert the Yelp data to the required format
-            const restaurantInfo = yelpData.businesses.map(business => convertToRestaurantInfo(business));
-    
-            // Emit the restaurant cards to the lobby
-            io.to(lobbyId).emit('restauraunt_cards', { restaurants: restaurantInfo });
-    
-        } catch (error) {
-            console.error('Unexpected error:', error);
-        }
-    }
+          // Make the request to Yelp API
+          const yelpData = await make_request(requestObj);
 
-    // {
-    //   longitude: -83.743,
-    //   latitude: 42.2808,
-    //   numRestaurants: 5,
-    //   radius: 5,
-    //   minRating: 3.5
-    // }
-    const settings = activeRooms[lobbyId].settings
-    emitRestaurantCards({ longitude: settings.longitude, latitude : settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: 5000 });
+          // Check if there was an error
+          if (yelpData.error) {
+            console.error('Error fetching Yelp data:', yelpData.error);
+            return;
+          }
+
+          // Convert the Yelp data to the required format
+          const restaurantInfo = yelpData.businesses.map(business => convertToRestaurantInfo(business));
+
+          // Emit the restaurant cards to the lobby
+          io.to(lobbyId).emit('restauraunt_cards', { restaurants: restaurantInfo });
+
+        } catch (error) {
+          console.error('Unexpected error:', error);
+        }
+      }
+
+      // {
+      //   longitude: -83.743,
+      //   latitude: 42.2808,
+      //   numRestaurants: 5,
+      //   radius: 5,
+      //   minRating: 3.5
+      // }
+      const settings = activeRooms[lobbyId].settings
+      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: 5000 });
       console.log(activeRooms[lobbyId].settings)
       // io.to(lobbyId).emit('restauraunt_cards',{restaurants: [convertToRestaurantInfo(testYelpData)]})
     })
-    
+
     //listening for submitVotes
     socket.on('submitVotes', ({ lobbyId, playerId, votes }) => {
       //if this socket catches something on submitVotes, we'll see which lobby it was for, and the player and the votes
@@ -111,7 +112,11 @@ app.prepare().then(() => {
       //with these things, in the votes object for the lobby, will make an entry for a player and their votes
       setPlayerVotes(lobbyId, playerId, votes)
 
-      socket.emit('votesReceived', { status: 'success', message: 'Votes received and stored' });
+      const lobby = getLobby(lobbyId);
+      console.log(`This is the lobby after clicking the submit button and voting`, lobby)
+      const num_players = lobby.players.length;
+      const num_voted = Object.keys(lobby.votes).length
+      io.to(lobbyId).emit('votesData', { success: true, num_voted, num_players });
 
       //if everyone has voted in the lobby
       if (checkAllVoted(lobbyId)) {
@@ -120,8 +125,9 @@ app.prepare().then(() => {
         console.log(`All players in the lobby ${lobbyId} have voted. Here are the votes`, lobbyVotes)
         //redirect everyone in that have joined a specific room: io.join(lobbyId)
         //will emit a message for the client with the lobbyVotes for this lobby to them
-        io.to(lobbyId).emit('gotAllVotes', lobbyVotes) 
+        io.to(lobbyId).emit('gotAllVotes', lobbyVotes)
       }
+
     })
 
   });
