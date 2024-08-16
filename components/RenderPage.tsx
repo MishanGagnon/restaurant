@@ -25,6 +25,7 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
     const [phrase, setPhrase] = useState<string>("")
     const [numVoted, setNumVoted] = useState<number>(0);
     const [numPlayers, setNumPlayers] = useState<number>(0);
+    const [imagesLoaded, setImagesLoaded] = useState(false);
 
 
     useEffect(() => {
@@ -107,7 +108,13 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
             return currentVotes;
         });
     };
+    const onImageLoad =(index : number) => { 
+        console.log("image loaded," + index)
+        
+        setImagesLoaded(true)
 
+    }
+    
     const submit = () => {
         console.log('submitted button');
         console.log(`These are the votes ${votes} for the player ${playerId}, in the lobby ${lobbyId}`);
@@ -123,34 +130,21 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
         const randomIndex = Math.floor(Math.random() * submitPhrases.length);
         setPhrase(submitPhrases[randomIndex]);
     }
+    const Spinner = () => (
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80">
+          <div className="loader animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+        </div>
+    );
+    if(!submitted){
 
-
-    
-
-    return (
-        submitted ?
-            (
-                <div className="flex justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
-                    <div className="flex justify-center items-center">
-                        <l-ripples
-                            size="80"
-                            speed="7"
-                            color="#38bdf8"
-                        ></l-ripples>
-                    </div>
-                    <div className="relative z-10 flex flex-col justify-center items-center">
-                        <p className="text-lg text-gray-800 mb-2">
-                            {numVoted} out of {numPlayers} have voted
-                        </p>
-                        <p className="text-gray-500 text-xl text-center">
-                            {phrase}
-                        </p>
-                    </div>
-                </div>
-            ) : (
-                <div className="flex flex-col justify-center items-center w-screen h-dvh bg-gray-100 p-4 relative overflow-hidden">
-                    <div className="w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none">
-                        {restaurants.map((restaurant, index) => (
+        return (
+            <div className="flex flex-col justify-center items-center w-screen h-dvh bg-gray-100 p-4 relative overflow-hidden">
+                 {!imagesLoaded && <Spinner />}
+                    <div className={`${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none`}>
+                        {
+                            
+                            
+                            restaurants.map((restaurant, index) => (
                             <TinderCard
                                 ref={childRefs[index]}
                                 className='swipe absolute'
@@ -158,7 +152,7 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
                                 onSwipe={(dir) => swiped(dir, restaurant.name, index)}
                                 onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
                             >
-                                <RestaurantCard props={restaurant} />
+                                <RestaurantCard restaurant={restaurant} onLoad = {onImageLoad} index = {index} />
                             </TinderCard>
                         ))}
                         {(Object.keys(votes).length === restaurants.length) && (
@@ -170,7 +164,7 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
                             </button>
                         )}
                     </div>
-                    <div className='flex gap-4 mb-4'>
+                    <div className={` ${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } flex gap-4 mb-4`}>
                         <button
                             className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
                             onClick={() => swipe('left')}
@@ -199,8 +193,31 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
                         </button>
                     </div>
                 </div>
-            )
-    );
+        )
+    }else{
+
+        return(
+            <div className="flex justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
+                <div className="flex justify-center items-center">
+                    <l-ripples
+                        size="80"
+                        speed="7"
+                        color="#38bdf8"
+                    ></l-ripples>
+                </div>
+                <div className="relative z-10 flex flex-col justify-center items-center">
+                    <p className="text-lg text-gray-800 mb-2">
+                        {numVoted} out of {numPlayers} have voted
+                    </p>
+                    <p className="text-gray-500 text-xl text-center">
+                        {phrase}
+                    </p>
+                </div>
+            </div>
+        )
+    }
+    
+
 
 }
 

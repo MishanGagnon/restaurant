@@ -4,14 +4,16 @@ import Image from 'next/image'
 
 
 interface CardProps {
-    props: RestaurantInfo
+    restaurant: RestaurantInfo
+    onLoad: (index: number) => void
+    index: number
 }
 
-function RestaurantCard({ props }: CardProps) {
-    const { name, address, reviewCount, image_url, rating, categories, price, distance, location, closing_times } = props;
+function RestaurantCard({ restaurant, onLoad, index }: CardProps) {
+    const { name, address, reviewCount, image_url, rating, categories, price, distance, location, closing_times } = restaurant;
 
     const priceSigns = '$'.repeat(price)
-    console.log(closing_times)
+    console.log("CARD RENDERS")
 
 
     return (
@@ -30,6 +32,7 @@ function RestaurantCard({ props }: CardProps) {
                         // maxHeight: '1000px', // Adjust as needed
                         aspectRatio: 3 / 4
                     }}
+                    onLoad={(e)=>{onLoad(index)}}
                     className="object-cover rounded-lg pointer-events-none"
                 />
             </div>
