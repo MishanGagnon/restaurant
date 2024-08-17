@@ -131,23 +131,23 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
         setPhrase(submitPhrases[randomIndex]);
     }
     const Spinner = () => (
-        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80">
+        <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 h-full w-full">
           <div className="loader animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
         </div>
     );
     if(!submitted){
 
         return (
-            <div className="flex flex-col justify-center items-center w-screen h-dvh bg-gray-100 p-4 relative overflow-hidden">
+            <div className="flex flex-col justify-center items-center w-screen h-svh bg-gray-100 relative overflow-hidden">
                  {!imagesLoaded && <Spinner />}
-                    <div className={`${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } w-96 h-full flex justify-center items-center overflow-hidden text-sm mb-8 select-none`}>
+                    <div className={`${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } w-screen h-4/6 flex justify-center items-center overflow-hidden text-sm select-none`}>
                         {
                             
                             
                             restaurants.map((restaurant, index) => (
                             <TinderCard
                                 ref={childRefs[index]}
-                                className='swipe absolute'
+                                className='swipe absolute flex justify-center items-center'
                                 key={restaurant.restaurant_id}
                                 onSwipe={(dir) => swiped(dir, restaurant.name, index)}
                                 onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
@@ -164,7 +164,7 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
                             </button>
                         )}
                     </div>
-                    <div className={` ${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } flex gap-4 mb-4`}>
+                    <div className={` ${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } flex gap-4`}>
                         <button
                             className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
                             onClick={() => swipe('left')}
