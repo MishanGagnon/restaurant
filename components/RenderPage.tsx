@@ -109,9 +109,9 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
         });
     };
     const onImageLoad =(index : number) => { 
-        console.log("image loaded," + index)
-        
-        setImagesLoaded(true)
+        if(index == 0){
+            setImagesLoaded(true)
+        }
 
     }
     
