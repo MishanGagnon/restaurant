@@ -5,6 +5,9 @@ import { useRouter } from 'next/navigation'
 import logo from './selectaraunt.png'
 import Image from 'next/image'
 
+
+
+
 const Page = () => {
 
   const router = useRouter();
@@ -16,7 +19,6 @@ const Page = () => {
   const goHost = () => {
     router.push('/host')
   }
-
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="mb-8">
