@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
+import logo from './selectaraunt.png'
+import Image from 'next/image'
 
 const Page = () => {
 
@@ -17,6 +19,10 @@ const Page = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+      <div className="mb-8">
+        <Image src={logo} alt="Selectaraunt Logo" width={128} height={128} className="object-contain rounded-lg " />
+      </div>
+
       <div id="page-title" className="text-4xl text-black md:text-5xl font-bold mb-8 tracking-tight">
         Selectaraunt
       </div>
