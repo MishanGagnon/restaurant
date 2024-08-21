@@ -7,7 +7,7 @@ import io, { Socket } from 'socket.io-client';
 import submitPhrases from '../utils/submitPhrases'
 import { ripples } from 'ldrs'
 
-ripples.register()
+
 
 interface PageProps {
     socket: Socket;
@@ -31,6 +31,12 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
     useEffect(() => {
         console.log('Votes have been updated', votes);
     }, [votes]);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            ripples.register(); // Ensure this runs only on the client side
+        }
+    }, []);
 
     useEffect(() => {
         //data about whole lobby's votes

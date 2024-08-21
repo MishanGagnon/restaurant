@@ -1,7 +1,7 @@
 
 import { RestaurantInfo } from './RestaurantInfo';
 
-const restaurants: RestaurantInfo[] = [
+export const restaurants: RestaurantInfo[] = [
     {
         "restaurant_id": "qh8SGt-7jd-JTXCxe7Amlg",
         "name": "Peridot",
