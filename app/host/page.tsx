@@ -113,7 +113,7 @@ const Filters = () => {
 
     return (
         <div className="bg-gray-100 h-svh flex items-center justify-center flex-col md:flex-row items-center p-5">
-            <Card className='w-full md:w-1/2 flex flex-col justify-center items-center space-y-4 h-1/2 md:h-2/3'>
+            <Card className='w-full md:w-1/2 flex flex-col justify-center items-center space-y-1 h-1/2 md:h-fit'>
                 <CardHeader className='w-full  text-center'>
                     <CardTitle>Lobby Settings</CardTitle>
                     {/* <CardDescription>Card Description</CardDescription> */}
