@@ -13,6 +13,11 @@
     "@fortawesome/free-solid-svg-icons": "^6.6.0",
     "@fortawesome/react-fontawesome": "^0.2.2",
     "@heroicons/react": "^2.1.5",
+    "@hookform/resolvers": "^3.9.0",
+    "@radix-ui/react-label": "^2.1.0",
+    "@radix-ui/react-select": "^2.1.1",
+    "@radix-ui/react-slider": "^1.2.0",
+    "@radix-ui/react-slot": "^1.1.0",
     "@react-spring/web": "^9.7.4",
     "@supabase/realtime-js": "^2.10.4",
     "@supabase/ssr": "^0.4.0",
@@ -31,6 +36,7 @@
     "postcss": "8.4.33",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-hook-form": "^7.52.2",
     "react-leaflet": "^4.2.1",
     "react-nice-avatar": "^1.5.0",
     "react-numeric-input": "^2.2.3",
@@ -42,7 +48,8 @@
     "tailwind-merge": "^2.5.2",
     "tailwindcss": "3.4.1",
     "tailwindcss-animate": "^1.0.7",
-    "yelp-fusion": "^3.0.0"
+    "yelp-fusion": "^3.0.0",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
     "@types/cookie": "^0.6.0",

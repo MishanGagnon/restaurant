@@ -93,10 +93,16 @@ app.prepare().then(() => {
       //   latitude: 42.2808,
       //   numRestaurants: 5,
       //   radius: 5,
-      //   minRating: 3.5
+      //   price: 3.5
       // }
       const settings = activeRooms[lobbyId].settings
-      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: 5000 });
+      const metersFromMiles = Math.round(settings.radius * 1609.344)
+      let priceArr = []
+      for(let i = 1; i <= settings.price; i++){
+          priceArr.push(i)
+      }
+      const prices = priceArr.join(',')
+      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: metersFromMiles, price : prices });
       console.log(activeRooms[lobbyId].settings)
       // io.to(lobbyId).emit('restauraunt_cards',{restaurants: [convertToRestaurantInfo(testYelpData)]})
     })
