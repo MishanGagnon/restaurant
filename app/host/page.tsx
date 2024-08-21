@@ -184,7 +184,7 @@ const Filters = () => {
                         <Circle
                         center={[lonLat.latitude || 0, lonLat.longitude || 0]}
                         radius={getMeters(radiusValue ? Number(radiusValue) : 0)}
-                        color="mediumblue"
+                        color="hsl(197, 89%, 48%)"
                         interactive={false} // Make the circle non-interactive
                     >
                         </Circle>
