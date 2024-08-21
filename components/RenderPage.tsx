@@ -198,23 +198,21 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
     }else{
 
         return(
-            <div className="flex justify-center items-center w-screen h-screen bg-gray-100 p-4 relative overflow-hidden">
-                <div className="flex justify-center items-center">
-                    <l-ripples
-                        size="80"
-                        speed="7"
-                        color="#38bdf8"
-                    ></l-ripples>
-                </div>
-                <div className="relative z-10 flex flex-col justify-center items-center">
-                    <p className="text-lg text-gray-800 mb-2">
-                        {numVoted} out of {numPlayers} have voted
-                    </p>
-                    <p className="text-gray-500 text-xl text-center">
-                        {phrase}
-                    </p>
-                </div>
+            <div className="flex flex-col justify-center items-center w-screen h-screen bg-gray-100 p-4">
+            <div className="mb-8">
+                <l-ripples
+                    size="110"
+                    speed="7"
+                    color="#38bdf8"
+                ></l-ripples>
             </div>
+            <p className="text-lg text-gray-800 mb-4">
+                {numVoted} out of {numPlayers} have voted
+            </p>
+            <p className="text-gray-500 text-xl text-center">
+                {phrase}
+            </p>
+        </div>
         )
     }
     
