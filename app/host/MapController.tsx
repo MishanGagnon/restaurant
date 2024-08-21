@@ -1,19 +1,24 @@
 import React, { FC, useEffect } from "react";
-import { useMap } from "react-leaflet";
+import { useMap,useMapEvents } from "react-leaflet";
+import { setFlagsFromString } from "v8";
 
-const MapController: FC<any> = ({lonLat}) => {
+const MapController: FC<any> = ({lonLat, setLonLat,mapCenter}) => {
     const map: any = useMap();
     const flyToDuration: any = 1.5;
-
-    const flyTo = (location: any) => {
-        map.flyTo(location, 15, {
-            animate: true,
-            duration: flyToDuration,
-        });
-    };
+    useMapEvents({
+        click(e) {
+          setLonLat({latitude: e.latlng.lat, longitude : e.latlng.lng})
+        },
+      });
+    // const flyTo = (location: any) => {
+    //     map.flyTo(location, 15, {
+    //         animate: true,
+    //         duration: flyToDuration,
+    //     });
+    // };
 
     const flyToCenter = () => {
-        map.flyTo([lonLat.latitude || 0, lonLat.longitude || 0], 13, {
+        map.flyTo([mapCenter.latitude || 0, mapCenter.longitude || 0], 13, {
             animate: true,
             duration: flyToDuration,
         });
@@ -22,7 +27,7 @@ const MapController: FC<any> = ({lonLat}) => {
     useEffect(()=>{
         // some code that runs when component mounts / state changes
         flyToCenter()
-    }, [lonLat]);
+    }, [mapCenter]);
 
     return null;
 };

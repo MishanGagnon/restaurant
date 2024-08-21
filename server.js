@@ -17,7 +17,6 @@ const {
   convertToRestaurantInfo,
   getLobby,
 } = require('./lib/rooms.js');
-// const { default: restaurants } = require('./components/restaurantTestData.jsx');
 const { make_request } = require('./lib/yelp_request.js')
 
 
@@ -45,6 +44,16 @@ app.prepare().then(() => {
       console.log('stopped')
       io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
       console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
+      const lobby = activeRooms[lobbyId]
+
+
+      //this works but there are unintended bugs if a user votes then reloads, we should likely use localStorage
+      //as a quick way to figure out if a user is the same one who just left
+
+      
+      // if (lobby.gameState === 'voting')
+      //    { io.to(socket.id).emit('restauraunt_cards', { restaurants: lobby.restaurantInfo }); }
+
     });
 
     socket.on('disconnect', () => {
@@ -79,8 +88,11 @@ app.prepare().then(() => {
 
           // Convert the Yelp data to the required format
           const restaurantInfo = yelpData.businesses.map(business => convertToRestaurantInfo(business));
-
+          
           // Emit the restaurant cards to the lobby
+          const lobby = activeRooms[lobbyId]
+          lobby.restaurantInfo = restaurantInfo
+          lobby.gameState = 'voting'
           io.to(lobbyId).emit('restauraunt_cards', { restaurants: restaurantInfo });
 
         } catch (error) {
@@ -93,10 +105,16 @@ app.prepare().then(() => {
       //   latitude: 42.2808,
       //   numRestaurants: 5,
       //   radius: 5,
-      //   minRating: 3.5
+      //   price: 3.5
       // }
       const settings = activeRooms[lobbyId].settings
-      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: 5000 });
+      const metersFromMiles = Math.round(settings.radius * 1609.344)
+      let priceArr = []
+      for(let i = 1; i <= settings.price; i++){
+          priceArr.push(i)
+      }
+      const prices = priceArr.join(',')
+      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: metersFromMiles, price : prices, categories: 'restaurants' });
       console.log(activeRooms[lobbyId].settings)
       // io.to(lobbyId).emit('restauraunt_cards',{restaurants: [convertToRestaurantInfo(testYelpData)]})
     })
