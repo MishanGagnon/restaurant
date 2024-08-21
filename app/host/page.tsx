@@ -1,9 +1,10 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import { MapContainer, TileLayer, Circle, Popup } from 'react-leaflet';
+import { MapContainer, TileLayer, Circle, Popup, useMapEvents } from 'react-leaflet';
 import { useRouter } from 'next/navigation';
 import 'leaflet/dist/leaflet.css';
 import { MapController } from './MapController';
+
 
 const Filters = () => {
     const router = useRouter();
@@ -142,7 +143,7 @@ const Filters = () => {
     }, []);
 
     if (!isMounted) return null; // Prevent rendering on the server
-
+    
     return (
         <div className="bg-gray-100 h-screen flex items-center justify-center flex-col md:flex-row items-center">
             <div className="h-1/2 md:h-2/3 w-5/6 md:w-1/2 max-w-md space-y-2 p-2 bg-white rounded-md shadow-md m-4 flex items-center justify-center flex-col">
@@ -272,10 +273,12 @@ const Filters = () => {
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
                         <MapController lonLat={lonLat} />
-                        <Circle center={[lonLat.latitude || 0, lonLat.longitude || 0]} radius={getMeters(radiusValue ? Number(radiusValue) : 0)} color="blue">
-                            <Popup>
-                                A circle of radius {getMeters(radiusValue ? Number(radiusValue) : 0)} meters.
-                            </Popup>
+                        <Circle
+                            center={[lonLat.latitude || 0, lonLat.longitude || 0]}
+                            radius={getMeters(radiusValue ? Number(radiusValue) : 0)}
+                            color="blue"
+                            interactive={false} // Make the circle non-interactive
+                        >
                         </Circle>
                     </MapContainer>
                     : ''

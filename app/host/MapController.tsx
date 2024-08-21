@@ -1,10 +1,14 @@
 import React, { FC, useEffect } from "react";
-import { useMap } from "react-leaflet";
+import { useMap,useMapEvents } from "react-leaflet";
 
 const MapController: FC<any> = ({lonLat}) => {
     const map: any = useMap();
     const flyToDuration: any = 1.5;
-
+    useMapEvents({
+        click(e) {
+          console.log(e.latlng)
+        },
+      });
     const flyTo = (location: any) => {
         map.flyTo(location, 15, {
             animate: true,
