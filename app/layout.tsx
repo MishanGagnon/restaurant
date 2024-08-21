@@ -1,5 +1,6 @@
 import { GeistSans } from "geist/font/sans";
 import "./globals.css";
+import { Inter as FontSans } from "next/font/google"
 
 const defaultUrl = process.env.VERCEL_URL
   ? `https://${process.env.VERCEL_URL}`
@@ -7,9 +8,19 @@ const defaultUrl = process.env.VERCEL_URL
 
 export const metadata = {
   metadataBase: new URL(defaultUrl),
-  title: "Next.js and Supabase Starter Kit",
+  title: "selectaraunt",
   description: "The fastest way to build apps with Next.js and Supabase",
+  icons: {
+    icon: '/favicon.ico'
+  }
 };
+
+import { cn } from "@/lib/utils"
+ 
+const fontSans = FontSans({
+  subsets: ["latin"],
+  variable: "--font-sans",
+})
 
 export default function RootLayout({
   children,
@@ -18,9 +29,18 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" className='h-full w-full' >
-      <body className="w-full h-full bg-background text-foreground">
-          {children}
-      </body>
+      <head>
+        <link rel="icon" href="/favicon.ico" sizes="any" />
+      </head>
+      <body
+        className={cn(
+          "min-h-screen bg-background font-sans antialiased",
+          fontSans.variable
+        )}
+
+      >{children}</body>
+      {/* <body className="w-full h-full bg-background text-foreground"> */}
+      {/* </body> */}
     </html>
   );
 }

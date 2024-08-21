@@ -12,9 +12,10 @@ const Home = () => {
   const enterLobby = async () => {
     if (lobbyCode && name) {
       try {
+        const lobbyCodeUpper = lobbyCode.toUpperCase()
         let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
         // const baseUrl = window.location.origin;
-        const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyCode}`);
+        const response = await fetch(`${baseUrl}/api/lobbyCheck/${lobbyCodeUpper}`);
         
         // Check if the response is ok (status in the range 200-299)
         if (response.ok) {
@@ -22,7 +23,7 @@ const Home = () => {
           
           // Assuming the response contains a field `isValid`
           if (data.isActiveLobby) {
-            router.push(`/lobby/${lobbyCode}?name=${encodeURIComponent(name)}`);
+            router.push(`/lobby/${lobbyCodeUpper}?name=${encodeURIComponent(name)}`);
           } else {
             alert('Lobby code invalid');
           }
