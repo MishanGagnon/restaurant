@@ -114,11 +114,11 @@ const Filters = () => {
     return (
         <div className="bg-gray-100 h-svh flex items-center justify-center flex-col md:flex-row items-center p-5">
             <Card className='w-full md:w-1/2 flex flex-col justify-center items-center space-y-4 h-1/2 md:h-2/3'>
-                <CardHeader className='w-full'>
+                <CardHeader className='w-full  text-center'>
                     <CardTitle>Lobby Settings</CardTitle>
                     {/* <CardDescription>Card Description</CardDescription> */}
                 </CardHeader>
-                <div className='p-3 w-full'>
+                <div className='pl-3 pr-3 w-full'>
                     <Button disabled={loading} variant={"default"}  onClick={handleLocationClick} className = ' w-full'>
                         Get Current Location
                         {loading && <Loader2  className="mr-2 h-4 w-4 animate-spin" />}
@@ -184,7 +184,7 @@ const Filters = () => {
                         <Circle
                         center={[lonLat.latitude || 0, lonLat.longitude || 0]}
                         radius={getMeters(radiusValue ? Number(radiusValue) : 0)}
-                        color="hsl(197, 89%, 48%)"
+                        color="hsl(197 89.2% 48%)"
                         interactive={false} // Make the circle non-interactive
                     >
                         </Circle>
