@@ -29,6 +29,7 @@ const Filters = () => {
     const [loading, setLoading] = useState<boolean>(false);
     const [createLobbyLoading, setCreateLobbyLoading] = useState(false);
     const [isMounted, setIsMounted] = useState<boolean>(false);
+    const [mapCenter, setMapCenter] = useState<LonLat>(lonLat)
 
     const handleRadiusSlider = (event: React.ChangeEvent<HTMLInputElement>) => {
         setRadiusValue((event.target.value));
@@ -118,11 +119,17 @@ const Filters = () => {
         setLoading(true);
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
-                console.log(position.coords.latitude, position.coords.longitude);
-                setLonLat({
+                console.log(position.coords.latitude, position.coords.longitude, );
+                setMapCenter(prev => ({
+                    ...prev,
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
-                });
+                }));
+                setLonLat(prev => ({
+                    ...prev,
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                }));
                 setLoading(false);
             }, () => {
                 console.log("Error getting location");
@@ -267,18 +274,18 @@ const Filters = () => {
             </div>
             <div className='w-5/6 m-4 h-1/2 md:h-2/3'>
                 {(typeof window !== 'undefined') ?
-                    <MapContainer className="py-2 mr-2 mb-2 flex flex-col" center={[lonLat.latitude || 0, lonLat.longitude || 0]} zoom={10} style={{ height: '100%', width: '100%', borderRadius: "8px" }}>
+                    <MapContainer className="py-2 mr-2 mb-2 flex flex-col" center={[mapCenter.latitude || 0, mapCenter.longitude || 0]} zoom={10} style={{ height: '100%', width: '100%', borderRadius: "8px" }}>
                         <TileLayer
                             url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                         />
-                        <MapController lonLat={lonLat} />
+                        <MapController lonLat={lonLat} setLonLat={setLonLat} mapCenter = {mapCenter}/>
                         <Circle
-                            center={[lonLat.latitude || 0, lonLat.longitude || 0]}
-                            radius={getMeters(radiusValue ? Number(radiusValue) : 0)}
-                            color="blue"
-                            interactive={false} // Make the circle non-interactive
-                        >
+                        center={[lonLat.latitude || 0, lonLat.longitude || 0]}
+                        radius={getMeters(radiusValue ? Number(radiusValue) : 0)}
+                        color="blue"
+                        interactive={false} // Make the circle non-interactive
+                    >
                         </Circle>
                     </MapContainer>
                     : ''
