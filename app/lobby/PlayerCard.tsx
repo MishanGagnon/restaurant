@@ -8,10 +8,15 @@ export interface PlayerCardProps {
 
 export default function PlayerCard({ name, isHost }: PlayerCardProps) {
     const config = genConfig(name);
+    let avatarWidth = 28
+    let translateLeft = 4
+    let md = avatarWidth + 2320
+    let spacer = avatarWidth - translateLeft
     return (
-        <div className={`m-1 flex flex-row bg-gray-200 p-3 rounded-lg items-center ${isHost ? 'border-4 border-indigo-500' : ''}`}>
-            <Avatar style={{ width: '8rem', height: '8rem' }} {...config} />
-            <h1 className="text-center flex-1 m-2 font-bold text-lg">{name}</h1>
+        <div className={`relative flex flex-row overflow-hidden items-center bg-gray-200 h-[15svh] rounded-lg ${isHost ? 'border-4 border-indigo-500' : ''}`}>
+            <Avatar className={`w-20 h-20 md:w-40 md:h-40 absolute -translate-x-${translateLeft} md:-translate-x-8 rounded-full`} {...config} />
+            <div className={`w-16 md:w-32`}></div>
+            <h2 className="text-center flex-1 m-2 font-bold text-lg truncate">{name}</h2>
         </div>
     );
 }
