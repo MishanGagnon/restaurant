@@ -6,6 +6,7 @@ import io, { Socket } from 'socket.io-client';
 import PlayerCard from '../PlayerCard';
 import TestPage from '../../../components/RenderPage'
 import data from '../../../components/restaurantTestData'
+import { Loader2, Palette } from 'lucide-react';
 
 // types.ts
 export interface Player {
@@ -116,28 +117,6 @@ const Lobby = () => {
     }
   }, [lobbyId, name]);
 
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <style jsx>{`
-          .loader {
-            border: 16px solid #f3f3f3;
-            border-top: 16px solid #3498db;
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            animation: spin 2s linear infinite;
-          }
-
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
-      </div>
-    );
-  }
-
   if (!name) {
     return (
       <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
@@ -160,6 +139,14 @@ const Lobby = () => {
       </div>
     );
   }
+  if (loading || players.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <Loader2 className='w-20 h-20 animate-spin'></Loader2>
+      </div>
+    );
+  }
+
   {switch (gameState) {
     case 'lobby':
       return (
