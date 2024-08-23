@@ -2,7 +2,7 @@
 
 import React from 'react'
 import { useRouter } from 'next/navigation'
-import logo from './selectaraunt.png'
+import logo from './selectarant-transparent.png'
 import Image from 'next/image'
 
 
@@ -22,7 +22,7 @@ const Page = () => {
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
       <div className="mb-8">
-        <Image src={logo} alt="Selectaraunt Logo" width={128} height={128} className="object-contain rounded-lg " />
+        <Image src={logo} alt="Selectaraunt Logo" width={128} height={128} className="object-contain rounded-lg animate-rotate-left-right	" />
       </div>
 
       <div id="page-title" className="text-4xl text-black md:text-5xl font-bold mb-8 tracking-tight">

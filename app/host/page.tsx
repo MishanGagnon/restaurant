@@ -44,6 +44,7 @@ const Filters = () => {
     };
 
     const handleCreateLobby = () => {
+        setCreateLobbyLoading((prev) => true);
         if (!isMounted) return;
         // let baseUrl = 'localhost:3000'
         let baseUrl = process.env.NEXT_PUBLIC_NEXT_DOMAIN
@@ -113,7 +114,7 @@ const Filters = () => {
 
     return (
         <div className="bg-gray-100 h-svh flex items-center justify-center flex-col md:flex-row items-center p-5">
-            <Card className='w-full md:w-1/2 flex flex-col justify-center items-center space-y-4 h-1/2 md:h-2/3'>
+            <Card className='w-full md:w-1/2 flex flex-col justify-center items-center space-y-1 h-fit md:h-fit'>
                 <CardHeader className='w-full  text-center'>
                     <CardTitle>Lobby Settings</CardTitle>
                     {/* <CardDescription>Card Description</CardDescription> */}
@@ -173,7 +174,7 @@ const Filters = () => {
 
 
 
-            <div className='w-full m-4 h-1/2 md:h-2/3'>
+            <div className='w-full m-4 h-full md:h-2/3'>
                 {(typeof window !== 'undefined') ?
                     <MapContainer className="py-2 mr-2 mb-2 flex flex-col" center={[mapCenter.latitude || 0, mapCenter.longitude || 0]} zoom={10} style={{ height: '100%', width: '100%', borderRadius: "8px" }}>
                         <TileLayer
