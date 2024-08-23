@@ -181,6 +181,8 @@ const Lobby = () => {
 
             </div>
 
+
+
             <div className="grid grid-cols-2 md:w-4/6 sm:grid-cols-3 md:grid-cols-2 gap-2 w-5/6">
               {players.map(player => (
                 <PlayerCard
