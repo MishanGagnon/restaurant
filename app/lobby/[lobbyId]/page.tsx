@@ -7,6 +7,7 @@ import PlayerCard from '../PlayerCard';
 import RestaurantPage from '../../../components/RenderPage'
 import data from '../../../components/restaurantTestData'
 import { Loader2, Palette } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // types.ts
 export interface Player {
@@ -151,30 +152,31 @@ const Lobby = () => {
     switch (gameState) {
       case 'lobby':
         return (
-          <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-black">
-            <div id="lobby-info" className=" w-5/6 md:w-5/6 max-w-4xl flex items-center justify-between min-h-40 px-4">
-              <div>
+          <div className="flex flex-col w-screen items-center min-h-screen bg-gray-100 text-black p-6 lg:px-96 md:46">
+            <div id="lobby-info" className="w-full flex items-center justify-between min-h-40">
+              <div className ='w-1/2'>
                 <h1 className="text-2xl font-bold mb-4 text-black md:text-xl">Lobby: {lobbyId}</h1>
                 <h2 className="text-xl mb-4 text-black md:text-xl">Name: {name}</h2>
               </div>
+              <div className='w-1/2 flex justify-center items-center'>
+
               {isHost && (
-                <button
-                  onClick={startGame}
-                  className="px-4 py-2 bg-blue-500 md:text-lg text-white rounded hover:bg-blue-600"
-                >
-                  Start Game
-                </button>
+                <Button onClick={startGame}>
+                  Start Lobby
+                </Button>
               )}
+              </div>
 
             </div>
 
 
 
-            <div className="grid grid-cols-2 md:w-4/6 sm:grid-cols-3 md:grid-cols-2 gap-2 w-5/6">
+            <div className="grid grid-cols-2  sm:grid-cols-3 md:grid-cols-2 gap-2 w-full">
               {players.map(player => (
                 <PlayerCard
                   key={player.id}
                   isHost={player.id === hostPlayer?.id}
+                  isPlayer={player.id === socket?.id}
                   name={player.name ?? 'nameError'}
                 />
               ))}
