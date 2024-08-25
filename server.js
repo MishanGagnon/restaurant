@@ -16,6 +16,7 @@ const {
   checkAllVoted,
   convertToRestaurantInfo,
   getLobby,
+  getTotalVotes,
 } = require('./lib/rooms.js');
 const { make_request } = require('./lib/yelp_request.js')
 
@@ -107,6 +108,7 @@ app.prepare().then(() => {
       //   radius: 5,
       //   price: 3.5
       // }
+
       const settings = activeRooms[lobbyId].settings
       const metersFromMiles = Math.round(settings.radius * 1609.344)
       let priceArr = []
@@ -139,11 +141,16 @@ app.prepare().then(() => {
       //if everyone has voted in the lobby
       if (checkAllVoted(lobbyId)) {
         //get the votes 
+        //Votes object: Array of player ids: { map of restaurant id: 0 || 1}
         const lobbyVotes = getLobbyVotes(lobbyId)
         console.log(`All players in the lobby ${lobbyId} have voted. Here are the votes`, lobbyVotes)
+        
+        const {sortedVotes, topthree } = getTotalVotes(lobbyVotes)
+        console.log(`sortedVotes:`,sortedVotes)
+        console.log(`top 3 Votes:`,topthree)
         //redirect everyone in that have joined a specific room: io.join(lobbyId)
         //will emit a message for the client with the lobbyVotes for this lobby to them
-        io.to(lobbyId).emit('gotAllVotes', lobbyVotes)
+        io.to(lobbyId).emit('gotAllVotes', sortedVotes, topthree)
       }
 
     })

@@ -6,6 +6,7 @@ import io, { Socket } from 'socket.io-client';
 import PlayerCard from '../PlayerCard';
 import TestPage from '../../../components/RenderPage'
 import data from '../../../components/restaurantTestData'
+import Results from '../../results/page'
 
 // types.ts
 export interface Player {
@@ -110,6 +111,10 @@ const Lobby = () => {
         setGameState('voting')
       })
 
+      socket.on('gotAllVotes', () => {
+        setGameState('endscreen')
+      })
+
       return () => {
         socket.disconnect();
       };
@@ -181,7 +186,9 @@ const Lobby = () => {
         </div>
       );
      case 'voting':
-      return (<TestPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>)
+      return (<TestPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>);
+    case 'endscreen': 
+      return (<Results socket={socket} restaurantData={restaurantData} />)
   }}
 };
 
