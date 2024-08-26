@@ -4,9 +4,10 @@ import { useRouter, useParams, useSearchParams } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import io, { Socket } from 'socket.io-client';
 import PlayerCard from '../PlayerCard';
-import TestPage from '../../../components/RenderPage'
+import RestaurantPage from '../../../components/RenderPage'
 import data from '../../../components/restaurantTestData'
-import Results from '../../results/page'
+import { Loader2, Palette } from 'lucide-react';
+import { Button } from '@/components/ui/button';
 
 // types.ts
 export interface Player {
@@ -21,7 +22,7 @@ export type GameState = 'lobby' | 'voting' | 'endscreen'
 let socket: Socket;
 
 const Lobby = () => {
-  
+
   const router = useRouter();
   const { lobbyId } = useParams();
   const searchParams = useSearchParams();
@@ -45,9 +46,9 @@ const Lobby = () => {
 
   const startGame = () => {
     console.log('started game')
-    if(players.length > 1){
+    if (players.length > 1) {
       socket.emit('startGame', lobbyId);
-    }else{
+    } else {
       alert('Only one player in lobby')
     }
   }
@@ -84,10 +85,11 @@ const Lobby = () => {
     if (name) {
       console.log(process.env.NEXT_PUBLIC_NEXT_DOMAIN)
       socket = io();
-    
+
+
 
       socket.on('connect', () => {
-        
+
         setSocketId(socket.id as string);
         if (lobbyId) {
           socket.emit('joinLobby', { lobbyId, name });
@@ -104,8 +106,8 @@ const Lobby = () => {
         }
       });
 
-      socket.on('restauraunt_cards',(json : any)=>{
-        console.log('received cards json',json)
+      socket.on('restauraunt_cards', (json: any) => {
+        console.log('received cards json', json)
         setRestaurantData(json.restaurants)
         setGameState('voting')
       })
@@ -119,28 +121,6 @@ const Lobby = () => {
       };
     }
   }, [lobbyId, name]);
-
-  if (loading) {
-    return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-        <style jsx>{`
-          .loader {
-            border: 16px solid #f3f3f3;
-            border-top: 16px solid #3498db;
-            border-radius: 50%;
-            width: 120px;
-            height: 120px;
-            animation: spin 2s linear infinite;
-          }
-
-          @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
-          }
-        `}</style>
-      </div>
-    );
-  }
 
   if (!name) {
     return (
@@ -164,31 +144,54 @@ const Lobby = () => {
       </div>
     );
   }
-  {switch (gameState) {
-    case 'lobby':
-      return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 text-black">
-          <h1 className="text-2xl font-bold mb-4 text-black">Lobby: {lobbyId}</h1>
-          <h2 className="text-xl mb-4 text-black">Name: {name}</h2>
-          <h3 className="text-lg font-semibold mb-2 text-black">Active Players:</h3>
-          {isHost && <button
-            onClick={startGame}
-            className="m-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Start Game
-          </button>}
-          <div className="flex flex-col">
-            {players.map(player => (
-              <PlayerCard key={player.id} isHost={player.id === hostPlayer?.id} name={player.name ?? 'nameError'} />
-            ))}
+  if (loading || players.length === 0) {
+    return (
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+        <Loader2 className='w-20 h-20 animate-spin'></Loader2>
+      </div>
+    );
+  }
+
+  {
+    switch (gameState) {
+      case 'lobby':
+        return (
+          <div className="flex flex-col w-screen items-center min-h-screen bg-gray-100 text-black p-6 lg:px-96 md:46">
+            <div id="lobby-info" className="w-full flex items-center justify-between min-h-40">
+              <div className ='w-1/2'>
+                <h1 className="text-2xl font-bold mb-4 text-black md:text-xl">Lobby: {lobbyId}</h1>
+                <h2 className="text-xl mb-4 text-black md:text-xl">Name: {name}</h2>
+              </div>
+              <div className='w-1/2 flex justify-center items-center'>
+
+              {isHost && (
+                <Button onClick={startGame}>
+                  Start Lobby
+                </Button>
+              )}
+              </div>
+
+            </div>
+
+
+
+            <div className="grid grid-cols-2  sm:grid-cols-3 md:grid-cols-2 gap-2 w-full">
+              {players.map(player => (
+                <PlayerCard
+                  key={player.id}
+                  isHost={player.id === hostPlayer?.id}
+                  isPlayer={player.id === socket?.id}
+                  name={player.name ?? 'nameError'}
+                />
+              ))}
+            </div>
           </div>
-        </div>
-      );
-     case 'voting':
-      return (<TestPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'}/>);
-    case 'endscreen': 
-      return (<Results socket={socket} restaurantData={restaurantData} />)
-  }}
+        );
+
+      case 'voting':
+        return (<RestaurantPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'} />)
+    }
+  }
 };
 
 export default Lobby;

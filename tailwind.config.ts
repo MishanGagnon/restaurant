@@ -1,4 +1,4 @@
-const { fontFamily } = require("tailwindcss/defaultTheme")
+// const { fontFamily } = require("tailwindcss/defaultTheme")
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -53,9 +53,6 @@ module.exports = {
         md: `calc(var(--radius) - 2px)`,
         sm: "calc(var(--radius) - 4px)",
       },
-      fontFamily: {
-        sans: ["var(--font-sans)", ...fontFamily.sans],
-      },
       keyframes: {
         "accordion-down": {
           from: { height: "0" },
@@ -65,10 +62,15 @@ module.exports = {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
         },
+        rotate: {
+          '0%, 100%': { transform: 'rotate(0deg)' },
+          '50%': { transform: 'rotate(25deg)' },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        'rotate-left-right': 'rotate 2s ease-in-out infinite',
       },
     },
   },

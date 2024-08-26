@@ -6,8 +6,9 @@ import { RestaurantInfo } from './RestaurantInfo';
 import io, { Socket } from 'socket.io-client';
 import submitPhrases from '../utils/submitPhrases'
 import { ripples } from 'ldrs'
+import { Loader2 } from 'lucide-react';
 
-ripples.register()
+
 
 interface PageProps {
     socket: Socket;
@@ -31,6 +32,12 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
     useEffect(() => {
         console.log('Votes have been updated', votes);
     }, [votes]);
+
+    useEffect(() => {
+        if (typeof window !== 'undefined') {
+            ripples.register(); // Ensure this runs only on the client side
+        }
+    }, []);
 
     useEffect(() => {
         //data about whole lobby's votes
@@ -133,7 +140,7 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
     }
     const Spinner = () => (
         <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-80 h-full w-full">
-          <div className="loader animate-spin rounded-full h-16 w-16 border-t-4 border-b-4 border-blue-500"></div>
+            <Loader2 className='w-20 h-20 animate-spin'></Loader2>
         </div>
     );
     if(!submitted){
