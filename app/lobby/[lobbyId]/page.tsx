@@ -84,8 +84,7 @@ const Lobby = () => {
     if (name) {
       console.log(process.env.NEXT_PUBLIC_NEXT_DOMAIN)
       socket = io();
-      
-
+    
 
       socket.on('connect', () => {
         

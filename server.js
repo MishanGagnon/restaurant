@@ -145,12 +145,13 @@ app.prepare().then(() => {
         const lobbyVotes = getLobbyVotes(lobbyId)
         console.log(`All players in the lobby ${lobbyId} have voted. Here are the votes`, lobbyVotes)
         
-        const {sortedVotes, topthree } = getTotalVotes(lobbyVotes)
-        console.log(`sortedVotes:`,sortedVotes)
-        console.log(`top 3 Votes:`,topthree)
+        const {sortedVotes, topThree } = getTotalVotes(lobbyVotes)
+        console.log(`Here are the sortedVotes`, sortedVotes)
+        console.log(`Here are the top 3 restaurants`, topThree)
+
         //redirect everyone in that have joined a specific room: io.join(lobbyId)
         //will emit a message for the client with the lobbyVotes for this lobby to them
-        io.to(lobbyId).emit('gotAllVotes', sortedVotes, topthree)
+        io.to(lobbyId).emit('gotAllVotes', { sortedVotes, topThree })
       }
 
     })

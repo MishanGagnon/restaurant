@@ -4,7 +4,6 @@ import RestaurantCard from "../../components/RestaurantCard"
 import { RestaurantInfo } from '../../components/RestaurantInfo';
 import io, { Socket } from 'socket.io-client';
 //import { restaurantInfo } from '@/server';
-import { useRouter } from 'next/router';
 //import { restaurants } from '../testCard/page';
 
 interface Votes {
@@ -12,8 +11,8 @@ interface Votes {
 }
 
 interface ResultsProps {
-    socket: Socket;
-    restaurantData: RestaurantInfo[];
+  socket: Socket;
+  restaurantData: RestaurantInfo[];
 }
 
 // Votes object ~ Object that stores a map of player ids to another map object, which stores restaurant ids to their vote for that restaurant
@@ -28,23 +27,50 @@ interface ResultsProps {
 export default function Results({ socket, restaurantData }: ResultsProps) {
     const [sortedVotes, setTotalVotes] = useState<Votes | null>(null);
     const [topThree, setTopThree] = useState<Votes | null>(null);
+    const [topThreeRestaurantsInfo, settopThreeRestaurantsInfo] = useState<RestaurantInfo[]>([]);
+    const [topVotes, setTopVotes] = useState<Number[]>([]);
 
     useEffect(() => {
-        socket.on('gotAllVotes', ({sortedVotes, topThree}) => {
-          setTotalVotes(sortedVotes);
-          setTopThree(topThree);
-          console.log(`Top three`, topThree)
-        });
+      console.log('Setting up socket listener for gotAllVotes');
+      socket.on('gotAllVotes', ({ sortedVotes, topthree }) => {
+        console.log('Received votes:', sortedVotes, topthree);
 
-        return () => {
+        setTotalVotes(sortedVotes);
+        setTopThree(topthree);
+      });
+  
+      return () => {
           socket.off('gotAllVotes');
-        };
-      }, [socket]);
+      };
+    }, []);
 
+    useEffect(() => {
+      if (topThree && restaurantData) {
+        const topThreeIds = Object.keys(topThree);
+        const topThreeInfo = topThreeIds
+          .map(id => restaurantData.find(restaurant => restaurant.restaurant_id === id))
+          .filter((restaurant): restaurant is RestaurantInfo => restaurant !== undefined);
+        settopThreeRestaurantsInfo(topThreeInfo);
+      }
+    }, [topThree, restaurantData]);
+
+    useEffect(() => {
+      if (topThree) {
+        
+      }
+    })
+  
     
     return (
-        <div>
-          TEST
+      <div>
+      <h2>Top Three Restaurants:</h2>
+      {topThreeRestaurantsInfo.map((restaurant, index) => (
+        <div key={restaurant.restaurant_id}>
+          <h3>{restaurant.name}</h3>
+          <p>Address: {restaurant.address}</p>
+          <p>Rating: {restaurant.rating}</p>
         </div>
+      ))}
+    </div>
     )
 }
