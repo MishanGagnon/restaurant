@@ -6,6 +6,8 @@ import io, { Socket } from 'socket.io-client';
 import PlayerCard from '../PlayerCard';
 import RestaurantPage from '../../../components/RenderPage'
 import data from '../../../components/restaurantTestData'
+import Results from '@/app/results/page';
+import { RestaurantInfo } from '@/components/RestaurantInfo';
 import { Loader2, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 
@@ -14,6 +16,10 @@ export interface Player {
   id: string;
   name: string;
   host: boolean;
+}
+
+interface Votes {
+  [restaurantId: string]: number;
 }
 
 // export interface GameState: 'lobby' | 'voting' | 'endscreen'
@@ -36,6 +42,8 @@ const Lobby = () => {
   const [hostPlayer, setHostPlayer] = useState<Player>();
   const [gameState, setGameState] = useState<GameState>('lobby')
   const [restaurantData, setRestaurantData] = useState<any>();
+  const [total_restaurant_votes, setTotalRestaurantVotes] = useState<Votes>({});
+  const [all_restaurant_info, setRestaurantInfo] = useState<RestaurantInfo[]>([])
 
   const submitName = () => {
     setName(nameInput);
@@ -112,7 +120,9 @@ const Lobby = () => {
         setGameState('voting')
       })
 
-      socket.on('gotAllVotes', () => {
+      socket.on('gotAllVotes', ({ sortedVotes, SortedRestaurantInfo }) => {
+        setTotalRestaurantVotes(sortedVotes)
+        setRestaurantInfo(SortedRestaurantInfo)
         setGameState('endscreen')
       })
 
@@ -173,8 +183,6 @@ const Lobby = () => {
 
             </div>
 
-
-
             <div className="grid grid-cols-2  sm:grid-cols-3 md:grid-cols-2 gap-2 w-full">
               {players.map(player => (
                 <PlayerCard
@@ -190,6 +198,8 @@ const Lobby = () => {
 
       case 'voting':
         return (<RestaurantPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'} />)
+      case 'endscreen': 
+        return (<Results socket={socket} restaurant_votes={total_restaurant_votes} restaurant_info={all_restaurant_info} />)
     }
   }
 };

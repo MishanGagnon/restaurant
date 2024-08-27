@@ -1,76 +1,60 @@
 'use client'
+
 import React, { useState, useEffect } from 'react';
 import RestaurantCard from "../../components/RestaurantCard"
 import { RestaurantInfo } from '../../components/RestaurantInfo';
 import io, { Socket } from 'socket.io-client';
-//import { restaurantInfo } from '@/server';
-//import { restaurants } from '../testCard/page';
 
-interface Votes {
+interface restaurant_vote {
   [restaurantId: string]: number;
 }
 
 interface ResultsProps {
   socket: Socket;
-  restaurantData: RestaurantInfo[];
+  restaurant_votes: restaurant_vote;
+  restaurant_info: RestaurantInfo[];
 }
 
-// Votes object ~ Object that stores a map of player ids to another map object, which stores restaurant ids to their vote for that restaurant
-// Create a totalVotes state which maps restaurant_id to total votes.
+export default function Results({ socket, restaurant_votes, restaurant_info }: ResultsProps) {
+  const [sortedVotes, setSortedVotes] = useState<restaurant_vote | null>(null);
+  const [dataReceived, setDataReceived] = useState(false);
 
-// Go through votes object, and for each player, go through that players' restaurant map and tally up total votes as you go.
-// Sort totalVotes in descending order by a restaurant's total votes
-// store the top 3 total votes in an array = 
-// Use the restaurant ids at the top 3 of totalVotes to find the index they are at in our restaurantInfo[]. store that in an array; [1,3,4]
+  useEffect(() => {
+    // Check if data is received
+    if (restaurant_votes && Object.keys(restaurant_votes).length > 0 && restaurant_info.length > 0) {
+      console.log("Restaurant votes received:", restaurant_votes);
+      console.log("Restaurant info received:", restaurant_info);
+      setDataReceived(true);
 
+      setSortedVotes(restaurant_votes);
+    } else {
+      console.log("Data not received yet");
+      setDataReceived(false);
+    }
+  }, [restaurant_votes, restaurant_info]);
 
-export default function Results({ socket, restaurantData }: ResultsProps) {
-    const [sortedVotes, setTotalVotes] = useState<Votes | null>(null);
-    const [topThree, setTopThree] = useState<Votes | null>(null);
-    const [topThreeRestaurantsInfo, settopThreeRestaurantsInfo] = useState<RestaurantInfo[]>([]);
-    const [topVotes, setTopVotes] = useState<Number[]>([]);
+  if (!dataReceived) {
+    return <div>Loading... Waiting for restaurant data.</div>;
+  }
 
-    useEffect(() => {
-      console.log('Setting up socket listener for gotAllVotes');
-      socket.on('gotAllVotes', ({ sortedVotes, topthree }) => {
-        console.log('Received votes:', sortedVotes, topthree);
-
-        setTotalVotes(sortedVotes);
-        setTopThree(topthree);
-      });
-  
-      return () => {
-          socket.off('gotAllVotes');
-      };
-    }, []);
-
-    useEffect(() => {
-      if (topThree && restaurantData) {
-        const topThreeIds = Object.keys(topThree);
-        const topThreeInfo = topThreeIds
-          .map(id => restaurantData.find(restaurant => restaurant.restaurant_id === id))
-          .filter((restaurant): restaurant is RestaurantInfo => restaurant !== undefined);
-        settopThreeRestaurantsInfo(topThreeInfo);
-      }
-    }, [topThree, restaurantData]);
-
-    useEffect(() => {
-      if (topThree) {
-        
-      }
-    })
-  
-    
-    return (
-      <div>
-      <h2>Top Three Restaurants:</h2>
-      {topThreeRestaurantsInfo.map((restaurant, index) => (
-        <div key={restaurant.restaurant_id}>
-          <h3>{restaurant.name}</h3>
-          <p>Address: {restaurant.address}</p>
-          <p>Rating: {restaurant.rating}</p>
+  return (
+    <div>
+      <h1>Results</h1>
+      {sortedVotes && (
+        <div>
+          <h2>Top Voted Restaurants:</h2>
+          {Object.entries(sortedVotes).map(([restaurantId, votes], index) => {
+            const restaurant = restaurant_info.find(r => r.restaurant_id === restaurantId);
+            return (
+              <div key={restaurantId}>
+                <h3>{index + 1}. {restaurant?.name || 'Unknown Restaurant'}</h3>
+                <p>Votes: {votes}</p>
+                {/* You can add more details or use the RestaurantCard component here */}
+              </div>
+            );
+          })}
         </div>
-      ))}
+      )}
     </div>
-    )
+  );
 }

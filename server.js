@@ -17,6 +17,7 @@ const {
   convertToRestaurantInfo,
   getLobby,
   getTotalVotes,
+  getSortedRestaurantInfo,
 } = require('./lib/rooms.js');
 const { make_request } = require('./lib/yelp_request.js')
 
@@ -117,7 +118,7 @@ app.prepare().then(() => {
       }
       const prices = priceArr.join(',')
 
-      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: metersFromMiles, price : prices, categories: 'restaurants'});
+      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, sort_by: 'best_match', limit: settings.numRestaurants, radius: metersFromMiles, price : prices, categories: 'restaurants' });
       console.log(activeRooms[lobbyId].settings)
       // io.to(lobbyId).emit('restauraunt_cards',{restaurants: [convertToRestaurantInfo(testYelpData)]})
     })
@@ -146,15 +147,24 @@ app.prepare().then(() => {
         const lobbyVotes = getLobbyVotes(lobbyId)
         console.log(`All players in the lobby ${lobbyId} have voted. Here are the votes`, lobbyVotes)
         
-        const {sortedVotes, topThree } = getTotalVotes(lobbyVotes)
+        const sortedVotes = getTotalVotes(lobbyVotes)
         console.log(`Here are the sortedVotes`, sortedVotes)
-        console.log(`Here are the top 3 restaurants`, topThree)
+        // console.log(`Here are the top 3 restaurants`, topThree)
+
+        const lobby = getLobby(lobbyId);
+        if (!lobby || !lobby.restaurantInfo) {
+          console.error('Restaurant info not found for lobby:', lobbyId);
+          return;
+        }
+
+        const SortedRestaurantInfo = getSortedRestaurantInfo(lobby.restaurantInfo, sortedVotes)
+        //console.log(`All RestuarantInfo objects`, SortedRestaurantInfo);
 
         //redirect everyone in that have joined a specific room: io.join(lobbyId)
         //will emit a message for the client with the lobbyVotes for this lobby to them
-        io.to(lobbyId).emit('gotAllVotes', { sortedVotes, topThree })
+        //lobby.gameState = 'endscreen'
+        io.to(lobbyId).emit('gotAllVotes', { sortedVotes, SortedRestaurantInfo })
       }
-
     })
 
   });
