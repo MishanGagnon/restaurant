@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import { Socket } from 'socket.io-client';
 import RestaurantCard from "../../components/RestaurantCard";
 import { RestaurantInfo } from '../../components/RestaurantInfo';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { Socket } from 'socket.io-client';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "../../components/ui/carousel";
+import { Card, CardContent } from "../../components/ui/card";
 
 interface restaurant_vote {
   [restaurantId: string]: number;
@@ -14,15 +21,32 @@ interface ResultsProps {
   restaurant_info: RestaurantInfo[];
 }
 
+const Badge = ({ index }: { index: number }) => {
+  if (index < 3) {
+    const colors = ["bg-yellow-400", "bg-gray-300", "bg-yellow-600"];
+    const labels = ["1st Place", "2nd Place", "3rd Place"];
+    
+    return (
+      <div className={`${colors[index]} text-black font-bold py-2 px-4 rounded-full mb-4`}>
+        {labels[index]}
+      </div>
+    );
+  } 
+  
+  return (
+    <div className="bg-gray-400 text-black font-bold py-2 px-4 rounded-full mb-4">
+      {`${index + 1}th Place`}
+    </div>
+  );
+};
+
 export default function Results({ socket, restaurant_votes, restaurant_info }: ResultsProps) {
   const [sortedVotes, setSortedVotes] = useState<[string, number][] | null>(null);
   const [dataReceived, setDataReceived] = useState(false);
-  const [currIndex, setcurrIndex] = useState(0);
 
   useEffect(() => {
     if (restaurant_votes && Object.keys(restaurant_votes).length > 0 && restaurant_info.length > 0) {
       console.log("Restaurant votes received:", restaurant_votes);
-      //console.log("Restaurant info received:", restaurant_info);
       setDataReceived(true);
 
       const sorted = Object.entries(restaurant_votes).sort((a, b) => b[1] - a[1]);
@@ -34,52 +58,43 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
   }, [restaurant_votes, restaurant_info]);
 
   if (!dataReceived || !sortedVotes) {
-    return <div className="flex justify-center items-center h-screen">Loading... Waiting for restaurant data.</div>;
-  }
-
-  const prevRestaurant = () => {
-    setcurrIndex((prevIndex) => (prevIndex > 0 ? prevIndex - 1 : sortedVotes.length - 1));
-  };
-
-  const nextRestaurant = () => {
-    setcurrIndex((prevIndex) => (prevIndex < sortedVotes.length - 1 ? prevIndex + 1 : 0));
-  };
-
-  const [restaurantId, votes] = sortedVotes[currIndex];
-  const restaurant = restaurant_info.find(r => r.restaurant_id === restaurantId);
-
-  if (!restaurant) {
-    return <div className="flex justify-center items-center h-screen">Restaurant not found</div>;
+    return <div className="flex justify-center items-center h-screen">Loading Selectaurant Results...</div>;
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4">
-      <h1 className="text-3xl font-bold mb-6">Top Voted Restaurants</h1>
-      <div className="relative w-full max-w-md mb-6">
-        <div className="flex justify-center">
-          <RestaurantCard
-            restaurant={restaurant}
-            onLoad={() => {}}
-            index={currIndex}
-          />
-        </div>
-        <button className="absolute top-1/2 -left-12 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
-          onClick={prevRestaurant} 
-        >
-          <ChevronLeft size={24} />
-        </button>
-        <button className="absolute top-1/2 -right-12 transform -translate-y-1/2 bg-white rounded-full p-2 shadow-md hover:bg-gray-100"
-          onClick={nextRestaurant} 
-        >
-          <ChevronRight size={24} />
-        </button>
-      </div>
-      <div className="text-xl font-semibold">
-        Votes: {votes}
-      </div>
-      <div className="mt-2 text-gray-600">
-        {currIndex + 1} of {sortedVotes.length}
-      </div>
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
+      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Top Voted Restaurants</h1>
+      <Carousel className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
+        <CarouselContent>
+          {sortedVotes.map(([restaurantId, votes], index) => {
+            const restaurant = restaurant_info.find(r => r.restaurant_id === restaurantId);
+            if (!restaurant) return null;
+
+            return (
+              <CarouselItem key={restaurantId}>
+                <Card className="w-full max-w-sm mx-auto md:max-w-md lg:max-w-lg">
+                  <CardContent className="flex flex-col items-center justify-between p-4 sm:p-6 md:p-8">
+                    <Badge index={index} />
+                    <RestaurantCard
+                      restaurant={restaurant}
+                      onLoad={() => {}}
+                      index={index}
+                    />
+                    <div className="mt-4 text-sm sm:text-lg md:text-xl font-semibold">
+                      Votes: {votes}
+                    </div>
+                    <div className="mt-2 text-xs sm:text-sm md:text-base text-gray-600">
+                      {index + 1} of {sortedVotes.length}
+                    </div>
+                  </CardContent>
+                </Card>
+              </CarouselItem>
+            );
+          })}
+        </CarouselContent>
+        <CarouselPrevious />
+        <CarouselNext />
+      </Carousel>
     </div>
   );
 }
