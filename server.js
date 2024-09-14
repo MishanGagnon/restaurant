@@ -3,6 +3,7 @@ const { createServer } = require('http');
 const { parse } = require('url');
 const next = require('next');
 const socketIo = require('socket.io');
+const fs = require('fs');
 const {
   activeRooms,
   addLobby,
@@ -80,12 +81,20 @@ app.prepare().then(() => {
       const emitRestaurantCards = async (requestObj) => {
         try {
           // Make the request to Yelp API
-          const yelpData = await make_request(requestObj);
-
-          // Check if there was an error
-          if (yelpData.error) {
-            console.error('Error fetching Yelp data:', yelpData.error);
-            return;
+          let yelpData;
+          if(!dev){
+            yelpData = await make_request(requestObj);
+  
+            // Check if there was an error
+            if (yelpData.error) {
+              console.error('Error fetching Yelp data:', yelpData.error);
+              return;
+            }
+          }else{
+            yelpData = JSON.parse(fs.readFileSync('./yelp_results.json', 'utf-8'))
+            yelpData.businesses = yelpData.slice(0,3)
+            console.log('using dev yelp data')
+            console.log(yelpData )
           }
 
           // Convert the Yelp data to the required format

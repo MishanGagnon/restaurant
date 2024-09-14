@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from 'react';
+'use client'
+import React, { useState, useEffect, useRef } from 'react';
 import { Socket } from 'socket.io-client';
 import RestaurantCard from "../../components/RestaurantCard";
 import { RestaurantInfo } from '../../components/RestaurantInfo';
@@ -64,16 +65,15 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Top Voted Restaurants</h1>
-      <Carousel className="w-full max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl">
-        <CarouselContent>
+      <Carousel className="w-full flex align-center justify-center max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl ">
+        <CarouselContent >
           {sortedVotes.map(([restaurantId, votes], index) => {
             const restaurant = restaurant_info.find(r => r.restaurant_id === restaurantId);
             if (!restaurant) return null;
 
             return (
-              <CarouselItem key={restaurantId}>
-                <Card className="w-full max-w-sm mx-auto md:max-w-md lg:max-w-lg">
-                  <CardContent className="flex flex-col items-center justify-between p-4 sm:p-6 md:p-8">
+              <CarouselItem key={restaurantId} className='flex flex-col items-center justify-center' >
+                
                     <Badge index={index} />
                     <RestaurantCard
                       restaurant={restaurant}
@@ -86,14 +86,13 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
                     <div className="mt-2 text-xs sm:text-sm md:text-base text-gray-600">
                       {index + 1} of {sortedVotes.length}
                     </div>
-                  </CardContent>
-                </Card>
               </CarouselItem>
             );
           })}
         </CarouselContent>
-        <CarouselPrevious />
-        <CarouselNext />
+        
+        <CarouselPrevious className='hidden md:flex'/>
+        <CarouselNext className='hidden md:flex'/>
       </Carousel>
     </div>
   );
