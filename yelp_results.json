@@ -198,7 +198,7 @@
   {
     "id": "yNIYH9041m1JEyRS-N_LNw",
     "alias": "aventura-ann-arbor",
-    "name": "Aventura",
+    "name": "Aventura test of a long name",
     "image_url": "https://s3-media4.fl.yelpcdn.com/bphoto/5Jm6V4JSMo-uXuuzuy-Swg/o.jpg",
     "is_closed": false,
     "url": "https://www.yelp.com/biz/aventura-ann-arbor?adjust_creative=cdiqpTSshvT5qy3mi2VlcQ&utm_campaign=yelp_api_v3&utm_medium=api_v3_business_search&utm_source=cdiqpTSshvT5qy3mi2VlcQ",
@@ -214,7 +214,7 @@
       },
       {
         "alias": "bars",
-        "title": "Bars"
+        "title": "Bars this is a super long tag"
       }
     ],
     "rating": 4,

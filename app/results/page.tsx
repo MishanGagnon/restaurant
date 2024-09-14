@@ -5,6 +5,7 @@ import RestaurantCard from "../../components/RestaurantCard";
 import { RestaurantInfo } from '../../components/RestaurantInfo';
 import {
   Carousel,
+  CarouselApi,
   CarouselContent,
   CarouselItem,
   CarouselNext,
@@ -22,28 +23,55 @@ interface ResultsProps {
   restaurant_info: RestaurantInfo[];
 }
 
-const Badge = ({ index }: { index: number }) => {
+type BadgeProps = {
+  index: number
+  votes: number
+}
+const Badge = ({ index, votes }: BadgeProps) => {
+  // Determine the correct vote text based on the votes count
+  const voteText = votes === 1 ? 'Vote' : 'Votes';
+
   if (index < 3) {
     const colors = ["bg-yellow-400", "bg-gray-300", "bg-yellow-600"];
     const labels = ["1st Place", "2nd Place", "3rd Place"];
     
     return (
       <div className={`${colors[index]} text-black font-bold py-2 px-4 rounded-full mb-4`}>
-        {labels[index]}
+        {labels[index]}: {votes} {voteText}
       </div>
     );
   } 
   
   return (
     <div className="bg-gray-400 text-black font-bold py-2 px-4 rounded-full mb-4">
-      {`${index + 1}th Place`}
+      {`${index + 1}th Place: ${votes} ${voteText}`}
     </div>
   );
 };
 
+
 export default function Results({ socket, restaurant_votes, restaurant_info }: ResultsProps) {
   const [sortedVotes, setSortedVotes] = useState<[string, number][] | null>(null);
   const [dataReceived, setDataReceived] = useState(false);
+  
+  //for Carousel counter
+  const [current, setCurrent] = React.useState(0)
+  const [count, setCount] = React.useState(0)
+  const [api, setApi] = React.useState<CarouselApi>()
+
+  React.useEffect(() => {
+    if (!api) {
+      return
+    }
+ 
+    setCount(api.scrollSnapList().length)
+    setCurrent(api.selectedScrollSnap() + 1)
+ 
+    api.on("select", () => {
+      setCurrent(api.selectedScrollSnap() + 1)
+    })
+  }, [api])
+
 
   useEffect(() => {
     if (restaurant_votes && Object.keys(restaurant_votes).length > 0 && restaurant_info.length > 0) {
@@ -65,7 +93,7 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
       <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Top Voted Restaurants</h1>
-      <Carousel className="w-full flex align-center justify-center max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl ">
+      <Carousel setApi={setApi} className="w-full flex align-center justify-center max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl ">
         <CarouselContent >
           {sortedVotes.map(([restaurantId, votes], index) => {
             const restaurant = restaurant_info.find(r => r.restaurant_id === restaurantId);
@@ -74,18 +102,18 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
             return (
               <CarouselItem key={restaurantId} className='flex flex-col items-center justify-center' >
                 
-                    <Badge index={index} />
+                    <Badge index={index} votes={votes} />
                     <RestaurantCard
                       restaurant={restaurant}
                       onLoad={() => {}}
                       index={index}
                     />
-                    <div className="mt-4 text-sm sm:text-lg md:text-xl font-semibold">
+                    {/* <div className="mt-4 text-sm sm:text-lg md:text-xl font-semibold">
                       Votes: {votes}
                     </div>
                     <div className="mt-2 text-xs sm:text-sm md:text-base text-gray-600">
                       {index + 1} of {sortedVotes.length}
-                    </div>
+                    </div> */}
               </CarouselItem>
             );
           })}
@@ -94,6 +122,9 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
         <CarouselPrevious className='hidden md:flex'/>
         <CarouselNext className='hidden md:flex'/>
       </Carousel>
+      <div className="py-2 text-center text-sm text-muted-foreground">
+        Slide {current} of {count}
+      </div>
     </div>
   );
 }
