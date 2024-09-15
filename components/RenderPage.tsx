@@ -15,9 +15,10 @@ interface PageProps {
     restaurants: RestaurantInfo[];
     lobbyId: string;
     playerId: string;
+    previouslyVoted: boolean;
 }
 
-function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
+function Page({ socket, restaurants, lobbyId, playerId, previouslyVoted }: PageProps) {
     const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1);
     const [lastDirection, setLastDirection] = useState<string | undefined>();
     const currentIndexRef = useRef(currentIndex);
@@ -143,7 +144,7 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
             <Loader2 className='w-20 h-20 animate-spin'></Loader2>
         </div>
     );
-    if(!submitted){
+    if(!submitted && !previouslyVoted){
 
         return (
             <div className="flex flex-col justify-center items-center w-screen h-svh bg-gray-100 relative overflow-hidden">

@@ -19,6 +19,7 @@ const {
   getLobby,
   getTotalVotes,
   getSortedRestaurantInfo,
+  didPlayerVote,
 } = require('./lib/rooms.js');
 const { make_request } = require('./lib/yelp_request.js')
 
@@ -37,17 +38,33 @@ app.prepare().then(() => {
   const io = socketIo(server);
 
   io.on('connection', (socket) => {
-    console.log('A user connected:', socket.id);
+    const { userID } = socket.handshake.query;
+    console.log('A user connected:', userID);
 
     socket.on('joinLobby', ({ lobbyId, name }) => {
       socket.join(lobbyId);
       console.log(`User ${name} joined lobby: ${lobbyId}`);
 
-      addPlayerToLobby(lobbyId, { id: socket.id, host: false, name });
-      console.log('stopped')
+      addPlayerToLobby(lobbyId, { id: userID, host: false, name });
       io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
-      console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
+      //if users alreading voting send data
       const lobby = activeRooms[lobbyId]
+      console.log(userID)
+      console.log('sent game state')
+      
+      if(lobby.gameState === 'voting'){
+        io.to(socket.id).emit('restauraunt_cards', { restaurants: lobby.restaurantInfo, playerVoted : didPlayerVote });
+      }else if (lobby.gameState === 'endscreen') {
+        io.to(socket.id).emit('gotAllVotes', lobby.results)
+      }else{
+        console.log('no longer voting')
+        io.to(socket.id).emit('gameState',  lobby.gameState );
+      }
+      
+      // io.to(socket.id).emit('gameState',lobby.gameState)
+
+
+      // console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
 
 
       //this works but there are unintended bugs if a user votes then reloads, we should likely use localStorage
@@ -55,16 +72,16 @@ app.prepare().then(() => {
 
       
       // if (lobby.gameState === 'voting')
-      //    { io.to(socket.id).emit('restauraunt_cards', { restaurants: lobby.restaurantInfo }); }
+      //    { io.to(userID).emit('restauraunt_cards', { restaurants: lobby.restaurantInfo }); }
 
     });
 
     socket.on('disconnect', () => {
-      console.log('User disconnected:', socket.id);
+      console.log('User disconnected:', userID);
 
-      const lobbyId = socketToLobbyMap[socket.id];
+      const lobbyId = socketToLobbyMap[userID];
       if (lobbyId) {
-        const removedPlayer = removePlayerFromLobby(lobbyId, socket.id);
+        const removedPlayer = removePlayerFromLobby(lobbyId, userID);
 
         if (removedPlayer) {
           // Notify the lobby that a player has left
@@ -104,7 +121,7 @@ app.prepare().then(() => {
           const lobby = activeRooms[lobbyId]
           lobby.restaurantInfo = restaurantInfo
           lobby.gameState = 'voting'
-          io.to(lobbyId).emit('restauraunt_cards', { restaurants: restaurantInfo });
+          io.to(lobbyId).emit('restauraunt_cards', { restaurants: restaurantInfo, playerVoted : false });
 
         } catch (error) {
           console.error('Unexpected error:', error);
@@ -172,7 +189,10 @@ app.prepare().then(() => {
         //redirect everyone in that have joined a specific room: io.join(lobbyId)
         //will emit a message for the client with the lobbyVotes for this lobby to them
         //lobby.gameState = 'endscreen'
-        io.to(lobbyId).emit('gotAllVotes', { sortedVotes, SortedRestaurantInfo })
+        lobby.results = { sortedVotes, SortedRestaurantInfo }
+        io.to(lobbyId).emit('gotAllVotes', lobby.results)
+
+        lobby.gameState = 'endscreen'
       }
     })
 

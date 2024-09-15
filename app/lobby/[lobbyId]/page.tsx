@@ -10,6 +10,8 @@ import Results from '@/app/results/page';
 import { RestaurantInfo } from '@/components/RestaurantInfo';
 import { Loader2, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { v4 as uuidv4 } from 'uuid';
+
 
 // types.ts
 export interface Player {
@@ -37,13 +39,14 @@ const Lobby = () => {
   const [name, setName] = useState(paramName ?? '');
   const [nameInput, setNameInput] = useState<string>('');
   const [loading, setLoading] = useState(true);
-  const [socketId, setSocketId] = useState<string>('');
+  const [userID, setUserID] = useState<string>('');
   const [isHost, setIsHost] = useState<boolean>(false);
   const [hostPlayer, setHostPlayer] = useState<Player>();
   const [gameState, setGameState] = useState<GameState>('lobby')
   const [restaurantData, setRestaurantData] = useState<any>();
   const [total_restaurant_votes, setTotalRestaurantVotes] = useState<Votes>({});
   const [all_restaurant_info, setRestaurantInfo] = useState<RestaurantInfo[]>([])
+  const [playerVoted, setPlayerVoted] = useState(false);
 
   const submitName = () => {
     setName(nameInput);
@@ -92,29 +95,44 @@ const Lobby = () => {
     validateLobbyAndJoin();
     if (name) {
       console.log(process.env.NEXT_PUBLIC_NEXT_DOMAIN)
-      socket = io();
 
+      let userID = localStorage.getItem('userID');
+      if (!userID) {
+        userID = uuidv4();
+        localStorage.setItem('userID', userID);
+      }
+      setUserID(()=>userID)
 
+      socket = io({
+        query: { userID }
+      });
 
       socket.on('connect', () => {
-
-        setSocketId(socket.id as string);
+        
         if (lobbyId) {
           socket.emit('joinLobby', { lobbyId, name });
         }
       });
+
+      socket.on('gameState', (gameState: GameState)=>{
+        console.log('game state ')
+        setGameState(gameState);
+      })
 
       socket.on('lobbyPlayerList', (players: Player[]) => {
         setPlayers(() => players);
         console.log(players);
         const hostPlayer = players.find((player) => player.host === true);
         setHostPlayer(hostPlayer);
-        if (hostPlayer && hostPlayer.id === socket.id) {
+        if (hostPlayer && hostPlayer.id === userID) {
           setIsHost(true);
         }
       });
 
       socket.on('restauraunt_cards', (json: any) => {
+        if(json.playerVoted){
+          setPlayerVoted(true)
+        }
         console.log('received cards json', json)
         setRestaurantData(json.restaurants)
         setGameState('voting')
@@ -188,7 +206,7 @@ const Lobby = () => {
                 <PlayerCard
                   key={player.id}
                   isHost={player.id === hostPlayer?.id}
-                  isPlayer={player.id === socket?.id}
+                  isPlayer={player.id === userID}
                   name={player.name ?? 'nameError'}
                 />
               ))}
@@ -197,7 +215,7 @@ const Lobby = () => {
         );
 
       case 'voting':
-        return (<RestaurantPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={socket.id || 'WE FUCKED UP'} />)
+        return (<RestaurantPage socket={socket} restaurants={restaurantData} lobbyId={lobbyId as string} playerId={userID || 'WE FUCKED UP'} previouslyVoted={playerVoted} />)
       case 'endscreen': 
         return (<Results socket={socket} restaurant_votes={total_restaurant_votes} restaurant_info={all_restaurant_info} />)
     }
