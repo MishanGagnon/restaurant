@@ -50,14 +50,12 @@ app.prepare().then(() => {
       //if users alreading voting send data
       const lobby = activeRooms[lobbyId]
       console.log(userID)
-      console.log('sent game state')
       
       if(lobby.gameState === 'voting'){
         io.to(socket.id).emit('restauraunt_cards', { restaurants: lobby.restaurantInfo, playerVoted : didPlayerVote });
       }else if (lobby.gameState === 'endscreen') {
         io.to(socket.id).emit('gotAllVotes', lobby.results)
       }else{
-        console.log('no longer voting')
         io.to(socket.id).emit('gameState',  lobby.gameState );
       }
       

@@ -6,7 +6,7 @@ import io, { Socket } from 'socket.io-client';
 import PlayerCard from '../PlayerCard';
 import RestaurantPage from '../../../components/RenderPage'
 import data from '../../../components/restaurantTestData'
-import Results from '@/app/results/page';
+import Results from '../../../components/ResultsPage'
 import { RestaurantInfo } from '@/components/RestaurantInfo';
 import { Loader2, Palette } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -115,7 +115,6 @@ const Lobby = () => {
       });
 
       socket.on('gameState', (gameState: GameState)=>{
-        console.log('game state ')
         setGameState(gameState);
       })
 
@@ -152,7 +151,7 @@ const Lobby = () => {
 
   if (!name) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center h-svh bg-gray-100 ">
         <h1 className="text-2xl font-bold mb-4 text-black">Choose display name</h1>
         <div>
           <input
@@ -174,7 +173,7 @@ const Lobby = () => {
   }
   if (loading || players.length === 0) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+      <div className="flex flex-col items-center justify-center h-svh bg-gray-100">
         <Loader2 className='w-20 h-20 animate-spin'></Loader2>
       </div>
     );
@@ -184,7 +183,7 @@ const Lobby = () => {
     switch (gameState) {
       case 'lobby':
         return (
-          <div className="flex flex-col w-screen items-center min-h-screen bg-gray-100 text-black p-6 lg:px-96 md:46">
+          <div className="flex flex-col w-screen items-center h-svh bg-gray-100 text-black p-6 lg:px-96 md:46">
             <div id="lobby-info" className="w-full flex items-center justify-between min-h-40">
               <div className ='w-1/2'>
                 <h1 className="text-2xl font-bold mb-4 text-black md:text-xl">Lobby: {lobbyId}</h1>
@@ -192,7 +191,7 @@ const Lobby = () => {
               </div>
               <div className='w-1/2 flex justify-center items-center'>
 
-              {isHost && (
+              {(isHost && players.length >= 2) && (
                 <Button onClick={startGame}>
                   Start Lobby
                 </Button>

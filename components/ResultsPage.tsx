@@ -1,8 +1,8 @@
 'use client'
 import React, { useState, useEffect, useRef } from 'react';
 import { Socket } from 'socket.io-client';
-import RestaurantCard from "../../components/RestaurantCard";
-import { RestaurantInfo } from '../../components/RestaurantInfo';
+import RestaurantCard from "./RestaurantCard";
+import { RestaurantInfo } from './RestaurantInfo';
 import {
   Carousel,
   CarouselApi,
@@ -10,8 +10,8 @@ import {
   CarouselItem,
   CarouselNext,
   CarouselPrevious,
-} from "../../components/ui/carousel";
-import { Card, CardContent } from "../../components/ui/card";
+} from "./ui/carousel";
+// import { Card, CardContent } from "../../components/ui/card";
 
 interface restaurant_vote {
   [restaurantId: string]: number;
@@ -91,8 +91,7 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
   }
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 px-4 py-8">
-      <h1 className="text-2xl md:text-3xl font-bold mb-6 text-center">Top Voted Restaurants</h1>
+    <div className="flex flex-col h-svh items-center justify-center bg-gray-100 px-4 py-8">
       <Carousel setApi={setApi} className="w-full flex align-center justify-center max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl ">
         <CarouselContent >
           {sortedVotes.map(([restaurantId, votes], index) => {

@@ -28,20 +28,26 @@ function RestaurantCard({ restaurant, onLoad, index }: CardProps) {
             </div>
             <div id="restaurant-content" className="w-full h-1/2">
                 <div className='flex flex-col justify-between w-full h-full'>
-                    <div className="flex flex-col items-left w-full">
+                    <div className="flex flex-col items-left w-full pt-2">
                         <div className='flex items-center justify-start text-left w-full flex-row'>
-                            <h1 id="restaurant-name" className='text-xl md:text-3xl font-bold text-gray-800 mr-2'>
+                            <h1 id="restaurant-name" className='text-xl md:text-3xl font-bold text-gray-800 leading-none mr-2'>
                                 {name} <span id='restaurant-price' className="text-sky-500">{priceSigns}</span>
                             </h1>
-                            <h3 id='restaurant-rating' className="flex items-center  font-bold text-sm md:text-base">
+                            <h3 id='restaurant-rating' className="flex items-center  font-bold text-md md:text-base">
                                 {rating} <span id="star" className='ml-1' style={{ color: '#FFD700' }}>★</span>
-                                <span id="restaurant-review-count" className="ml-1 text-sm md:text-base text-gray-500">
+                                <span id="restaurant-review-count" className="ml-1 text-md md:text-base text-gray-500">
                                     ({reviewCount})
                                 </span>
                             </h3>
                         </div>
-                        <h3 className="text-gray-500 text-left text-xs md:text-sm">
+                        <h3 className="text-gray-500 pt-2 text-left text-xs md:text-md">
                             {address}
+                        </h3>
+                        <h3 className="text-gray-500 pt-2 text-left text-xs md:text-md">
+                            {(distance / 1609.344).toFixed(2)} Miles Away 
+                        </h3>
+                        <h3 className="text-gray-500 pt-2 text-left text-xs md:text-md">
+                            {price} price
                         </h3>
                     </div>
                     <div className="flex flex-wrap gap-1">

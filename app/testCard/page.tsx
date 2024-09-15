@@ -30,7 +30,7 @@ const TestCard = () => {
 
     return (
         <div>
-            <TestPage socket={socket} restaurants={data} lobbyId='YUHH' playerId='asdgy12370123bqwd' />
+            <TestPage socket={socket} restaurants={data} lobbyId='YUHH' playerId='asdgy12370123bqwd' previouslyVoted ={false}/>
         </div>
     );
 }
