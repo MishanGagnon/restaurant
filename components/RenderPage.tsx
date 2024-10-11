@@ -15,9 +15,10 @@ interface PageProps {
     restaurants: RestaurantInfo[];
     lobbyId: string;
     playerId: string;
+    previouslyVoted: boolean;
 }
 
-function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
+function Page({ socket, restaurants, lobbyId, playerId, previouslyVoted }: PageProps) {
     const [currentIndex, setCurrentIndex] = useState(restaurants.length - 1);
     const [lastDirection, setLastDirection] = useState<string | undefined>();
     const currentIndexRef = useRef(currentIndex);
@@ -143,63 +144,63 @@ function Page({ socket, restaurants, lobbyId, playerId }: PageProps) {
             <Loader2 className='w-20 h-20 animate-spin'></Loader2>
         </div>
     );
-    if(!submitted){
+    if(!submitted && !previouslyVoted){
 
         return (
             <div className="flex flex-col justify-center items-center w-screen h-svh bg-gray-100 relative overflow-hidden">
                  {!imagesLoaded && <Spinner />}
-                    <div className={`${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } w-screen h-4/6 flex justify-center items-center overflow-hidden text-sm select-none`}>
-                        {
-                            
-                            
-                            restaurants.map((restaurant, index) => (
-                            <TinderCard
-                                ref={childRefs[index]}
-                                className='swipe absolute flex justify-center items-center'
-                                key={restaurant.restaurant_id}
-                                onSwipe={(dir) => swiped(dir, restaurant.name, index)}
-                                onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
-                            >
-                                <RestaurantCard restaurant={restaurant} onLoad = {onImageLoad} index = {index} />
-                            </TinderCard>
-                        ))}
-                        {(Object.keys(votes).length === restaurants.length) && (
-                            <button
-                                onClick={submit}
-                                className='items-center justify-center w-64 h-16 bg-blue-500 text-3xl text-white font-bold rounded-full hover:bg-blue-700 transition duration-400 ease-in-out shadow-lg hover:shadow-xl'
-                            >
-                                Submit
-                            </button>
-                        )}
-                    </div>
-                    <div className={` ${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } flex gap-4`}>
-                        <button
-                            className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                            onClick={() => swipe('left')}
-                            disabled={!canSwipe}
-                            aria-label='Close'
+                <div className={`${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } w-screen h-4/6 flex justify-center items-center overflow-hidden text-sm select-none`}>
+                    {
+                        
+                        
+                        restaurants.map((restaurant, index) => (
+                        <TinderCard
+                            ref={childRefs[index]}
+                            className='swipe absolute flex justify-center items-center'
+                            key={restaurant.restaurant_id}
+                            onSwipe={(dir) => swiped(dir, restaurant.name, index)}
+                            onCardLeftScreen={() => outOfFrame(restaurant.name, index)}
                         >
-                            <span className="text-2xl text-white">&#10006;</span>
+                            <RestaurantCard restaurant={restaurant} onLoad = {onImageLoad} index = {index} />
+                        </TinderCard>
+                    ))}
+                    {(Object.keys(votes).length === restaurants.length) && (
+                        <button
+                            onClick={submit}
+                            className='items-center justify-center w-64 h-16 bg-blue-500 text-3xl text-white font-bold rounded-full hover:bg-blue-700 transition duration-400 ease-in-out shadow-lg hover:shadow-xl'
+                        >
+                            Submit
                         </button>
+                    )}
+                </div>
+                <div className={` ${!imagesLoaded ? 'opacity-0' : 'opacity-100 transition-opacity duration-500' } flex gap-4`}>
+                    <button
+                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-red-500 hover:bg-red-600 focus:outline-none focus:ring-2 focus:ring-red-400' : 'bg-gray-300 cursor-not-allowed'}`}
+                        onClick={() => swipe('left')}
+                        disabled={!canSwipe}
+                        aria-label='Close'
+                    >
+                        <span className="text-2xl text-white">&#10006;</span>
+                    </button>
 
-                        <button
-                            className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out  ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 hover:animate-spin focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed '}`}
-                            onClick={() => goBack()}
-                            disabled={!canGoBack}
-                            aria-label="Retry"
-                        >
-                            <span className="text-2xl hover:scale-125">&#8635;</span>
-                        </button>
+                    <button
+                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out  ${canGoBack ? 'bg-gray-500 hover:bg-gray-600 hover:animate-spin focus:outline-none focus:ring-2 focus:ring-gray-400' : 'bg-gray-300 cursor-not-allowed '}`}
+                        onClick={() => goBack()}
+                        disabled={!canGoBack}
+                        aria-label="Retry"
+                    >
+                        <span className="text-2xl hover:scale-125">&#8635;</span>
+                    </button>
 
-                        <button
-                            className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
-                            onClick={() => swipe('right')}
-                            disabled={!canSwipe}
-                            aria-label="Like"
-                        >
-                            <span className="text-2xl scale-125">&#9825;</span>
-                        </button>
-                    </div>
+                    <button
+                        className={`w-16 h-16 flex items-center justify-center rounded-full text-white font-bold text-xl transition duration-300 ease-in-out ${canSwipe ? 'bg-green-500 hover:bg-green-600 focus:outline-none focus:ring-2 focus:ring-green-400' : 'bg-gray-300 cursor-not-allowed'}`}
+                        onClick={() => swipe('right')}
+                        disabled={!canSwipe}
+                        aria-label="Like"
+                    >
+                        <span className="text-2xl scale-125">&#9825;</span>
+                    </button>
+                </div>
                 </div>
         )
     }else{

@@ -20,7 +20,7 @@ const Page = () => {
     router.push('/host')
   }
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 p-6">
+    <div className="flex flex-col items-center justify-center h-svh bg-gray-100 p-6">
       <div className="mb-8">
         <Image src={logo} alt="Selectaraunt Logo" width={128} height={128} className="object-contain rounded-lg animate-rotate-left-right	" />
       </div>
