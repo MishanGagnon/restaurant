@@ -1,0 +1,42 @@
+[
+  {
+    "name": "Beckett's Sports Bar",
+    "rating": 4.1,
+    "photoReference": "AWYs27xZZFJH-DgDnFVfeg9eQ4nBYObxOic-4ojdMWyJXZ2rcslqZtWDwUY06lb5LZpWJ_8e6LQ9Qz5FTeAMV-6uyea-_01zkHwnbh2pl_hgIsahJSW8KOeKSutlbC_q76KHthGp6qJA0Htx59w6UA0__Scf13X-lqoH_JiXrPd7iCB1-ooD",
+    "price": 2,
+    "address": "81 Pearl Street, 48 Stone Street, New York",
+    "photoURL": "https://lh3.googleusercontent.com/places/ANXAkqHyI-5nHfZlDiwJMrfju21IEAldvtVMraE4KTPEgtI-z7ETfkyygq8FK6aDBDRz0eRs8QfHwC9s-WD5xSmWsSe8Xgc0DOJ_YZ0=s1600-w400"
+  },
+  {
+    "name": "The Seaport",
+    "rating": 4.5,
+    "photoReference": "AWYs27zEUgBpSbg1Ntcj8GZoVWlBcLm2U-UwU4B0Ain0grhdrWA55Ec-paU4vMD9va7zT8Mc7S_6Ax2XkFvzbX7NigUgnjTrxKGp7ZIY7qLwY01go6MNbCRyo-rgIxze4OItehNbkhr1A46tqUB-c_RK3E1GpZrYT58N4I5BXDb_d4HWS0Bi",
+    "price": 2,
+    "address": "19 Fulton Street, New York",
+    "photoURL": "https://lh3.googleusercontent.com/places/ANXAkqEEQDQLYzP-oXQbXYVXBAbtrS3A8te6YAsI99MoutUJST4iktkuprJUxCgv7xJPEOCsAO6pxkC90F_o4dOg0atVD-9NPZCRbgQ=s1600-w400"
+  },
+  {
+    "name": "Shake Shack Battery Park City",
+    "rating": 4.3,
+    "photoReference": "AWYs27xI7-CRE6l2awUgz49i783CBf-G7Vw_XT2e6pNnKX6fCFUpIMBsJjMy7rfc1MnuhTFCg-xa7fMoyORsoktmQCZHNTGaB-dQi8mJrkCX7D9moU5ae95zzO7C1E-61ZK7VN6-AX7C4FeapLWrQvovy-7I63crBgRTRZhUeLiSm79T0TZ6",
+    "price": 2,
+    "address": "215 Murray Street, New York",
+    "photoURL": "https://lh3.googleusercontent.com/places/ANXAkqHFbhZ5NtSQty8Fk5eRPHr2fBi2NY_28kveTGMGRYCjG5dj7lUC26rJQsgHe115s-xN8_YyiEUJE_nF80metAedH9pyNscMle4=s1600-w400"
+  },
+  {
+    "name": "Lombardi's Pizza",
+    "rating": 4.1,
+    "photoReference": "AWYs27wMxJCFZzUjEFMC8INi89ikLFzibrWQ75lDu0St7znH04u1-vY74kUWU2_c-aEY8DB7rGT4JVAP7nZHW8Nm7kcN5UvYT0BoEyuem-m0ZeR4gHTYMuJx3od52VS9G2MIbjFUcBn9FP8pENddJxvDz-o_fX8wcnAdx_Y2vkbscWfL8feg",
+    "price": 2,
+    "address": "32 Spring Street, New York",
+    "photoURL": "https://lh3.googleusercontent.com/places/ANXAkqFJoeoS714jRfkbg8zejtLv3XIWiR0CLPygB9uF48t9hNJXr-xPLZsDBE_YS8ujx7E2LV6CvFQYkCQqkspgNIEOMVoPnNjOfxk=s1600-w400"
+  },
+  {
+    "name": "Bubby's",
+    "rating": 4.4,
+    "photoReference": "AWYs27x2aboiyl9gOCoY2XL5I59S665v_BQViru_tI15eefCdQTWSWVK9hMIUTiJqCAoOdHQcWL2UEbrUmHb_uBkf2xd9h9G7vK7PoveazwnRDDfgkQwBD63jt-XOQhm6JvGkc05jRzETyIdyIkxBWIqJf-1t2WRWBtGZRaIam-PzIBoX7kw",
+    "price": 2,
+    "address": "120 Hudson Street, New York",
+    "photoURL": "https://lh3.googleusercontent.com/places/ANXAkqEaYxSUib41hJu1fsjTECpa8qa53RWJUXdR-62z9yCaLSYmipY_KA8_6ArBNuAG6f7jmHlztwDHtZcdOTVQ-eBlGgePnfmhqhg=s1600-w400"
+  }
+]

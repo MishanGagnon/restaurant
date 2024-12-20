@@ -41,17 +41,24 @@ function RestaurantCard({ restaurant, onLoad, index }: CardProps) {
                             </h3>
                         </div>
                         <h3 className="text-gray-500 pt-2 text-left text-xs md:text-md">
-                            {address}
+                            <a 
+                                href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(address)}`} 
+                                target="_blank" 
+                                rel="noopener noreferrer" 
+                                className="text-blue-500 underline"
+                            >
+                                {address}
+                            </a>
                         </h3>
                         <h3 className="text-gray-500 pt-2 text-left text-xs md:text-md">
-                            {(distance / 1609.344).toFixed(2)} Miles Away 
+                            {distance.toFixed(1)} Miles Away 
                         </h3>
-                        <h3 className="text-gray-500 pt-2 text-left text-xs md:text-md">
+                        {/* <h3 className="text-gray-500 pt-2 text-left text-xs md:text-md">
                             {price} price
-                        </h3>
+                        </h3> */}
                     </div>
                     <div className="flex flex-wrap gap-1">
-                        {categories.map((category, index) => (
+                        {/* {categories.map((category, index) => (
                             <span
                                 key={index}
                                 id="category"
@@ -59,7 +66,7 @@ function RestaurantCard({ restaurant, onLoad, index }: CardProps) {
                             >
                                 {category}
                             </span>
-                        ))}
+                        ))} */}
                     </div>
                 </div>
             </div>

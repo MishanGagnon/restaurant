@@ -1,0 +1,819 @@
+[
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.7041262,
+        "lng": -74.01034229999999
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7054295302915,
+          "lng": -74.00891271970848
+        },
+        "southwest": {
+          "lat": 40.7027315697085,
+          "lng": -74.0116106802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/bar-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/bar_pinlet",
+    "name": "Beckett's Sports Bar",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 450,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/116422841424895618318\">Beckett&#39;s Sports Bar</a>"
+        ],
+        "photo_reference": "AWYs27yYWv4vtzeQvVGBZ_jYlNPWMOSAenKaQixlSdqdnxGfO1z8dCfUc4Zyh8X-WzohbLFA-N6eZ2LJ6xqhX_oPjHG1B8rwMh9gg7i57jbNMow9yo40c6HY06i0qkzlVxEWNWIATxchv1kSGjN_82R3lvhzOzR5kLEd8XVGM6YwRrIxqwZr",
+        "width": 800
+      }
+    ],
+    "place_id": "ChIJ3blcJRRawokRex4mbeb9Ix4",
+    "plus_code": {
+      "compound_code": "PX3Q+MV New York, NY, USA",
+      "global_code": "87G7PX3Q+MV"
+    },
+    "price_level": 2,
+    "rating": 4.1,
+    "reference": "ChIJ3blcJRRawokRex4mbeb9Ix4",
+    "scope": "GOOGLE",
+    "types": [
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 502,
+    "vicinity": "81 Pearl Street, 48 Stone Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.70647830000001,
+        "lng": -74.0032751
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7077457302915,
+          "lng": -74.0018364697085
+        },
+        "southwest": {
+          "lat": 40.7050477697085,
+          "lng": -74.00453443029151
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/generic_business-71.png",
+    "icon_background_color": "#13B5C7",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/generic_pinlet",
+    "name": "The Seaport",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 3818,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/103103785514156616359\">The Seaport</a>"
+        ],
+        "photo_reference": "AWYs27w78i4tqHLjNN7--UmiD-sWXTNEmeyROweR35COo1sgqUCfP6WJi0JutsmOIGCH8vUDwBpNA3X1b1-I0fsRz26JoGaisWadpYuongRkVV3QGcPw7GWap6fmsINubPsV_QjJL2y5rvMt0T6yeCvg5df_RsHNFaWc6dI-U4WhFkbzRG0o",
+        "width": 5728
+      }
+    ],
+    "place_id": "ChIJ48y8-TxawokROJTPwB3cxz8",
+    "plus_code": {
+      "compound_code": "PX4W+HM New York, NY, USA",
+      "global_code": "87G7PX4W+HM"
+    },
+    "price_level": 2,
+    "rating": 4.5,
+    "reference": "ChIJ48y8-TxawokROJTPwB3cxz8",
+    "scope": "GOOGLE",
+    "types": [
+      "art_gallery",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 2273,
+    "vicinity": "19 Fulton Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.7152189,
+        "lng": -74.01488069999999
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7166702802915,
+          "lng": -74.0134412697085
+        },
+        "southwest": {
+          "lat": 40.7139723197085,
+          "lng": -74.0161392302915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Shake Shack Battery Park City",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 2592,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/112627314567131033848\">Shake Shack Battery Park City</a>"
+        ],
+        "photo_reference": "AWYs27ySDC17dQTxGvNDcqYPjzJSC1_6h4_2o4dS0FjeXZ6Gc8F3ME-cUqt05ZpJmqU8JBzvP31AU5tc15JX5TRkp9BLj4fdh9A9DZx1UciX_KgATpefHMd0wl-wMNeBAIvaDHqbH3tKG_OQ33Vu7LaOAEiI6W8S3UP2EYXnfvCDLg4RdyL6",
+        "width": 3888
+      }
+    ],
+    "place_id": "ChIJWbrReBxawokRmMicGgsIrMA",
+    "plus_code": {
+      "compound_code": "PX8P+32 New York, NY, USA",
+      "global_code": "87G7PX8P+32"
+    },
+    "price_level": 2,
+    "rating": 4.3,
+    "reference": "ChIJWbrReBxawokRmMicGgsIrMA",
+    "scope": "GOOGLE",
+    "types": [
+      "meal_takeaway",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 3578,
+    "vicinity": "215 Murray Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.72157809999999,
+        "lng": -73.9956856
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7229276802915,
+          "lng": -73.99423971970849
+        },
+        "southwest": {
+          "lat": 40.7202297197085,
+          "lng": -73.99693768029151
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Lombardi's Pizza",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 1728,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/100766269913572807417\">Lombardi&#39;s Pizza</a>"
+        ],
+        "photo_reference": "AWYs27xjMJ9TUyKyF-JQLNxEQps4_FOa5EMYBNnk5QZ0HY5zjEGfZUxxWrGDbyK7AAWfLH71eDUTwIKxbDUtwoCKb7cuYPJIl9ZQNu_GMLcIL00DP-WX4a2_8hsA1UJhDV2VozL6JHu1opb2uxck6Iu_dqmrC_NKFVqLisbpfnrc94YXHooN",
+        "width": 2592
+      }
+    ],
+    "place_id": "ChIJp-cWE4pZwokRmUI8_BIF8dg",
+    "plus_code": {
+      "compound_code": "P2C3+JP New York, NY, USA",
+      "global_code": "87G8P2C3+JP"
+    },
+    "price_level": 2,
+    "rating": 4.1,
+    "reference": "ChIJp-cWE4pZwokRmUI8_BIF8dg",
+    "scope": "GOOGLE",
+    "types": [
+      "meal_delivery",
+      "meal_takeaway",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 8429,
+    "vicinity": "32 Spring Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.719819,
+        "lng": -74.0083829
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7212199302915,
+          "lng": -74.0069443197085
+        },
+        "southwest": {
+          "lat": 40.7185219697085,
+          "lng": -74.0096422802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Bubby's",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 3000,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/111444671146808251214\">Eric Finkelstein</a>"
+        ],
+        "photo_reference": "AWYs27z-3-YF7k_kdvCS3lO5R0DlANJXvZzz55nyEaHVTnz2G3ORADBAOz70SYlVYh-hyhhcak8c7fh2Xyrm-KfYoTigumg62awWRlfu3AZQNl7pzNVT5Mo-htBC88GpACsHDBi39xwn7zW851Z0GG902PRcNt_VstJoFMPi7VFW4caf4ql1",
+        "width": 4000
+      }
+    ],
+    "place_id": "ChIJETquaPVZwokRVYYGSKrg4E0",
+    "plus_code": {
+      "compound_code": "PX9R+WJ New York, NY, USA",
+      "global_code": "87G7PX9R+WJ"
+    },
+    "price_level": 2,
+    "rating": 4.4,
+    "reference": "ChIJETquaPVZwokRVYYGSKrg4E0",
+    "scope": "GOOGLE",
+    "types": [
+      "bakery",
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "store",
+      "establishment"
+    ],
+    "user_ratings_total": 6979,
+    "vicinity": "120 Hudson Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.72139869999999,
+        "lng": -73.99759449999999
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7228047802915,
+          "lng": -73.9962325697085
+        },
+        "southwest": {
+          "lat": 40.7201068197085,
+          "lng": -73.99893053029152
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "La Esquina Brasserie",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 4480,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/100991078270406849346\">La Esquina Brasserie</a>"
+        ],
+        "photo_reference": "AWYs27x6I5FxaHbkSMGqrQ5jG6HBrRtf10Js3UhxnmiDCOydPdpeFFBDbT8Q2zHUAI8GER7zfxP6NJZsqU5dykfzCkNwHVr5fVegmA2-A-zReWITIxCwgzuWl7AD3BWnIjWwtcJXaJaXKs4M-OI-7HPC2XKIcNJhTFpwOed6GQwnIBtPXkjj",
+        "width": 6720
+      }
+    ],
+    "place_id": "ChIJibtT3ohZwokR7tX0gp0nG8U",
+    "plus_code": {
+      "compound_code": "P2C2+HX New York, NY, USA",
+      "global_code": "87G8P2C2+HX"
+    },
+    "price_level": 2,
+    "rating": 4.1,
+    "reference": "ChIJibtT3ohZwokR7tX0gp0nG8U",
+    "scope": "GOOGLE",
+    "types": [
+      "cafe",
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 2673,
+    "vicinity": "114 Kenmare Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.7137006,
+        "lng": -73.997193
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7149401802915,
+          "lng": -73.9958337197085
+        },
+        "southwest": {
+          "lat": 40.7122422197085,
+          "lng": -73.9985316802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Golden Unicorn",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 1000,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/117147509284637552102\">Sanzzz</a>"
+        ],
+        "photo_reference": "AWYs27w5-0Di_N3398auEo-DzTfH79L-ukixdx0R_tJEsiS-KBi6VsnOAAZog8doy8i1ThxekoSAzpnMV6eSaVptYP9F5KBE7CiGhlUnfM5suybA1VrbUo5KtAbWRtoGwYl_X1oCccdyTEevm_Bs_NU8NsiJRhqawLVWnpqgeRTrJ_f-g5CF",
+        "width": 1500
+      }
+    ],
+    "place_id": "ChIJXczCZSZawokRerIzds-K5e0",
+    "plus_code": {
+      "compound_code": "P273+F4 New York, NY, USA",
+      "global_code": "87G8P273+F4"
+    },
+    "price_level": 2,
+    "rating": 3.9,
+    "reference": "ChIJXczCZSZawokRerIzds-K5e0",
+    "scope": "GOOGLE",
+    "types": [
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 3132,
+    "vicinity": "18 East Broadway, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.71907789999999,
+        "lng": -73.9970913
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7205113302915,
+          "lng": -73.9957117197085
+        },
+        "southwest": {
+          "lat": 40.7178133697085,
+          "lng": -73.9984096802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Ferrara Bakery & Cafe",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 2000,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/100875983334126046333\">Ferrara Bakery &amp; Cafe</a>"
+        ],
+        "photo_reference": "AWYs27xsoSHZtQwR-cycJgVoH3e8vgGsFvt2HBEi5X-fXJZ1qFPtXb6V1-W6w4-Vn9hqRKUvFCYkX6BPKV6-mPN3RDCwxSBBrVzz5w3vOGpOpeE6ltMamAdNe1E4jJsjXjwYOA0bRt_INOlxFPSv4Gosv103ebeXg30l1VvzbAldG2GvOcsa",
+        "width": 3000
+      }
+    ],
+    "place_id": "ChIJTy8URohZwokRB9YYYDHYBKM",
+    "plus_code": {
+      "compound_code": "P293+J5 New York, NY, USA",
+      "global_code": "87G8P293+J5"
+    },
+    "price_level": 2,
+    "rating": 4.4,
+    "reference": "ChIJTy8URohZwokRB9YYYDHYBKM",
+    "scope": "GOOGLE",
+    "types": [
+      "bakery",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "store",
+      "establishment"
+    ],
+    "user_ratings_total": 6692,
+    "vicinity": "195 Grand Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.708882,
+        "lng": -74.01143259999999
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7103115802915,
+          "lng": -74.01002806970848
+        },
+        "southwest": {
+          "lat": 40.7076136197085,
+          "lng": -74.01272603029149
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Trinity Place",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 1879,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/102000847281539535497\">Trinity Place</a>"
+        ],
+        "photo_reference": "AWYs27yIxvwc7Im1IfkachdLhv2IKXYSauPLvDQ6sThzr8wNSkzC8GiFDRJzc3gxsC1xyueq4_4e6cIrlmo0m57nuWfBilv3x1-6TWn7X6vAwobkNTArEFwhQ2gplhUm4fLyb4jjfVAYmv2YnVnMw5WOd9yzzXO6G0HQPiM4aq_jPl0enjjI",
+        "width": 2819
+      }
+    ],
+    "place_id": "ChIJ4_AAQhdawokRzbYlVLyzKlk",
+    "plus_code": {
+      "compound_code": "PX5Q+HC New York, NY, USA",
+      "global_code": "87G7PX5Q+HC"
+    },
+    "price_level": 2,
+    "rating": 4.4,
+    "reference": "ChIJ4_AAQhdawokRzbYlVLyzKlk",
+    "scope": "GOOGLE",
+    "types": [
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 1410,
+    "vicinity": "115 Broadway, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.7145089,
+        "lng": -73.998188
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7158565802915,
+          "lng": -73.99680956970849
+        },
+        "southwest": {
+          "lat": 40.7131586197085,
+          "lng": -73.99950753029151
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Nom Wah Tea Parlor",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 2916,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/103177550968460932826\">Nom Wah Tea Parlor</a>"
+        ],
+        "photo_reference": "AWYs27yaXLfqg1wKkn8zGRQRxgTtO6CX7TdLu-3BXdz6j5NxWG3VkzVcpoqE419l1oIMk6TDzjusrL4g1p50bpEVOBJk227VUv07YzsvYWp6UML3qTWr88M1YjrDNL7GvBQuHcriHM0WQSw09PhAg-97bDmprYakxw0m3hOAiVor5-PuPcNn",
+        "width": 5184
+      }
+    ],
+    "place_id": "ChIJqwvF8CZawokRwi6ijQhRGD0",
+    "plus_code": {
+      "compound_code": "P272+RP New York, NY, USA",
+      "global_code": "87G8P272+RP"
+    },
+    "price_level": 1,
+    "rating": 4.2,
+    "reference": "ChIJqwvF8CZawokRwi6ijQhRGD0",
+    "scope": "GOOGLE",
+    "types": [
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 4790,
+    "vicinity": "13 Doyers Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.716478,
+        "lng": -73.999749
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.71786068029149,
+          "lng": -73.99849091970849
+        },
+        "southwest": {
+          "lat": 40.7151627197085,
+          "lng": -74.0011888802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/bar-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/bar_pinlet",
+    "name": "Whiskey Tavern",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 1322,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/115178414591117177359\">Whiskey Tavern</a>"
+        ],
+        "photo_reference": "AWYs27zE01N55dsn9HMRy2shVLTUiOR8LXAGCrgKDHoXIgOYn8FMErqsJ7xHlONswBbq5p57amax6KKsnMk8bP4QSSWcKGvuRl7n8D-kfme7KIdvUcUmXuC8uGZIqckPIoXz8JZQxEDfCrYhJkLzHBmyVMCPk3CDTELi7HoCd03-eIyrJise",
+        "width": 2048
+      }
+    ],
+    "place_id": "ChIJPezLOSdawokROjWJSsqLdZg",
+    "plus_code": {
+      "compound_code": "P282+H4 New York, NY, USA",
+      "global_code": "87G8P282+H4"
+    },
+    "price_level": 1,
+    "rating": 4.6,
+    "reference": "ChIJPezLOSdawokROjWJSsqLdZg",
+    "scope": "GOOGLE",
+    "types": [
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 1982,
+    "vicinity": "79 Baxter Street A, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.7132926,
+        "lng": -73.9977449
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.71472578029149,
+          "lng": -73.9963755197085
+        },
+        "southwest": {
+          "lat": 40.7120278197085,
+          "lng": -73.9990734802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Dim Sum Go Go",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 3216,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/104959322082259055396\">Dim Sum Go Go</a>"
+        ],
+        "photo_reference": "AWYs27wVeusvVp1tsjF-mj5VgemXkMDYR0f-f_hJar4AMOp9oPzoubVO-M9m8G4SZtYp9PyH83FGMhijcjYXhYUFGN9jU8JBB5hSAw01JDQypuA3FaP2SIzi8SRoojb4YBGhXfj6SMkPGdKLuY3yuf-bLehx3TgOM3nC47V7PRjWm4_wdLg2",
+        "width": 2836
+      }
+    ],
+    "place_id": "ChIJBQwbiCZawokRak_8KefFP7M",
+    "plus_code": {
+      "compound_code": "P272+8W New York, NY, USA",
+      "global_code": "87G8P272+8W"
+    },
+    "price_level": 2,
+    "rating": 4.1,
+    "reference": "ChIJBQwbiCZawokRak_8KefFP7M",
+    "scope": "GOOGLE",
+    "types": [
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 1487,
+    "vicinity": "5 East Broadway, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.7150161,
+        "lng": -74.0092841
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7164252302915,
+          "lng": -74.0080786197085
+        },
+        "southwest": {
+          "lat": 40.7137272697085,
+          "lng": -74.0107765802915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Le Pain Quotidien",
+    "opening_hours": {
+      "open_now": false
+    },
+    "photos": [
+      {
+        "height": 720,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/103007602500677329323\">Le Pain Quotidien</a>"
+        ],
+        "photo_reference": "AWYs27ywCZbu1CnQUr6sI78217GGLeRXx2AVF58aPHa0ypdw2-WD1ZcFnI0tOWaPj8QEohoeg_ql1zysGjKErJ7f36nZft31U1bEuLhHF6wBIBfW5nkWFopz3409faoqiHf8au-Ps1baaPa8QEZx110M-3kpUAN9lrxsWKoR12kk55s40UrF",
+        "width": 1280
+      }
+    ],
+    "place_id": "ChIJU0lt1x5awokRcd1w1u4Ju9Q",
+    "plus_code": {
+      "compound_code": "PX8R+27 New York, NY, USA",
+      "global_code": "87G7PX8R+27"
+    },
+    "price_level": 2,
+    "rating": 4.2,
+    "reference": "ChIJU0lt1x5awokRcd1w1u4Ju9Q",
+    "scope": "GOOGLE",
+    "types": [
+      "restaurant",
+      "bakery",
+      "cafe",
+      "food",
+      "point_of_interest",
+      "store",
+      "establishment"
+    ],
+    "user_ratings_total": 739,
+    "vicinity": "81 West Broadway, New York"
+  },
+  {
+    "business_status": "CLOSED_TEMPORARILY",
+    "geometry": {
+      "location": {
+        "lat": 40.72201669999999,
+        "lng": -73.9977806
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7232971802915,
+          "lng": -73.99630496970849
+        },
+        "southwest": {
+          "lat": 40.7205992197085,
+          "lng": -73.99900293029151
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Osteria Morini",
+    "permanently_closed": true,
+    "photos": [
+      {
+        "height": 2692,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/116599560033972142705\">Osteria Morini</a>"
+        ],
+        "photo_reference": "AWYs27wH74uaujNV3fv3GwaWeIlKci1-zuh-dGyhrfbhApjdVk3hdD7n4cSpxtRUWLD_lJybWtkD-sMTkteXUKvqxeURlrwcblSQFNoAlbhNNvcqfFnA4qDcsT014S209vEtFNOvhQgemOE5QlHYpESymCo6A4E2sepc46reYeKF4z5KMPSg",
+        "width": 4036
+      }
+    ],
+    "place_id": "ChIJK8iUJ4lZwokRgSr70I7iJWA",
+    "plus_code": {
+      "compound_code": "P2C2+RV New York, NY, USA",
+      "global_code": "87G8P2C2+RV"
+    },
+    "price_level": 2,
+    "rating": 4.4,
+    "reference": "ChIJK8iUJ4lZwokRgSr70I7iJWA",
+    "scope": "GOOGLE",
+    "types": [
+      "restaurant",
+      "meal_takeaway",
+      "bar",
+      "food",
+      "point_of_interest",
+      "store",
+      "establishment"
+    ],
+    "user_ratings_total": 1281,
+    "vicinity": "218 Lafayette Street, New York"
+  },
+  {
+    "business_status": "OPERATIONAL",
+    "geometry": {
+      "location": {
+        "lat": 40.70927729999999,
+        "lng": -74.0049159
+      },
+      "viewport": {
+        "northeast": {
+          "lat": 40.7106675302915,
+          "lng": -74.00367936970848
+        },
+        "southwest": {
+          "lat": 40.7079695697085,
+          "lng": -74.0063773302915
+        }
+      }
+    },
+    "icon": "https://maps.gstatic.com/mapfiles/place_api/icons/v1/png_71/restaurant-71.png",
+    "icon_background_color": "#FF9E67",
+    "icon_mask_base_uri": "https://maps.gstatic.com/mapfiles/place_api/icons/v2/restaurant_pinlet",
+    "name": "Kesté Pizza e Vino",
+    "opening_hours": {
+      "open_now": true
+    },
+    "photos": [
+      {
+        "height": 768,
+        "html_attributions": [
+          "<a href=\"https://maps.google.com/maps/contrib/108245733515186829873\">Pratik Gaitonde</a>"
+        ],
+        "photo_reference": "AWYs27yb_uX73KC2TFyDqYiCrk9G9tK3J2uEV1Yvfifb06NPQ33TOBOpBpSnhzbqcVPenpC_QDQE9vaJAFA8ouZPQ-MU36iTg7nFzX_pxGHSqpmu6zmsJJbMLB1t0DbEySWwWr-7PU8S5Ug9F8L1u2X5y-27I3RbgsGugMP0m9JHwLVuSqdj",
+        "width": 1024
+      }
+    ],
+    "place_id": "ChIJ6ffdpJNZwokRmcafdROM5q0",
+    "plus_code": {
+      "compound_code": "PX5W+P2 New York, NY, USA",
+      "global_code": "87G7PX5W+P2"
+    },
+    "price_level": 2,
+    "rating": 4.6,
+    "reference": "ChIJ6ffdpJNZwokRmcafdROM5q0",
+    "scope": "GOOGLE",
+    "types": [
+      "meal_delivery",
+      "meal_takeaway",
+      "bar",
+      "restaurant",
+      "food",
+      "point_of_interest",
+      "establishment"
+    ],
+    "user_ratings_total": 2856,
+    "vicinity": "77 Fulton Street, New York"
+  }
+]
