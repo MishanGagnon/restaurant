@@ -53,6 +53,7 @@ async function getNearbyRestaurants(lat, lon, radius, price, numRestaurants) {
         location: { lat, lng: lon }, // Dynamic coordinates
         radius, // Search radius in meters
         type: 'restaurant', // Search for restaurants
+        keyword: 'restaurant',
         key: process.env.NEXT_GOOGLE_API_KEY, // Replace with your API key
         maxprice: price, // Max price level
       },
