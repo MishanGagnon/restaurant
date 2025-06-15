@@ -186,7 +186,12 @@ const Lobby = () => {
           <div className="flex flex-col w-screen items-center h-svh bg-gray-100 text-black p-6 lg:px-96 md:46">
             <div id="lobby-info" className="w-full flex items-center justify-between min-h-40">
               <div className ='w-1/2'>
-                <h1 className="text-2xl font-bold mb-4 text-black md:text-xl">Lobby: {lobbyId}</h1>
+                <div className="flex items-center gap-4 mb-4">
+                  <Button variant="outline" onClick={() => router.push('/')}>
+                    Back
+                  </Button>
+                  <h1 className="text-2xl font-bold text-black md:text-xl">Lobby: {lobbyId}</h1>
+                </div>
                 <h2 className="text-xl mb-4 text-black md:text-xl">Name: {name}</h2>
               </div>
               <div className='w-1/2 flex justify-center items-center'>

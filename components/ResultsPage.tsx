@@ -11,6 +11,8 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "./ui/carousel";
+import { useRouter } from 'next/navigation';
+import { Button } from '@/components/ui/button';
 // import { Card, CardContent } from "../../components/ui/card";
 
 interface restaurant_vote {
@@ -51,6 +53,7 @@ const Badge = ({ index, votes }: BadgeProps) => {
 
 
 export default function Results({ socket, restaurant_votes, restaurant_info }: ResultsProps) {
+  const router = useRouter();
   const [sortedVotes, setSortedVotes] = useState<[string, number][] | null>(null);
   const [dataReceived, setDataReceived] = useState(false);
   
@@ -92,6 +95,11 @@ export default function Results({ socket, restaurant_votes, restaurant_info }: R
 
   return (
     <div className="flex flex-col h-svh items-center justify-center bg-gray-100 px-4 py-8">
+      <div className="absolute top-4 left-4 z-10">
+        <Button variant="outline" onClick={() => router.push('/')}>
+          Back
+        </Button>
+      </div>
       <Carousel setApi={setApi} className="w-full flex align-center justify-center max-w-xs sm:max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl ">
         <CarouselContent >
           {sortedVotes.map(([restaurantId, votes], index) => {
