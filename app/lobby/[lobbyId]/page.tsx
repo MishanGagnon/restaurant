@@ -151,22 +151,50 @@ const Lobby = () => {
 
   if (!name) {
     return (
-      <div className="flex flex-col items-center justify-center h-svh bg-gray-100 ">
-        <h1 className="text-2xl font-bold mb-4 text-black">Choose display name</h1>
-        <div>
-          <input
-            type="text"
-            value={nameInput}
-            className="m-5 p-2 text-black border border-gray-300 rounded"
-            onChange={(e) => setNameInput(e.target.value)}
-            placeholder="Set Name"
-          />
-          <button
-            onClick={submitName}
-            className="m-5 px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-600"
-          >
-            Enter
-          </button>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative">
+        {/* Back Button */}
+        <button
+          onClick={() => router.push('/')}
+          className="absolute top-6 left-6 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2"
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+          </svg>
+          Back
+        </button>
+
+        {/* Main Content */}
+        <div className="container mx-auto px-4 py-16">
+          <div className="max-w-md mx-auto">
+            <div className="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-[1.02] transition-all duration-300">
+              <h1 className="text-3xl font-bold text-center mb-8 text-gray-800">
+                Choose Your Display Name
+              </h1>
+              
+              <div className="space-y-6">
+                <div className="space-y-2">
+                  <label htmlFor="nameInput" className="block text-sm font-medium text-gray-700">
+                    Display Name
+                  </label>
+                  <input
+                    id="nameInput"
+                    type="text"
+                    value={nameInput}
+                    className="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all duration-200"
+                    onChange={(e) => setNameInput(e.target.value)}
+                    placeholder="Enter your display name"
+                  />
+                </div>
+
+                <button
+                  onClick={submitName}
+                  className="w-full py-3 px-4 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                >
+                  Continue
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     );
@@ -183,37 +211,62 @@ const Lobby = () => {
     switch (gameState) {
       case 'lobby':
         return (
-          <div className="flex flex-col w-screen items-center h-svh bg-gray-100 text-black p-6 lg:px-96 md:46">
-            <div id="lobby-info" className="w-full flex items-center justify-between min-h-40">
-              <div className ='w-1/2'>
-                <div className="flex items-center gap-4 mb-4">
-                  <Button variant="outline" onClick={() => router.push('/')}>
-                    Back
-                  </Button>
-                  <h1 className="text-2xl font-bold text-black md:text-xl">Lobby: {lobbyId}</h1>
+          <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 relative">
+            {/* Back Button */}
+            <button
+              onClick={() => router.push('/')}
+              className="absolute top-6 left-6 px-4 py-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-200 shadow-md hover:shadow-lg flex items-center gap-2"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                <path fillRule="evenodd" d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z" clipRule="evenodd" />
+              </svg>
+              Back
+            </button>
+
+            {/* Main Content */}
+            <div className="container mx-auto px-4 py-16">
+              <div className="max-w-4xl mx-auto">
+                <div className="bg-white rounded-2xl shadow-xl p-8 transform hover:scale-[1.02] transition-all duration-300">
+                  {/* Lobby Info */}
+                  <div className="mb-8">
+                    <div className="flex items-center justify-between mb-4">
+                      <div>
+                        <h1 className="text-3xl font-bold text-gray-800">Lobby: {lobbyId}</h1>
+                        <p className="text-lg text-gray-600 mt-1">Your name: {name}</p>
+                      </div>
+                      {isHost && players.length >= 2 && (
+                        <Button 
+                          onClick={startGame}
+                          className="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                        >
+                          Start Game
+                        </Button>
+                      )}
+                    </div>
+                    <div className="h-px bg-gray-200 w-full"></div>
+                  </div>
+
+                  {/* Players Grid */}
+                  <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                    {players.map(player => (
+                      <PlayerCard
+                        key={player.id}
+                        isHost={player.id === hostPlayer?.id}
+                        isPlayer={player.id === userID}
+                        name={player.name ?? 'nameError'}
+                      />
+                    ))}
+                  </div>
+
+                  {/* Waiting Message */}
+                  {isHost && players.length < 2 && (
+                    <div className="mt-8 text-center">
+                      <p className="text-gray-600">Waiting for more players to join...</p>
+                      <p className="text-sm text-gray-500 mt-2">Share the lobby code with your friends!</p>
+                    </div>
+                  )}
                 </div>
-                <h2 className="text-xl mb-4 text-black md:text-xl">Name: {name}</h2>
               </div>
-              <div className='w-1/2 flex justify-center items-center'>
-
-              {(isHost && players.length >= 2) && (
-                <Button onClick={startGame}>
-                  Start Lobby
-                </Button>
-              )}
-              </div>
-
-            </div>
-
-            <div className="grid grid-cols-2  sm:grid-cols-3 md:grid-cols-2 gap-2 w-full">
-              {players.map(player => (
-                <PlayerCard
-                  key={player.id}
-                  isHost={player.id === hostPlayer?.id}
-                  isPlayer={player.id === userID}
-                  name={player.name ?? 'nameError'}
-                />
-              ))}
             </div>
           </div>
         );

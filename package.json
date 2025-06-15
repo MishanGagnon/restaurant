@@ -1,7 +1,8 @@
 {
   "private": true,
   "scripts": {
-    "dev": "nodemon server.js",
+    "dev": "next dev",
+    "dev:server": "nodemon server.js",
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
   },
