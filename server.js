@@ -43,7 +43,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
   return R * c; // Distance in miles
 }
 
-async function getNearbyRestaurants(lat, lon, radius, price, numRestaurants) {
+async function getNearbyRestaurants(lat, lon, radius, price, numRestaurants, cuisine = null) {
   try {
     // Fetch nearby places
     const client = new Client({});
@@ -53,7 +53,7 @@ async function getNearbyRestaurants(lat, lon, radius, price, numRestaurants) {
         location: { lat, lng: lon }, // Dynamic coordinates
         radius, // Search radius in meters
         type: 'restaurant', // Search for restaurants
-        keyword: 'restaurant',
+        keyword: cuisine ? `${cuisine} restaurant` : 'restaurant', // Add cuisine to keyword if specified
         key: process.env.NEXT_GOOGLE_API_KEY, // Replace with your API key
         maxprice: price, // Max price level
       },
@@ -186,7 +186,14 @@ app.prepare().then(() => {
           // Make the request to Yelp API
           
           // Convert the Yelp data to the required format
-          const restaurantInfo = await getNearbyRestaurants(requestObj.latitude,requestObj.longitude,requestObj.radius,requestObj.price,requestObj.limit)
+          const restaurantInfo = await getNearbyRestaurants(
+            requestObj.latitude,
+            requestObj.longitude,
+            requestObj.radius,
+            requestObj.price,
+            requestObj.limit,
+            requestObj.cuisine
+          )
           console.log(restaurantInfo)
           // Emit the restaurant cards to the lobby
           const lobby = activeRooms[lobbyId]
@@ -199,19 +206,17 @@ app.prepare().then(() => {
         }
       }
 
-      // {
-      //   longitude: -83.743,
-      //   latitude: 42.2808,
-      //   numRestaurants: 5,
-      //   radius: 5,
-      //   price: 3.5
-      // }
-
       const settings = activeRooms[lobbyId].settings
       const metersFromMiles = Math.round(settings.radius * 1609.344)
 
-      emitRestaurantCards({ longitude: settings.longitude, latitude: settings.latitude, limit: settings.numRestaurants, radius: metersFromMiles, price : settings.price });
-      // io.to(lobbyId).emit('restauraunt_cards',{restaurants: [convertToRestaurantInfo(testYelpData)]})
+      emitRestaurantCards({ 
+        longitude: settings.longitude, 
+        latitude: settings.latitude, 
+        limit: settings.numRestaurants, 
+        radius: metersFromMiles, 
+        price: settings.price,
+        cuisine: settings.cuisine 
+      });
     })
 
     //listening for submitVotes

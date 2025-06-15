@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { MapContainer, TileLayer, Circle, Popup, useMapEvents } from 'react-leaflet';
 import { useRouter } from 'next/navigation';
-import { Loader2, MapPin, Users, DollarSign, Search } from "lucide-react"
+import { Loader2, MapPin, Users, DollarSign, Search, Utensils } from "lucide-react"
 import 'leaflet/dist/leaflet.css';
 import { MapController } from './MapController';
 
@@ -20,8 +20,22 @@ const Filters = () => {
     const [isMounted, setIsMounted] = useState<boolean>(false);
     const [mapCenter, setMapCenter] = useState<LonLat>(lonLat)
     const [price, setPrice] = useState<number[]>([2])
+    const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
 
     const id = React.useId();
+
+    const popularCuisines = [
+        { name: 'Italian', icon: '🍕' },
+        { name: 'Japanese', icon: '🍱' },
+        { name: 'Mexican', icon: '🌮' },
+        { name: 'Chinese', icon: '🥢' },
+        { name: 'Indian', icon: '🍛' },
+        { name: 'Thai', icon: '🍜' },
+        { name: 'American', icon: '🍔' },
+        { name: 'Mediterranean', icon: '🥙' },
+        { name: 'Korean', icon: '🍖' },
+        { name: 'Vietnamese', icon: '🍜' },
+    ];
 
     const handleCreateLobbyResponse = (data: any) => {
         if (data.message === 'Lobby added') {
@@ -47,7 +61,8 @@ const Filters = () => {
                 latitude: lonLat.latitude,
                 numRestaurants: numRestaurants[0],
                 radius: radiusValue[0],
-                price: price[0]
+                price: price[0],
+                cuisine: selectedCuisine
             }),
         })
             .then((res) => res.json())
@@ -128,6 +143,30 @@ const Filters = () => {
                                     'Use Current Location'
                                 )}
                             </button>
+
+                            {/* Cuisine Filter */}
+                            <div className="space-y-2">
+                                <label className="text-lg font-medium text-gray-700 flex items-center gap-2">
+                                    <Utensils className="h-5 w-5" />
+                                    Cuisine Type
+                                </label>
+                                <div className="flex overflow-x-auto gap-2 pb-2 scrollbar-hide">
+                                    {popularCuisines.map((cuisine) => (
+                                        <button
+                                            key={cuisine.name}
+                                            onClick={() => setSelectedCuisine(selectedCuisine === cuisine.name ? null : cuisine.name)}
+                                            className={`flex items-center gap-2 px-4 py-2 rounded-full whitespace-nowrap transition-all duration-200 ${
+                                                selectedCuisine === cuisine.name
+                                                    ? 'bg-blue-500 text-white shadow-md'
+                                                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                                            }`}
+                                        >
+                                            <span>{cuisine.icon}</span>
+                                            <span>{cuisine.name}</span>
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
 
                             {/* Price Range Slider */}
                             <div className="space-y-2">
