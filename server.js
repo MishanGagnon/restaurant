@@ -129,13 +129,13 @@ app.prepare().then(() => {
     const { userID } = socket.handshake.query;
     console.log('A user connected:', userID);
 
-    socket.on('joinLobby', ({ lobbyId, name }) => {
+    socket.on('joinLobby', ({ lobbyId, name, avatarConfig }) => {
       socket.join(lobbyId);
       console.log(`User ${name} joined lobby: ${lobbyId}`);
 
-      addPlayerToLobby(lobbyId, { id: userID, host: false, name });
+      addPlayerToLobby(lobbyId, { id: userID, host: false, name, avatarConfig });
       io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
-      //if users alreading voting send data
+      
       const lobby = activeRooms[lobbyId]
       console.log(userID)
       
@@ -146,20 +146,19 @@ app.prepare().then(() => {
       }else{
         io.to(socket.id).emit('gameState',  lobby.gameState );
       }
-      
-      // io.to(socket.id).emit('gameState',lobby.gameState)
+    });
 
-
-      // console.log("lobby: ", lobbyId, " players ", getPlayersInLobby(lobbyId))
-
-
-      //this works but there are unintended bugs if a user votes then reloads, we should likely use localStorage
-      //as a quick way to figure out if a user is the same one who just left
-
-      
-      // if (lobby.gameState === 'voting')
-      //    { io.to(userID).emit('restauraunt_cards', { restaurants: lobby.restaurantInfo }); }
-
+    socket.on('updateAvatar', ({ userId, avatarConfig }) => {
+      const lobbyId = socketToLobbyMap[userId];
+      if (lobbyId) {
+        const lobby = activeRooms[lobbyId];
+        const player = lobby.players.find(p => p.id === userId);
+        if (player) {
+          player.avatarConfig = avatarConfig;
+          // Broadcast to all players in the lobby
+          io.to(lobbyId).emit('lobbyPlayerList', getPlayersInLobby(lobbyId));
+        }
+      }
     });
 
     socket.on('disconnect', () => {

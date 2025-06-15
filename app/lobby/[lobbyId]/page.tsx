@@ -18,6 +18,7 @@ export interface Player {
   id: string;
   name: string;
   host: boolean;
+  avatarConfig?: any; // This will store the react-nice-avatar configuration
 }
 
 interface Votes {
@@ -81,6 +82,13 @@ const Lobby = () => {
     return false;
   };
 
+  const updatePlayerAvatar = (avatarConfig: any) => {
+    if (socket && userID) {
+      // Store in localStorage
+      localStorage.setItem(`avatar_${userID}`, JSON.stringify(avatarConfig));
+      socket.emit('updateAvatar', { userId: userID, avatarConfig });
+    }
+  };
 
   useEffect(() => {
     const validateLobbyAndJoin = async () => {
@@ -103,14 +111,17 @@ const Lobby = () => {
       }
       setUserID(()=>userID)
 
+      // Load saved avatar config
+      const savedAvatarConfig = localStorage.getItem(`avatar_${userID}`);
+      const avatarConfig = savedAvatarConfig ? JSON.parse(savedAvatarConfig) : null;
+
       socket = io({
         query: { userID }
       });
 
       socket.on('connect', () => {
-        
         if (lobbyId) {
-          socket.emit('joinLobby', { lobbyId, name });
+          socket.emit('joinLobby', { lobbyId, name, avatarConfig });
         }
       });
 
@@ -254,6 +265,8 @@ const Lobby = () => {
                         isHost={player.id === hostPlayer?.id}
                         isPlayer={player.id === userID}
                         name={player.name ?? 'nameError'}
+                        avatarConfig={player.avatarConfig}
+                        onAvatarUpdate={player.id === userID ? updatePlayerAvatar : undefined}
                       />
                     ))}
                   </div>
