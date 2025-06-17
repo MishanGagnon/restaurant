@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation';
 import { Loader2, MapPin, Users, DollarSign, Search, Utensils } from "lucide-react"
 import 'leaflet/dist/leaflet.css';
 import { MapController } from './MapController';
+import { LocationPermissionModal } from './LocationPermissionModal';
 
 const Filters = () => {
     const router = useRouter();
@@ -21,6 +22,7 @@ const Filters = () => {
     const [mapCenter, setMapCenter] = useState<LonLat>(lonLat)
     const [price, setPrice] = useState<number[]>([2])
     const [selectedCuisine, setSelectedCuisine] = useState<string | null>(null);
+    const [showLocationModal, setShowLocationModal] = useState(true);
 
     const id = React.useId();
 
@@ -71,7 +73,12 @@ const Filters = () => {
     };
 
     const handleLocationClick = () => {
+        setShowLocationModal(true);
+    };
+
+    const handleLocationAccept = () => {
         setLoading(true);
+        setShowLocationModal(false);
         if ("geolocation" in navigator) {
             navigator.geolocation.getCurrentPosition((position) => {
                 setMapCenter(prev => ({
@@ -85,14 +92,18 @@ const Filters = () => {
                     longitude: position.coords.longitude,
                 }));
                 setLoading(false);
-            }, () => {
-                console.log("Error getting location");
+            }, (error) => {
+                console.log("Error getting location:", error);
                 setLoading(false);
             });
         } else {
             console.log("Geolocation is not available in your browser.");
             setLoading(false);
         }
+    };
+
+    const handleLocationDecline = () => {
+        setShowLocationModal(false);
     };
 
     const getMeters = (miles: number) => {
@@ -107,6 +118,11 @@ const Filters = () => {
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6">
+            <LocationPermissionModal 
+                isOpen={showLocationModal}
+                onAccept={handleLocationAccept}
+                onDecline={handleLocationDecline}
+            />
             <div className="container mx-auto">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
                     {/* Settings Card */}
@@ -127,23 +143,6 @@ const Filters = () => {
                         </h1>
                         
                         <div className="space-y-6">
-                            {/* Location Button */}
-                            <button
-                                disabled={loading}
-                                onClick={handleLocationClick}
-                                className="w-full py-3 px-4 bg-blue-500 text-white rounded-xl font-medium hover:bg-blue-600 transition-all duration-200 transform hover:scale-[1.02] focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 shadow-md hover:shadow-lg flex items-center justify-center gap-2"
-                            >
-                                <MapPin className="h-5 w-5" />
-                                {loading ? (
-                                    <>
-                                        <Loader2 className="h-5 w-5 animate-spin" />
-                                        Getting Location...
-                                    </>
-                                ) : (
-                                    'Use Current Location'
-                                )}
-                            </button>
-
                             {/* Cuisine Filter */}
                             <div className="space-y-2">
                                 <label className="text-lg font-medium text-gray-700 flex items-center gap-2">
